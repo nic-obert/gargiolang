@@ -1,6 +1,7 @@
 package org.gargiolang;
 
 import org.gargiolang.lang.Parser;
+import org.gargiolang.lang.Runtime;
 import org.gargiolang.lang.exception.GargioniException;
 
 import java.io.File;
@@ -17,33 +18,8 @@ public class GargioLang {
             throw new GargioniException("Specify a file.");
         }
 
-        final File file = new File(args[0]);
-
-        if(!file.exists()){
-            throw new GargioniException("The specified file couldn't be found (" + args[0] + ").");
-        }
-
-        final byte[] bytes = Files.readAllBytes(Path.of(file.getPath()));
-        StringBuilder builder = new StringBuilder();
-        for (byte aByte : bytes) {
-            builder.append((char) aByte);
-        }
-
-        final LinkedList<String> tempStatements = new LinkedList<>();
-        for(String s : builder.toString().replaceAll("\n", "").split(";")){
-            if(!s.startsWith("//") && !s.isEmpty()){
-                tempStatements.add(s);
-            }
-        }
-        final String[] statements = tempStatements.toArray(new String[0]);
-        for (String statement : statements) {
-            System.out.println(statement);
-        }
-
-        Parser parser = new Parser(statements);
-        parser.parseTokens();
-        System.out.println(parser.getTokens());
-
+        Runtime runtime = new Runtime();
+        runtime.runFile(args[0]);
     }
 
 }
