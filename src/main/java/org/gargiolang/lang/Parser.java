@@ -77,11 +77,13 @@ public class Parser {
 
             if (Token.isText(c)) {
                 isText = true;
+                if (token != null) line.add(token);
                 token = new Token(Token.TokenType.TXT, c);
                 continue;
             }
 
             if (Token.isArithmeticOperator(c)) {
+                if (token != null) line.add(token);
                 token = new Token(Token.TokenType.ARITHMETIC_OPERATOR, c);
                 line.add(token);
                 token = null;

@@ -13,15 +13,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="language setup">
-      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/GargioLang.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/ArithmeticOperator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Keyword.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Parser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Token$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Token$TokenType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Token.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/exception/GargioniException.class" beforeDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="basic tokenization">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +79,7 @@
     <configuration name="GargioLang" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.gargiolang.GargioLang" />
       <module name="gargiolang" />
-      <option name="PROGRAM_PARAMETERS" value="C:\Users\konra\Documents\GitHub\gargiolang\tests\test.gl" />
+      <option name="PROGRAM_PARAMETERS" value="tests/test.gl" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.gargiolang.*" />
@@ -160,9 +158,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="440" y="99" key="#Project_Structure/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605446641123" />
-    <state x="414" y="180" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605447184135">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="280" y="56" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605468387052">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
+    <state x="280" y="56" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.742@0.0.1366.742" timestamp="1605468387052" />
     <state x="414" y="180" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605447184135" />
     <state x="722" y="315" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605436590637">
       <screen x="0" y="0" width="1920" height="1050" />
@@ -188,21 +187,25 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464248307" />
-    <state width="1879" height="279" key="GridCell.Tab.0.bottom" timestamp="1605464259022">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1308" height="248" key="GridCell.Tab.0.bottom" timestamp="1605468535310">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
+    <state width="1308" height="248" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605468535310" />
     <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1879" height="279" key="GridCell.Tab.0.center" timestamp="1605464259022">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1308" height="248" key="GridCell.Tab.0.center" timestamp="1605468535309">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
+    <state width="1308" height="248" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605468535309" />
     <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1879" height="279" key="GridCell.Tab.0.left" timestamp="1605464259022">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1308" height="248" key="GridCell.Tab.0.left" timestamp="1605468535309">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
+    <state width="1308" height="248" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605468535309" />
     <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1879" height="279" key="GridCell.Tab.0.right" timestamp="1605464259022">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1308" height="248" key="GridCell.Tab.0.right" timestamp="1605468535309">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
+    <state width="1308" height="248" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605468535309" />
     <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
     <state x="461" y="170" key="SettingsEditor" timestamp="1605436861392">
       <screen x="0" y="0" width="1920" height="1050" />

@@ -6,6 +6,9 @@ public class Token {
     private Object value;
     private int priority; // priority should not be final
 
+    // useful multipurpose variable (not ideal for understanding the program, but fast)
+    private boolean shift = false;
+
     public Token(TokenType tokenType, Object value) {
         this.tokenType = tokenType;
         this.value = value;
@@ -60,7 +63,17 @@ public class Token {
         switch (tokenType) {
 
             case NUM:
-                value = (int)value * 10 + (int)value;
+                // here shift is used to distinguish between float and integer
+                if (c == '.') shift = true;
+
+                else if (shift) {
+                    if ((float)value < 0) value = (float)value - c * Float.toString((float)value).split("\\.")[1].length();
+                    else value = (float)value + c * Float.toString((float)value).split("\\.")[1].length();
+
+                } else {
+                    if ((int)value < 0) value = (int)value * 10 - c;
+                    else value = (int)value * 10 + c;
+                }
                 break;
 
             case TXT:
