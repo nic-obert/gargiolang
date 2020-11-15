@@ -40,7 +40,9 @@ public class GargioLang {
             System.out.println(statement);
         }
 
-        new Parser(statements);
+        Parser parser = new Parser(statements);
+        parser.parseTokens();
+        System.out.println(parser.getTokens());
 
     }
 
