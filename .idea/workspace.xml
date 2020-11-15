@@ -14,7 +14,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="language setup">
-      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/GargioLang.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/ArithmeticOperator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Keyword.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Token$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Token$TokenType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/Token.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/gargiolang/lang/exception/GargioniException.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +124,7 @@
       <workItem from="1605381111516" duration="3176000" />
       <workItem from="1605436564395" duration="389000" />
       <workItem from="1605443760094" duration="3346000" />
-      <workItem from="1605464295018" duration="307000" />
+      <workItem from="1605464295018" duration="655000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
