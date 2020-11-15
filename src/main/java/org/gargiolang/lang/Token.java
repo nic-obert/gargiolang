@@ -3,16 +3,25 @@ package org.gargiolang.lang;
 public class Token {
 
     private final TokenType tokenType;
-    private final Object value;
-    private final int priority;
+    private Object value;
+    private int priority; // priority should not be final
 
-    public Token(TokenType tokenType, Object value, int priority){
+    public Token(TokenType tokenType, Object value) {
         this.tokenType = tokenType;
         this.value = value;
-        this.priority = priority;
+
+        switch (tokenType) {
+            case ARITHMETIC_OPERATOR:
+                this.priority = ArithmeticOperator.getPriority(value.toString());
+                break;
+
+            default:
+                this.priority = tokenType.priority;
+                break;
+        }
     }
 
-    public TokenType getTokenType() {
+    public TokenType getType() {
         return tokenType;
     }
 
@@ -26,24 +35,58 @@ public class Token {
 
     public enum TokenType {
 
-        TXT, STR, NUM;
+        TXT(0),
+        STR(0),
+        NUM(0),
 
-        public enum OperatorType {
-            ADD, SUB, MUL, DIV, POW;
+        KEYWORD(1),
 
-            public static TokenType.OperatorType getOperator(String operator){
-                for(TokenType.OperatorType t : TokenType.OperatorType.values()){
-                    if(t.toString().toLowerCase().equals(operator)) return t;
-                }
-                return null;
-            }
+        ARITHMETIC_OPERATOR(0), // priority depends on the operator
+
+        PAREN(10);
+
+
+
+        public int priority;
+        TokenType(int i) {
+            this.priority = i;
         }
 
-        public static TokenType getTokenType(String type){
-            for(TokenType t : TokenType.values()){
-                if(t.toString().toLowerCase().equals(type)) return t;
-            }
-            return null;
+    }
+
+
+    public void buildValue(char c) {
+        // build the token's value based on it's type
+        switch (tokenType) {
+
+            case NUM:
+                value = (int)value * 10 + (int)value;
+                break;
+
+            case TXT:
+                value += Character.toString(c);
+                break;
         }
+    }
+
+
+    public static boolean isText(char c) {
+        // see the ASCII table
+        return (64 < c && c < 91) || (c == '_') || (96 < c && c < 123);
+    }
+
+    public static boolean isNumber(char c) {
+        // see the ASCII table
+        return (47 < c && c < 58);
+    }
+
+    public static boolean isArithmeticOperator(char c) {
+        return ArithmeticOperator.isArithmeticOperator(c);
+    }
+
+
+    @Override
+    public String toString() {
+        return "<" + getType() + ": " + getValue() + " (" + getPriority() + ")>";
     }
 }

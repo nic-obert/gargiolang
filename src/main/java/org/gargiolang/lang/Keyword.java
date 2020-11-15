@@ -18,7 +18,7 @@ public enum Keyword {
         this.value = str;
     }
 
-    public boolean isKeyword(String str){
+    public static boolean isKeyword(String str){
         for(Keyword keyword : Keyword.values()){
             if(keyword.value.equals(str)) return true;
         }
