@@ -30,7 +30,20 @@ public class Token {
 
         public enum OperatorType {
             ADD, SUB, MUL, DIV, POW;
+
+            public static TokenType.OperatorType getOperator(String operator){
+                for(TokenType.OperatorType t : TokenType.OperatorType.values()){
+                    if(t.toString().toLowerCase().equals(operator)) return t;
+                }
+                return null;
+            }
         }
 
+        public static TokenType getTokenType(String type){
+            for(TokenType t : TokenType.values()){
+                if(t.toString().toLowerCase().equals(type)) return t;
+            }
+            return null;
+        }
     }
 }
