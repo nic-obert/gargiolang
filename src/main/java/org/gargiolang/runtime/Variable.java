@@ -1,20 +1,15 @@
-package org.gargiolang.lang;
+package org.gargiolang.runtime;
 
 public class Variable {
 
-    private final String name;
     private Object value;
-    private Variable.Type type;
+    private final Variable.Type type;
     private Accessibility accessibility;
 
-    public Variable(String name, Object value, Accessibility accessibility) {
-        this.name = name;
+    public Variable(Object value, Variable.Type type, Accessibility accessibility) {
         this.value = value;
+        this.type = type;
         this.accessibility = accessibility;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Type getType() {

@@ -1,4 +1,4 @@
-package org.gargiolang.lang;
+package org.gargiolang.runtime;
 
 import org.gargiolang.lang.exception.GargioniException;
 

@@ -1,7 +1,5 @@
 package org.gargiolang.lang;
 
-import java.util.Arrays;
-
 public class Token {
 
     private final TokenType tokenType;
@@ -64,10 +62,10 @@ public class Token {
         switch (tokenType) {
 
             case NUM:
-                value += Character.toString(c);
-                break;
 
             case TXT:
+
+            case STR:
                 value += Character.toString(c);
                 break;
         }

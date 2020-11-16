@@ -1,13 +1,7 @@
 package org.gargiolang;
 
-import org.gargiolang.lang.Parser;
-import org.gargiolang.lang.Runtime;
+import org.gargiolang.runtime.Runtime;
 import org.gargiolang.lang.exception.GargioniException;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.LinkedList;
 
 public class GargioLang {
 

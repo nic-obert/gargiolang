@@ -83,24 +83,37 @@ public class Parser {
                 token = null;
             }
 
+            else if (isString) {
+                if (c != '"') {
+                    token.buildValue(c);
+                    continue;
+                }
 
+                isString = false;
+                line.add(token);
+                token = null;
+            }
+
+
+            if (c == '"') {
+                isString = true;
+                token = new Token(Token.TokenType.STR, "");
+                continue;
+            }
 
             if (Token.isNumber(c)) {
                 isNumber = true;
-                if (token != null) line.add(token);
                 token = new Token(Token.TokenType.NUM, c);
                 continue;
             }
 
             if (Token.isText(c)) {
                 isText = true;
-                if (token != null) line.add(token);
                 token = new Token(Token.TokenType.TXT, c);
                 continue;
             }
 
             if (Token.isArithmeticOperator(c)) {
-                if (token != null) line.add(token);
                 token = new Token(Token.TokenType.ARITHMETIC_OPERATOR, c);
                 line.add(token);
                 token = null;
@@ -108,8 +121,6 @@ public class Parser {
             }
 
             if (c == ' ') {
-                if (token != null) line.add(token);
-                token = null;
                 continue;
             }
 

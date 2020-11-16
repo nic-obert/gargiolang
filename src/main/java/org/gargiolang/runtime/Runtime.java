@@ -1,5 +1,6 @@
-package org.gargiolang.lang;
+package org.gargiolang.runtime;
 
+import org.gargiolang.lang.Parser;
 import org.gargiolang.lang.exception.GargioniException;
 
 import java.io.File;
