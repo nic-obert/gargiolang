@@ -13,9 +13,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="language setup">
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="fixed tokenization for numbers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$TokenType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$TokenType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +30,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -51,7 +56,6 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
@@ -118,7 +122,7 @@
       <workItem from="1605436564395" duration="389000" />
       <workItem from="1605443760094" duration="3346000" />
       <workItem from="1605464295018" duration="655000" />
-      <workItem from="1605516125248" duration="1445000" />
+      <workItem from="1605523956421" duration="1276000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -127,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605380655360</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fixed tokenization for numbers">
+      <created>1605470220512</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1605470220512</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,7 +158,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="language setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="language setup" />
+    <MESSAGE value="fixed tokenization for numbers" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed tokenization for numbers" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
@@ -163,10 +175,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="722" y="315" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605436590637" />
-    <state x="765" y="222" key="#com.intellij.ide.util.MemberChooser" timestamp="1605471989478">
+    <state x="765" y="222" key="#com.intellij.ide.util.MemberChooser" timestamp="1605384914552">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="765" y="222" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605471989478" />
+    <state x="765" y="222" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605384914552" />
     <state x="586" y="176" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1605357991261">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -183,37 +195,39 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464248307" />
-    <state width="1879" height="279" key="GridCell.Tab.0.bottom" timestamp="1605474434334">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1310" height="170" key="GridCell.Tab.0.bottom" timestamp="1605519245391">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="248" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605468535310" />
-    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605474434334" />
-    <state width="1879" height="279" key="GridCell.Tab.0.center" timestamp="1605474434334">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1310" height="170" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605519245391" />
+    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
+    <state width="1310" height="170" key="GridCell.Tab.0.center" timestamp="1605519245388">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="248" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605468535309" />
-    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605474434334" />
-    <state width="1879" height="279" key="GridCell.Tab.0.left" timestamp="1605474434334">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1310" height="170" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605519245388" />
+    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
+    <state width="1310" height="170" key="GridCell.Tab.0.left" timestamp="1605519245386">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="248" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605468535309" />
-    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605474434334" />
-    <state width="1879" height="279" key="GridCell.Tab.0.right" timestamp="1605474434334">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1310" height="170" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605519245386" />
+    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
+    <state width="1310" height="170" key="GridCell.Tab.0.right" timestamp="1605519245389">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="248" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605468535309" />
-    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605474434334" />
-    <state x="461" y="170" key="SettingsEditor" timestamp="1605472749902">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1310" height="170" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605519245389" />
+    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
+    <state x="328" y="12" key="SettingsEditor" timestamp="1605472742687">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="461" y="170" key="SettingsEditor/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605472749902" />
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1605380710639">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="328" y="12" key="SettingsEditor/0.0.1366.742@0.0.1366.742" timestamp="1605472742687" />
+    <state x="461" y="170" key="SettingsEditor/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605436861392" />
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605470242466">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605470242466" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
-    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1605474326156">
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1605379992266">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605474326156" />
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605379992266" />
   </component>
 </project>

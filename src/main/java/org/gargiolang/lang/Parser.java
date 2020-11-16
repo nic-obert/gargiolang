@@ -36,6 +36,7 @@ public class Parser {
         // useful variables when tokenizing a line
         boolean isText = false;
         boolean isString = false;
+        boolean isNumber = false;
 
         // the token that is currently being built, to be added to token list when finished building
         Token token = null;
@@ -64,14 +65,28 @@ public class Parser {
                 token = null;
             }
 
-            if (Token.isNumber(c) || (c == '.' && token != null && token.getType() == Token.TokenType.NUM)) {
-                if (token == null) {
-                    token = new Token(Token.TokenType.NUM, c-48); // c-48 --> see the ASCII table
-                } else if (c == '.') {
-                    token.buildValue('.');
-                } else {
-                    token.buildValue((char) (c-48));
+            else if (isNumber) {
+                if (Token.isNumber(c) || c == '.') {
+                    token.buildValue(c);
+                    continue;
                 }
+
+                isNumber = false;
+
+                if (((String) token.getValue()).contains("."))
+                    line.add(new Token(Token.TokenType.NUM, Double.parseDouble((String) token.getValue())));
+                else
+                    line.add(new Token(Token.TokenType.NUM, Integer.parseInt((String) token.getValue())));
+
+                token = null;
+            }
+
+
+
+            if (Token.isNumber(c)) {
+                isNumber = true;
+                if (token != null) line.add(token);
+                token = new Token(Token.TokenType.NUM, c);
                 continue;
             }
 
