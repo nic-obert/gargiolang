@@ -41,6 +41,7 @@ public class Token {
         TXT(0),
         STR(0),
         NUM(0),
+        BOOL(0),
 
         KEYWORD(1),
 

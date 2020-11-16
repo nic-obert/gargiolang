@@ -5,6 +5,7 @@ public enum Keyword {
     STRING("string"),
     INT("int"),
     FLOAT("float"),
+    BOOLEAN("boolean"),
     NULL("null"),
 
     DEF("def"),
