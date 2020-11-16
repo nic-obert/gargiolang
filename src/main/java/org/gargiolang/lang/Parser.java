@@ -105,6 +105,11 @@ public class Parser {
                 continue;
             }
 
+            if (c == ' ') {
+                if (token != null) line.add(token);
+                token = null;
+                continue;
+            }
 
             throw new GargioniException("Unable to parse character \"" + c + "\"");
         }

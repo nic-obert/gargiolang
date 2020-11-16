@@ -13,11 +13,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented tokenization for floats">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/SymbolTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Variable.java" afterDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="added basic functionality to SymbolTable">
+      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +116,7 @@
       <workItem from="1605436564395" duration="389000" />
       <workItem from="1605443760094" duration="3346000" />
       <workItem from="1605464295018" duration="655000" />
-      <workItem from="1605523956421" duration="4548000" />
+      <workItem from="1605523956421" duration="5390000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -142,7 +139,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605525338840</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added basic functionality to SymbolTable">
+      <created>1605528691559</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1605528691559</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,7 +168,8 @@
     <MESSAGE value="language setup" />
     <MESSAGE value="fixed tokenization for numbers" />
     <MESSAGE value="implemented tokenization for floats" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented tokenization for floats" />
+    <MESSAGE value="added basic functionality to SymbolTable" />
+    <option name="LAST_COMMIT_MESSAGE" value="added basic functionality to SymbolTable" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
