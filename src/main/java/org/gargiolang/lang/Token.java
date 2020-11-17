@@ -1,5 +1,7 @@
 package org.gargiolang.lang;
 
+import java.util.LinkedList;
+
 public class Token {
 
     private final TokenType tokenType;
@@ -88,6 +90,25 @@ public class Token {
 
     public static boolean isArithmeticOperator(char c) {
         return ArithmeticOperator.isArithmeticOperator(c);
+    }
+
+
+    // returns the index of the token with the highest priority in a linked list of tokens
+    public static int getHighestPriority(LinkedList<Token> line) {
+        // TODO implement a linked list from scratch with builtin optimizations for token indexing
+        int highestIndex = 0;
+        int tokenIndex = 0;
+        Token highestToken = line.getFirst();
+
+        for (Token token : line) {
+            if (token.getPriority() > highestToken.getPriority()) {
+                highestToken = token;
+                highestIndex = tokenIndex;
+            }
+            tokenIndex ++;
+        }
+
+        return highestIndex;
     }
 
 
