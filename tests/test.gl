@@ -1,3 +1,2 @@
-int num 12;
-// comment
+int num 12
 string test "yes";

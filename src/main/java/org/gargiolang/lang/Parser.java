@@ -127,14 +127,29 @@ public class Parser {
 
             if (Token.isArithmeticOperator(c)) {
                 if (token != null) {
+
+                    // check for arithmetic operators composed by multiple characters (++, --) and comments (//)
                     if (token.getType().equals(Token.TokenType.ARITHMETIC_OPERATOR)) {
+
                         if (token.getValue().equals(ArithmeticOperator.ADD) && c == '+') {
                             line.add(new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.INC));
                         }
+                        else if (token.getValue().equals(ArithmeticOperator.SUB) && c == '-') {
+                            line.add(new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.DEC));
+                        }
+                        // break tokenization --> the rest of the line is a comment (//)
+                        else if (token.getValue().equals(ArithmeticOperator.DIV) && c == '/') {
+                            token = null;
+                            break;
+                        }
+
+                        token = null;
+                        continue;
                     }
-                    line.add(token);
+                    else
+                        line.add(token);
                 }
-                token = new Token(Token.TokenType.ARITHMETIC_OPERATOR, c);
+                token = new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.fromString(Character.toString(c)));
                 continue;
             }
 

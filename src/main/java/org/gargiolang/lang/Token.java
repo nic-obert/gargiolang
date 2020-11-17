@@ -13,7 +13,7 @@ public class Token {
 
         switch (tokenType) {
             case ARITHMETIC_OPERATOR:
-                this.priority = ArithmeticOperator.getPriority(value.toString());
+                this.priority = ((ArithmeticOperator) this.value).getPriority();
                 break;
 
             default:
