@@ -15,17 +15,20 @@ public final class Runtime {
 
     private final SymbolTable symbolTable;
 
+    private String[] statements;
+
     public Runtime(){
         runtime = this;
 
         this.symbolTable = new SymbolTable();
     }
 
-    public void runFile(String string) throws GargioniException, IOException {
-        final File file = new File(string);
+    public void loadScript(String scriptName) throws IOException, GargioniException {
+
+        final File file = new File(scriptName);
 
         if(!file.exists()){
-            throw new GargioniException("The specified file couldn't be found (" + string + ").");
+            throw new GargioniException("The specified file couldn't be found (" + scriptName + ").");
         }
 
         final byte[] bytes = Files.readAllBytes(Path.of(file.getPath()));
@@ -40,11 +43,21 @@ public final class Runtime {
                 tempStatements.add(s);
             }
         }
-        final String[] statements = tempStatements.toArray(new String[0]);
+
+        this.statements = tempStatements.toArray(new String[0]);
+
         for (String statement : statements) {
             System.out.println(statement);
         }
+    }
 
+
+    public void loadStatement(String statement) {
+        this.statements = new String[]{statement};
+    }
+
+
+    public void run() throws GargioniException {
         Parser parser = new Parser(statements);
         parser.parseTokens();
         System.out.println(parser.getTokens());

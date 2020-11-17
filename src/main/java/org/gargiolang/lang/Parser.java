@@ -106,14 +106,14 @@ public class Parser {
             if (Token.isNumber(c)) {
                 if (token != null) line.add(token);
                 isNumber = true;
-                token = new Token(Token.TokenType.NUM, c);
+                token = new Token(Token.TokenType.NUM, Character.toString(c));
                 continue;
             }
 
             if (Token.isText(c)) {
                 if (token != null) line.add(token);
                 isText = true;
-                token = new Token(Token.TokenType.TXT, c);
+                token = new Token(Token.TokenType.TXT, Character.toString(c));
                 continue;
             }
 

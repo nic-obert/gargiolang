@@ -13,12 +13,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented strings">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented parenthesis, assignment operator and function call tokens">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +64,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -90,17 +90,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.GargioLang" />
@@ -122,6 +111,7 @@
       <workItem from="1605443760094" duration="3346000" />
       <workItem from="1605464295018" duration="655000" />
       <workItem from="1605523956421" duration="5390000" />
+      <workItem from="1605608217662" duration="540000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -158,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605550245510</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="implemented parenthesis, assignment operator and function call tokens">
+      <created>1605604541094</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1605604541140</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,7 +179,8 @@
     <MESSAGE value="implemented tokenization for floats" />
     <MESSAGE value="added basic functionality to SymbolTable" />
     <MESSAGE value="implemented strings" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented strings" />
+    <MESSAGE value="implemented parenthesis, assignment operator and function call tokens" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented parenthesis, assignment operator and function call tokens" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
@@ -218,25 +216,25 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464248307" />
-    <state width="1308" height="144" key="GridCell.Tab.0.bottom" timestamp="1605604243990">
+    <state width="1308" height="196" key="GridCell.Tab.0.bottom" timestamp="1605607378751">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="144" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605604243990" />
+    <state width="1308" height="196" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605607378751" />
     <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="144" key="GridCell.Tab.0.center" timestamp="1605604243988">
+    <state width="1308" height="196" key="GridCell.Tab.0.center" timestamp="1605607378750">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="144" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605604243988" />
+    <state width="1308" height="196" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605607378750" />
     <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="144" key="GridCell.Tab.0.left" timestamp="1605604243987">
+    <state width="1308" height="196" key="GridCell.Tab.0.left" timestamp="1605607378749">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="144" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605604243987" />
+    <state width="1308" height="196" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605607378749" />
     <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="144" key="GridCell.Tab.0.right" timestamp="1605604243989">
+    <state width="1308" height="196" key="GridCell.Tab.0.right" timestamp="1605607378750">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="144" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605604243989" />
+    <state width="1308" height="196" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605607378750" />
     <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
     <state x="64" y="88" width="1098" height="622" key="MergeDialog" timestamp="1605525431106">
       <screen x="0" y="0" width="1366" height="742" />
@@ -251,10 +249,10 @@
     </state>
     <state x="328" y="12" key="SettingsEditor/0.0.1366.742@0.0.1366.742" timestamp="1605472742687" />
     <state x="461" y="170" key="SettingsEditor/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605436861392" />
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605550257198">
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605604551605">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605550257198" />
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605604551605" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
     <state x="435" y="118" width="483" height="506" key="refactoring.ChangeSignatureDialog" timestamp="1605549283956">
       <screen x="0" y="0" width="1366" height="742" />
