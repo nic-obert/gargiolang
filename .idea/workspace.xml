@@ -13,7 +13,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented interactive shell and fixed number tokenization" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented interactive shell and fixed number tokenization">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Runtime.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Runtime.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,6 +91,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.GargioLang" />
@@ -106,7 +123,8 @@
       <workItem from="1605443760094" duration="3346000" />
       <workItem from="1605464295018" duration="655000" />
       <workItem from="1605523956421" duration="5390000" />
-      <workItem from="1605608217662" duration="850000" />
+      <workItem from="1605608217662" duration="1914000" />
+      <workItem from="1605614756647" duration="282000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -157,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605608984264</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="implemented interactive shell and fixed number tokenization">
+      <created>1605609102844</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1605609102844</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,44 +244,56 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464248307" />
-    <state width="1308" height="196" key="GridCell.Tab.0.bottom" timestamp="1605607378751">
+    <state width="1308" height="182" key="GridCell.Tab.0.bottom" timestamp="1605610142911">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="196" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605607378751" />
+    <state width="1308" height="182" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605610142911" />
     <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="196" key="GridCell.Tab.0.center" timestamp="1605607378750">
+    <state width="1308" height="182" key="GridCell.Tab.0.center" timestamp="1605610142909">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="196" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605607378750" />
+    <state width="1308" height="182" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605610142909" />
     <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="196" key="GridCell.Tab.0.left" timestamp="1605607378749">
+    <state width="1308" height="182" key="GridCell.Tab.0.left" timestamp="1605610142909">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="196" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605607378749" />
+    <state width="1308" height="182" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605610142909" />
     <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="196" key="GridCell.Tab.0.right" timestamp="1605607378750">
+    <state width="1308" height="182" key="GridCell.Tab.0.right" timestamp="1605610142910">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="196" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605607378750" />
+    <state width="1308" height="182" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605610142910" />
     <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
     <state x="64" y="88" width="1098" height="622" key="MergeDialog" timestamp="1605525431106">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="64" y="88" width="1098" height="622" key="MergeDialog/0.0.1366.742@0.0.1366.742" timestamp="1605525431106" />
-    <state x="251" y="182" width="734" height="477" key="MultipleFileMergeDialog" timestamp="1605525431140">
+    <state x="252" y="174" width="734" height="477" key="MultipleFileMergeDialog" timestamp="1605609173295">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="251" y="182" width="734" height="477" key="MultipleFileMergeDialog/0.0.1366.742@0.0.1366.742" timestamp="1605525431140" />
+    <state x="252" y="174" width="734" height="477" key="MultipleFileMergeDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609173295" />
     <state x="328" y="12" key="SettingsEditor" timestamp="1605472742687">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="328" y="12" key="SettingsEditor/0.0.1366.742@0.0.1366.742" timestamp="1605472742687" />
     <state x="461" y="170" key="SettingsEditor/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605436861392" />
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605604551605">
+    <state x="407" y="84" width="528" height="605" key="VCS.ChangeListViewerDialog" timestamp="1605609093856">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605604551605" />
+    <state x="407" y="84" width="528" height="605" key="VCS.ChangeListViewerDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609093856" />
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605609013699">
+      <screen x="0" y="0" width="1366" height="742" />
+    </state>
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605609013699" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
+    <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605609162774">
+      <screen x="0" y="0" width="1366" height="742" />
+    </state>
+    <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.742@0.0.1366.742" timestamp="1605609162774" />
+    <state x="203" y="90" width="948" height="646" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1605610139277">
+      <screen x="0" y="0" width="1366" height="742" />
+    </state>
+    <state x="203" y="90" width="948" height="646" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1366.742@0.0.1366.742" timestamp="1605610139277" />
     <state x="435" y="118" width="483" height="506" key="refactoring.ChangeSignatureDialog" timestamp="1605549283956">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
@@ -265,5 +302,15 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605379992266" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.NoSuchMethodError" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

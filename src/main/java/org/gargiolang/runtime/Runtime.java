@@ -17,7 +17,7 @@ public final class Runtime {
 
     private String[] statements;
 
-    public Runtime(){
+    public Runtime() {
         runtime = this;
 
         this.symbolTable = new SymbolTable();

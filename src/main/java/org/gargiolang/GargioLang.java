@@ -1,7 +1,6 @@
 package org.gargiolang;
 
 import org.gargiolang.runtime.Runtime;
-import org.gargiolang.lang.exception.GargioniException;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -11,7 +10,6 @@ public class GargioLang {
     //C:\Users\konra\Desktop\Programming\gargiolang\test.gl
 
     public static void main(String[] args) throws Exception {
-
 
         Runtime runtime = new Runtime();
 
