@@ -1,1 +1,2 @@
-int name "nic";
+int test 2;
+float t 123.33;
