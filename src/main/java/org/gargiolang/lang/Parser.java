@@ -159,8 +159,11 @@ public class Parser {
                 continue;
             }
 
+            if((byte) c == 13){
+                continue;
+            }
 
-            throw new GargioniException("Unable to parse character \"" + c + "\"");
+            throw new GargioniException("Unable to parse character \"" + c + "\" (" + (byte)c + ") at position " + position + " on line " + lineNumber);
         }
 
         if (token != null) {
