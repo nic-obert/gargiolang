@@ -1,1 +1,1 @@
-int name "nic";
+func_call();
