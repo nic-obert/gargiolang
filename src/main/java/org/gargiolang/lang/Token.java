@@ -17,7 +17,7 @@ public class Token {
                 break;
 
             default:
-                this.priority = tokenType.priority;
+                this.priority = tokenType.getPriority();
                 break;
         }
     }
@@ -36,24 +36,28 @@ public class Token {
 
     public enum TokenType {
 
-        TXT(0),
-        STR(0),
-        NUM(0),
-        BOOL(0),
+        TXT((byte) 0),
+        STR((byte) 0),
+        NUM((byte) 0),
+        BOOL((byte) 0),
 
-        KEYWORD(1),
+        KEYWORD((byte) 1),
+        ASSIGNMENT_OPERATOR((byte) 1),
 
-        ARITHMETIC_OPERATOR(0), // priority depends on the operator
+        ARITHMETIC_OPERATOR((byte) 0), // priority depends on the operator
 
-        PAREN(10);
+        PAREN((byte) 10),
+        CALL((byte) 10);
 
 
-
-        public int priority;
-        TokenType(int i) {
+        private final byte priority;
+        TokenType(byte i) {
             this.priority = i;
         }
 
+        public int getPriority() {
+            return priority;
+        }
     }
 
 

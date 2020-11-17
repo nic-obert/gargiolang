@@ -97,43 +97,70 @@ public class Parser {
                 isString = false;
                 line.add(token);
                 token = null;
+                continue;
             }
 
 
             if (c == '"') {
+                if (token != null) line.add(token);
                 isString = true;
                 token = new Token(Token.TokenType.STR, "");
                 continue;
             }
 
             if (Token.isNumber(c)) {
+                if (token != null) line.add(token);
                 isNumber = true;
                 token = new Token(Token.TokenType.NUM, c);
                 continue;
             }
 
             if (Token.isText(c)) {
+                if (token != null) line.add(token);
                 isText = true;
                 token = new Token(Token.TokenType.TXT, c);
                 continue;
             }
 
             if (Token.isArithmeticOperator(c)) {
+                if (token != null) line.add(token);
                 token = new Token(Token.TokenType.ARITHMETIC_OPERATOR, c);
                 line.add(token);
                 token = null;
                 continue;
             }
 
+            if (c == '=') {
+                if (token != null) line.add(token);
+                token = new Token(Token.TokenType.ASSIGNMENT_OPERATOR, null);
+                continue;
+            }
+
             if (c == ' ') {
+                if (token != null) line.add(token);
+                token = null;
                 continue;
             }
 
-            if((byte) c == 13){
+            if (c == '(') {
+                if (token != null) line.add(token);
+
+                if (line.getLast().getType() == Token.TokenType.TXT)
+                    token = new Token(Token.TokenType.CALL, '(');
+                else
+                    token = new Token(Token.TokenType.PAREN, '(');
+
                 continue;
             }
 
-            throw new GargioniException("Unable to parse character \"" + c + "\" (" + (byte) c + ") at position " + position + " on line " + lineNumber);
+            if (c == ')') {
+                if (token != null) line.add(token);
+                token = new Token(Token.TokenType.PAREN, ')');
+                continue;
+            }
+
+
+            throw new GargioniException("Unable to parse character \"" + c + "\"");
         }
 
         if (token != null) {

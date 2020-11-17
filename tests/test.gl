@@ -1,2 +1,1 @@
-int test 2;
-float t 123.33;
+func_call();
