@@ -155,7 +155,7 @@ public class Parser {
 
             if (c == '=') {
                 if (token != null) line.add(token);
-                token = new Token(Token.TokenType.ASSIGNMENT_OPERATOR, null);
+                token = new Token(Token.TokenType.ASSIGNMENT_OPERATOR, '=');
                 continue;
             }
 

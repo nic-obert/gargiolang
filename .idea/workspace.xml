@@ -13,9 +13,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="rethought the ArithmeticOperator class">
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="created Interpreter class and cleaned Runtime.loadScript(). Now newlines are handled in Parser.parseStatement(), adding increment and decrement operators.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/util/MathUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$TokenType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$TokenType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
@@ -65,9 +70,9 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
@@ -90,13 +95,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -274,26 +281,26 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464248307" />
-    <state width="1308" height="241" key="GridCell.Tab.0.bottom" timestamp="1605626960349">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.bottom" timestamp="1605632154705">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1308" height="241" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605626960349" />
-    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="241" key="GridCell.Tab.0.center" timestamp="1605626960348">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605632154705" />
+    <state width="1879" height="279" key="GridCell.Tab.0.center" timestamp="1605632154704">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1308" height="241" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605626960348" />
-    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="241" key="GridCell.Tab.0.left" timestamp="1605626960347">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605632154704" />
+    <state width="1879" height="279" key="GridCell.Tab.0.left" timestamp="1605632154704">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1308" height="241" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605626960347" />
-    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="241" key="GridCell.Tab.0.right" timestamp="1605626960348">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605632154704" />
+    <state width="1879" height="279" key="GridCell.Tab.0.right" timestamp="1605632154704">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1308" height="241" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605626960348" />
-    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
+    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605632154704" />
     <state x="64" y="88" width="1098" height="622" key="MergeDialog" timestamp="1605525431106">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
@@ -302,11 +309,11 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="252" y="174" width="734" height="477" key="MultipleFileMergeDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609173295" />
-    <state x="328" y="12" key="SettingsEditor" timestamp="1605472742687">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state x="461" y="170" key="SettingsEditor" timestamp="1605630706102">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="328" y="12" key="SettingsEditor/0.0.1366.742@0.0.1366.742" timestamp="1605472742687" />
-    <state x="461" y="170" key="SettingsEditor/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605436861392" />
+    <state x="461" y="170" key="SettingsEditor/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605630706102" />
     <state x="407" y="84" width="528" height="605" key="VCS.ChangeListViewerDialog" timestamp="1605609093856">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
@@ -328,11 +335,11 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="435" y="118" width="483" height="506" key="refactoring.ChangeSignatureDialog/0.0.1366.742@0.0.1366.742" timestamp="1605549283956" />
-    <state x="443" y="160" width="672" height="480" key="search.everywhere.popup" timestamp="1605623602887">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1605630100363">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="443" y="160" width="672" height="480" key="search.everywhere.popup/0.0.1366.742@0.0.1366.742" timestamp="1605623602887" />
-    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605379992266" />
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605630100363" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
