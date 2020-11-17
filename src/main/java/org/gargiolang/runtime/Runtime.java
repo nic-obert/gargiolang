@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.LinkedList;
 
 public final class Runtime {
 
@@ -37,18 +36,7 @@ public final class Runtime {
             builder.append((char) aByte);
         }
 
-        final LinkedList<String> tempStatements = new LinkedList<>();
-        for(String s : builder.toString().replaceAll("\n", "").split(";")){
-            if(!s.startsWith("//") && !s.isEmpty()){
-                tempStatements.add(s.replaceAll("\n", ""));
-            }
-        }
-
-        this.statements = tempStatements.toArray(new String[0]);
-
-        for (String statement : statements) {
-            System.out.println(statement);
-        }
+        this.statements = builder.toString().split(";");
     }
 
 
@@ -60,7 +48,11 @@ public final class Runtime {
     public void run() throws GargioniException {
         Parser parser = new Parser(statements);
         parser.parseTokens();
+
         System.out.println(parser.getTokens());
+
+        Interpreter interpreter = new Interpreter(getRuntime(), parser.getTokens());
+        interpreter.execute();
     }
 
     public SymbolTable getSymbolTable() {

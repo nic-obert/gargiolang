@@ -13,12 +13,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented interactive shell and fixed number tokenization">
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="merge">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/GargioLang.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/GargioLang.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Runtime.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Runtime.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +127,7 @@
       <workItem from="1605464295018" duration="655000" />
       <workItem from="1605523956421" duration="5390000" />
       <workItem from="1605608217662" duration="1914000" />
-      <workItem from="1605614756647" duration="282000" />
+      <workItem from="1605614756647" duration="2890000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -182,7 +185,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605609102844</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="merge">
+      <created>1605615245745</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1605615245745</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,7 +218,8 @@
     <MESSAGE value="implemented strings" />
     <MESSAGE value="implemented parenthesis, assignment operator and function call tokens" />
     <MESSAGE value="implemented interactive shell and fixed number tokenization" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented interactive shell and fixed number tokenization" />
+    <MESSAGE value="merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
@@ -244,25 +255,25 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464248307" />
-    <state width="1308" height="182" key="GridCell.Tab.0.bottom" timestamp="1605610142911">
+    <state width="1308" height="210" key="GridCell.Tab.0.bottom" timestamp="1605623930346">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="182" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605610142911" />
+    <state width="1308" height="210" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1605623930346" />
     <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="182" key="GridCell.Tab.0.center" timestamp="1605610142909">
+    <state width="1308" height="210" key="GridCell.Tab.0.center" timestamp="1605623930345">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="182" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605610142909" />
+    <state width="1308" height="210" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1605623930345" />
     <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="182" key="GridCell.Tab.0.left" timestamp="1605610142909">
+    <state width="1308" height="210" key="GridCell.Tab.0.left" timestamp="1605623930345">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="182" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605610142909" />
+    <state width="1308" height="210" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1605623930345" />
     <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
-    <state width="1308" height="182" key="GridCell.Tab.0.right" timestamp="1605610142910">
+    <state width="1308" height="210" key="GridCell.Tab.0.right" timestamp="1605623930346">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="182" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605610142910" />
+    <state width="1308" height="210" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1605623930346" />
     <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605464259022" />
     <state x="64" y="88" width="1098" height="622" key="MergeDialog" timestamp="1605525431106">
       <screen x="0" y="0" width="1366" height="742" />
@@ -281,10 +292,10 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="407" y="84" width="528" height="605" key="VCS.ChangeListViewerDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609093856" />
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605609013699">
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605615272914">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605609013699" />
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605615272914" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
     <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605609162774">
       <screen x="0" y="0" width="1366" height="742" />
@@ -298,9 +309,10 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="435" y="118" width="483" height="506" key="refactoring.ChangeSignatureDialog/0.0.1366.742@0.0.1366.742" timestamp="1605549283956" />
-    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1605379992266">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="443" y="160" width="672" height="480" key="search.everywhere.popup" timestamp="1605623602887">
+      <screen x="0" y="0" width="1366" height="742" />
     </state>
+    <state x="443" y="160" width="672" height="480" key="search.everywhere.popup/0.0.1366.742@0.0.1366.742" timestamp="1605623602887" />
     <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605379992266" />
   </component>
   <component name="XDebuggerManager">

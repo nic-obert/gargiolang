@@ -26,7 +26,10 @@ public class Parser {
     public void parseTokens() throws GargioniException {
         for(String statement : statements) {
             lineNumber++;
-            tokens.add(parseStatement(statement.replaceAll("\n", "")));
+            LinkedList<Token> line = parseStatement(statement);
+            // ignore empty statements
+            if (line.size() != 0)
+                tokens.add(line);
         }
     }
 
@@ -123,10 +126,15 @@ public class Parser {
             }
 
             if (Token.isArithmeticOperator(c)) {
-                if (token != null) line.add(token);
+                if (token != null) {
+                    if (token.getType().equals(Token.TokenType.ARITHMETIC_OPERATOR)) {
+                        if (token.getValue().equals(ArithmeticOperator.ADD) && c == '+') {
+                            line.add(new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.INC));
+                        }
+                    }
+                    line.add(token);
+                }
                 token = new Token(Token.TokenType.ARITHMETIC_OPERATOR, c);
-                line.add(token);
-                token = null;
                 continue;
             }
 
@@ -136,7 +144,7 @@ public class Parser {
                 continue;
             }
 
-            if (c == ' ') {
+            if (c == ' ' || c == '\n') {
                 if (token != null) line.add(token);
                 token = null;
                 continue;
