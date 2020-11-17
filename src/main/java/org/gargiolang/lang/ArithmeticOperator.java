@@ -4,14 +4,16 @@ import java.util.Map;
 
 public enum ArithmeticOperator {
 
-    ADD, SUB, MUL, DIV, POW;
+    ADD, SUB, MUL, DIV, POW, INC, DEC;
 
     private final static Map<String, Integer> priorities = Map.of(
             "+", 3,
             "-", 3,
             "*", 4,
             "/", 4,
-            "**", 5
+            "**", 5,
+            "++", 8,
+            "--", 8
     );
 
     private static char[] chars = {'+', '-', '*', '/'};
