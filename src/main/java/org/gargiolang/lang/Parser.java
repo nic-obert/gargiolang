@@ -7,6 +7,7 @@ import java.util.LinkedList;
 public class Parser {
 
     private final String[] statements;
+    private int lineNumber;
 
     // a 2d linked list of lines of tokens
     private final LinkedList<LinkedList<Token>> tokens;
@@ -24,7 +25,8 @@ public class Parser {
 
     public void parseTokens() throws GargioniException {
         for(String statement : statements) {
-            tokens.add(parseStatement(statement));
+            lineNumber++;
+            tokens.add(parseStatement(statement.replaceAll("\n", "")));
         }
     }
 
@@ -38,11 +40,14 @@ public class Parser {
         boolean isString = false;
         boolean isNumber = false;
 
+        int position = 0;
+
         // the token that is currently being built, to be added to token list when finished building
         Token token = null;
 
         // here iterate over the string statement and build the token list
         for (char c : statement.toCharArray()) {
+            position++;
 
             // if the parser is already parsing a token of type text
             if (isText) {
@@ -54,7 +59,7 @@ public class Parser {
                 // if char is not text --> it has finished building, thus it should be appended to the token list
                 isText = false;
                 // firstly check if the token is a keyword
-                if (Keyword.isKeyword((String) token.getValue())) {
+                if (Keyword.isKeyword(String.valueOf(token.getValue()))) {
                     // if it's a keyword, then treat it as such
                     line.add(new Token(Token.TokenType.KEYWORD, token.getValue()));
                 } else if(token.getValue().equals("true") || token.getValue().equals("false")){
@@ -154,8 +159,11 @@ public class Parser {
                 continue;
             }
 
+            if((byte) c == 13){
+                continue;
+            }
 
-            throw new GargioniException("Unable to parse character \"" + c + "\"");
+            throw new GargioniException("Unable to parse character \"" + c + "\" (" + (byte)c + ") at position " + position + " on line " + lineNumber);
         }
 
         if (token != null) {

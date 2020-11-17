@@ -1,1 +1,2 @@
-func_call();
+int num 12;
+string test "yes";

@@ -40,7 +40,7 @@ public final class Runtime {
         final LinkedList<String> tempStatements = new LinkedList<>();
         for(String s : builder.toString().replaceAll("\n", "").split(";")){
             if(!s.startsWith("//") && !s.isEmpty()){
-                tempStatements.add(s);
+                tempStatements.add(s.replaceAll("\n", ""));
             }
         }
 
