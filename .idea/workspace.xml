@@ -13,12 +13,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented parenthesis, assignment operator and function call tokens">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" afterDir="false" />
-    </list>
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented interactive shell and fixed number tokenization" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -111,7 +106,7 @@
       <workItem from="1605443760094" duration="3346000" />
       <workItem from="1605464295018" duration="655000" />
       <workItem from="1605523956421" duration="5390000" />
-      <workItem from="1605608217662" duration="540000" />
+      <workItem from="1605608217662" duration="850000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -155,7 +150,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605604541140</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="implemented interactive shell and fixed number tokenization">
+      <created>1605608984264</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1605608984264</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,7 +182,8 @@
     <MESSAGE value="added basic functionality to SymbolTable" />
     <MESSAGE value="implemented strings" />
     <MESSAGE value="implemented parenthesis, assignment operator and function call tokens" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented parenthesis, assignment operator and function call tokens" />
+    <MESSAGE value="implemented interactive shell and fixed number tokenization" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented interactive shell and fixed number tokenization" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
