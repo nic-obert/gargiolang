@@ -2,6 +2,7 @@ package org.gargiolang.runtime;
 
 import org.gargiolang.dependencies.Dependency;
 import org.gargiolang.lang.Parser;
+import org.gargiolang.lang.Token;
 import org.gargiolang.lang.exception.GargioniException;
 
 import java.io.File;
@@ -9,11 +10,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class Runtime {
 
-    private static Runtime runtime;
+    private static Runtime instance;
 
     private final SymbolTable symbolTable;
 
@@ -22,7 +24,7 @@ public final class Runtime {
     private final List<Dependency> loadedDependencies = new ArrayList<>();
 
     public Runtime() {
-        runtime = this;
+        instance = this;
 
         this.symbolTable = new SymbolTable();
     }
@@ -52,15 +54,13 @@ public final class Runtime {
 
     public void run() throws GargioniException {
 
-        Preprocessor preprocessor = new Preprocessor(statements);
-        preprocessor.process();
+        statements = Preprocessor.process(statements);
 
-        Parser parser = new Parser(preprocessor.getStatements());
-        parser.parseTokens();
+        LinkedList<LinkedList<Token>> tokens = new Parser(statements).parseTokens();
 
-        System.out.println(parser.getTokens());
+        System.out.println(tokens);
 
-        Interpreter interpreter = new Interpreter(getRuntime(), parser.getTokens());
+        Interpreter interpreter = new Interpreter(getRuntime(), tokens);
         interpreter.execute();
     }
 
@@ -69,7 +69,7 @@ public final class Runtime {
     }
 
     public static Runtime getRuntime() {
-        return runtime;
+        return instance;
     }
 
     public List<Dependency> getLoadedDependencies() {

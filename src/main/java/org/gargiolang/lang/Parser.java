@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 public class Parser {
 
+
     private final String[] statements;
     private int lineNumber;
 
@@ -23,7 +24,7 @@ public class Parser {
     }
 
 
-    public void parseTokens() throws GargioniException {
+    public LinkedList<LinkedList<Token>> parseTokens() throws GargioniException {
         for(String statement : statements) {
             lineNumber++;
             LinkedList<Token> line = parseStatement(statement);
@@ -31,6 +32,8 @@ public class Parser {
             if (line.size() != 0)
                 tokens.add(line);
         }
+
+        return tokens;
     }
 
 

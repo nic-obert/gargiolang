@@ -4,28 +4,28 @@ import org.gargiolang.lang.exception.GargioniException;
 
 public class Preprocessor {
 
-    private final String[] statements;
+    public static String[] process(String[] script) throws GargioniException {
+        String[] statements = script.clone();
 
-    public Preprocessor(String[] statements) {
-        this.statements = statements;
-    }
+        for (int i = 0; i != statements.length; i++) {
 
-    public void process() throws GargioniException {
-        for (String statement : this.statements) {
+            String statement = script[i];
+
             if (statement.stripLeading().startsWith("#")) {
                 int indexOfHash = statement.indexOf('#') + 1;
                 int indexOfData = statement.indexOf(' ', indexOfHash) + 1;
 
-                Processor preprocessor = Processor.valueOf(statement.substring(indexOfHash, indexOfData).toUpperCase());
+                Processor preprocessor = Processor.valueOf(statement.substring(indexOfHash, indexOfData - 1).toUpperCase());
                 String data = statement.substring(indexOfData);
 
-                Processor.process(preprocessor, data);
+                Processor.process(statements, preprocessor, data);
+                // clear the statement
+                statements[i] = "";
             }
-        }
-    }
 
-    public String[] getStatements() {
-        return this.statements;
+        }
+
+        return statements;
     }
 
 
@@ -37,10 +37,15 @@ public class Preprocessor {
         IFNDEF,
         ENDIF;
 
-        public static void process(Processor processor, String data) throws GargioniException {
+        public static void process(String[] statements, Processor processor, String data) throws GargioniException {
             switch (processor)
             {
                 case DEFINE:
+                    String word = data.substring(0, data.indexOf(' '));
+                    String definition = data.substring(data.indexOf(' ')+1);
+                    for (int i = 0; i != statements.length; i++) {
+                        statements[i] = statements[i].replaceAll(word, definition);
+                    }
                     break;
 
                 case ENDIF:
@@ -59,7 +64,6 @@ public class Preprocessor {
                     throw new GargioniException("Unrecognized preprocessor");
             }
         }
-
     }
 
 }

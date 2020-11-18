@@ -1,2 +1,1 @@
-*.class
-*.jar
+out/production/gargiolang/**/*.class
