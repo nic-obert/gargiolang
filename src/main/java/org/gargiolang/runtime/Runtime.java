@@ -1,5 +1,6 @@
 package org.gargiolang.runtime;
 
+import org.gargiolang.dependencies.Dependency;
 import org.gargiolang.lang.Parser;
 import org.gargiolang.lang.exception.GargioniException;
 
@@ -7,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Runtime {
 
@@ -15,6 +18,8 @@ public final class Runtime {
     private final SymbolTable symbolTable;
 
     private String[] statements;
+
+    private final List<Dependency> loadedDependencies = new ArrayList<>();
 
     public Runtime() {
         runtime = this;
@@ -61,5 +66,9 @@ public final class Runtime {
 
     public static Runtime getRuntime() {
         return runtime;
+    }
+
+    public List<Dependency> getLoadedDependencies() {
+        return loadedDependencies;
     }
 }
