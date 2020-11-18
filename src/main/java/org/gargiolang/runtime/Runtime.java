@@ -51,7 +51,11 @@ public final class Runtime {
 
 
     public void run() throws GargioniException {
-        Parser parser = new Parser(statements);
+
+        Preprocessor preprocessor = new Preprocessor(statements);
+        preprocessor.process();
+
+        Parser parser = new Parser(preprocessor.getStatements());
         parser.parseTokens();
 
         System.out.println(parser.getTokens());

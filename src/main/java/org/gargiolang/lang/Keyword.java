@@ -11,7 +11,9 @@ public enum Keyword {
     DEF("def"),
 
     IF("if"),
-    ELSE("else");
+    ELSE("else"),
+
+    GOTO("goto");
 
     private final String value;
 
