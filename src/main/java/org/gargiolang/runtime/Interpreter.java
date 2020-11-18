@@ -2,7 +2,6 @@ package org.gargiolang.runtime;
 
 import org.gargiolang.lang.ArithmeticOperator;
 import org.gargiolang.lang.Token;
-import org.gargiolang.lang.exception.GargioniException;
 import org.gargiolang.util.MathUtils;
 
 import java.util.LinkedList;
@@ -26,7 +25,7 @@ public class Interpreter {
 
             while (highest.getPriority() > 1){
                 if (highest.getType().equals(Token.TokenType.ARITHMETIC_OPERATOR)) {
-                    //TODO support string concatenation
+                    // TODO support string concatenation (maybe operator overloading in the Token class?)
                     ArithmeticOperator operator = ArithmeticOperator.valueOf(highest.getValue().toString());
 
                     Number a = MathUtils.createNumber(line.get(highestPriorityIndex - 1).getValue().toString());
