@@ -24,6 +24,7 @@ public class Token {
         }
     }
 
+
     public TokenType getType() {
         return tokenType;
     }
@@ -35,6 +36,11 @@ public class Token {
     public int getPriority() {
         return priority;
     }
+
+    public void incrementPriority() {
+        this.priority += 10;
+    }
+
 
     public enum TokenType {
 

@@ -50,7 +50,7 @@ public class Parser {
 
         // here iterate over the string statement and build the token list
         for (char c : statement.toCharArray()) {
-            position++;
+            position ++;
 
             // if the parser is already parsing a token of type text
             if (isText) {
@@ -168,17 +168,17 @@ public class Parser {
             if (c == '(') {
                 if (token != null) line.add(token);
 
-                if (line.getLast().getType() == Token.TokenType.TXT)
-                    token = new Token(Token.TokenType.CALL, '(');
+                if (line.size() != 0 && line.getLast().getType() == Token.TokenType.TXT)
+                    token = new Token(Token.TokenType.CALL, Parenthesis.OPEN);
                 else
-                    token = new Token(Token.TokenType.PAREN, '(');
+                    token = new Token(Token.TokenType.PAREN, Parenthesis.OPEN);
 
                 continue;
             }
 
             if (c == ')') {
                 if (token != null) line.add(token);
-                token = new Token(Token.TokenType.PAREN, ')');
+                token = new Token(Token.TokenType.PAREN, Parenthesis.CLOSED);
                 continue;
             }
 
