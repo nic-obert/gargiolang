@@ -13,10 +13,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="simplified Preprocessor">
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="further simplified Preprocessor">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/environment/Environment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Preprocessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Preprocessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +90,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.GargioLang" />
@@ -115,7 +127,8 @@
       <workItem from="1605641162259" duration="2429000" />
       <workItem from="1605646778691" duration="1277000" />
       <workItem from="1605690368225" duration="7689000" />
-      <workItem from="1605774792631" duration="4254000" />
+      <workItem from="1605774792631" duration="4454000" />
+      <workItem from="1605783716652" duration="1670000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -215,7 +228,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605778207488</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="further simplified Preprocessor">
+      <created>1605779089375</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1605779089375</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -246,7 +266,8 @@
     <MESSAGE value="rethought the ArithmeticOperator class" />
     <MESSAGE value="implemented the #define preprocessor" />
     <MESSAGE value="simplified Preprocessor" />
-    <option name="LAST_COMMIT_MESSAGE" value="simplified Preprocessor" />
+    <MESSAGE value="further simplified Preprocessor" />
+    <option name="LAST_COMMIT_MESSAGE" value="further simplified Preprocessor" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
@@ -335,10 +356,10 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="407" y="84" width="528" height="605" key="VCS.ChangeListViewerDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609093856" />
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605778217551">
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605779095229">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605778217551" />
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605779095229" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
     <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605609162774">
       <screen x="0" y="0" width="1366" height="742" />

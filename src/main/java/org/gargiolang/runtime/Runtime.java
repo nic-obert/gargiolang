@@ -1,6 +1,7 @@
 package org.gargiolang.runtime;
 
 import org.gargiolang.dependencies.Dependency;
+import org.gargiolang.environment.Environment;
 import org.gargiolang.lang.Parser;
 import org.gargiolang.lang.Token;
 import org.gargiolang.lang.exception.GargioniException;
@@ -17,15 +18,18 @@ public final class Runtime {
 
     private static Runtime instance;
 
+    private final Environment environment;
+
     private final SymbolTable symbolTable;
 
     private String[] statements;
 
     private final List<Dependency> loadedDependencies = new ArrayList<>();
 
-    public Runtime() {
+    public Runtime(Environment environment) {
         instance = this;
 
+        this.environment = environment;
         this.symbolTable = new SymbolTable();
     }
 

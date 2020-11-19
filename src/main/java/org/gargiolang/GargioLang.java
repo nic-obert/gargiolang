@@ -1,5 +1,6 @@
 package org.gargiolang;
 
+import org.gargiolang.environment.Environment;
 import org.gargiolang.runtime.Runtime;
 
 import java.util.NoSuchElementException;
@@ -11,7 +12,8 @@ public class GargioLang {
 
     public static void main(String[] args) throws Exception {
 
-        Runtime runtime = new Runtime();
+        Environment environment = new Environment();
+        Runtime runtime = new Runtime(environment);
 
         // if no file is specified --> launch interactive shell
         if (args == null || args.length < 1) {
@@ -33,6 +35,9 @@ public class GargioLang {
         }
         // if a file is specified --> execute it
         else {
+
+
+
             runtime.loadScript(args[0]);
             runtime.run();
         }
