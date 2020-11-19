@@ -75,7 +75,43 @@ public class Interpreter {
 
 
                 else if (highest.getType().equals(Token.TokenType.ASSIGNMENT_OPERATOR)) {
-                    // TODO implement assignment operator
+                    //Code below will be implemented soon
+                    SymbolTable table = runtime.getSymbolTable();
+
+                    System.out.println(highestPriorityIndex);
+
+                    Token after = line.get(highestPriorityIndex + 1);
+                    Token before = line.get(highestPriorityIndex - 1);
+
+                    if(after == null || before == null){
+                        throw new GargioniException("Invalid statement");
+                    }
+
+                    if(table.getVariable((String) before.getValue()) == null){
+                        if(line.size() == 3){
+                            throw new GargioniException("Type isn't provided");
+                        }
+
+                        table.addVariable((String) before.getValue(), new Variable(after.getValue(), Variable.Type.valueOf(line.get(highestPriorityIndex - 2).getValue().toString().toUpperCase()), Accessibility.PUBLIC));
+
+                        //Lo ripeto due volte perchè mi bestemmia addosso per l'ordine
+                        line.remove(highestPriorityIndex + 1);
+                        line.remove(highestPriorityIndex);
+                        line.remove(highestPriorityIndex - 1);
+                        line.remove(highestPriorityIndex - 2);
+                    } else {
+                        if(line.size() == 4){
+                            throw new GargioniException("Variable \"" + before.getValue() + "\" is already defined");
+                        }
+                        Variable var = table.getVariable((String)before.getValue());
+                        table.updateVariable((String) before.getValue(), new Variable(after.getValue(), var.getType(), var.getAccessibility()));
+                        line.remove(highestPriorityIndex + 1);
+                        line.remove(highestPriorityIndex);
+                        line.remove(highestPriorityIndex - 1);
+                    }
+
+                    System.out.println("test: " + table.getVariable("test").getValue());
+                    break;
                 }
 
 
