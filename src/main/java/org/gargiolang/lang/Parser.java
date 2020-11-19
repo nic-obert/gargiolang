@@ -1,6 +1,7 @@
 package org.gargiolang.lang;
 
 import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.runtime.Variable;
 
 import java.util.LinkedList;
 
@@ -69,6 +70,8 @@ public class Parser {
                 if (Keyword.isKeyword(String.valueOf(token.getValue()))) {
                     // if it's a keyword, then treat it as such
                     line.add(new Token(Token.TokenType.KEYWORD, token.getValue()));
+                } else if(Variable.Type.getType(String.valueOf(token.getValue())) != null){
+                    line.add(new Token(Token.TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
                 } else if(token.getValue().equals("true") || token.getValue().equals("false")){
                     line.add(new Token(Token.TokenType.BOOL, Boolean.parseBoolean((String) token.getValue())));
                 } else {

@@ -10,6 +10,10 @@ public final class SymbolTable {
 
     private final Map<String, Variable> variables = new HashMap<>();
 
+    public void addVariable(String name, Variable variable){
+        variables.putIfAbsent(name, variable);
+    }
+
     public Variable getVariable(String varName) {
         return variables.getOrDefault(varName, null);
     }

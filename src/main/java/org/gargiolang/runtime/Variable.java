@@ -1,5 +1,7 @@
 package org.gargiolang.runtime;
 
+import org.gargiolang.lang.Keyword;
+
 public class Variable {
 
     private Object value;
@@ -35,7 +37,12 @@ public class Variable {
 
     public enum Type {
 
-        INT, FLOAT, STRING;
+        INT, FLOAT, STRING, BOOLEAN, NULL, DEF;
+
+        public static Type getType(String str){
+            for(Type t : Type.values()) if(t.toString().equalsIgnoreCase(str)) return t;
+            return null;
+        }
 
     }
 

@@ -49,6 +49,7 @@ public class Token {
         NUM((byte) 0),
         BOOL((byte) 0),
 
+        TYPE((byte) 0),
         KEYWORD((byte) 1),
         ASSIGNMENT_OPERATOR((byte) 1),
 
