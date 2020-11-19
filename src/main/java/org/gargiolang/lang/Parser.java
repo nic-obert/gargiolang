@@ -27,6 +27,7 @@ public class Parser {
     public LinkedList<LinkedList<Token>> parseTokens() throws GargioniException {
         for(String statement : statements) {
             lineNumber++;
+            if (statement == null) continue;
             LinkedList<Token> line = parseStatement(statement);
             // ignore empty statements
             if (line.size() != 0)

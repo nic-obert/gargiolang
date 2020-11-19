@@ -54,7 +54,7 @@ public final class Runtime {
 
     public void run() throws GargioniException {
 
-        statements = Preprocessor.process(statements);
+        Preprocessor.process(statements).toArray(statements);
 
         LinkedList<LinkedList<Token>> tokens = new Parser(statements).parseTokens();
 

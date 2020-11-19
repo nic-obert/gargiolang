@@ -2,25 +2,28 @@ package org.gargiolang.runtime;
 
 import org.gargiolang.lang.exception.GargioniException;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 public class Preprocessor {
 
-    public static String[] process(String[] script) throws GargioniException {
-        String[] statements = script.clone();
+    public static LinkedList<String> process(String[] script) throws GargioniException {
 
-        for (int i = 0; i != statements.length; i++) {
+        // convert String[] into linked list (for preprocessing)
+        LinkedList<String> statements = new LinkedList<>(Arrays.asList(script));
 
-            String statement = script[i];
+        for (String statement : statements) {
 
             if (statement.stripLeading().startsWith("#")) {
                 int indexOfHash = statement.indexOf('#') + 1;
                 int indexOfData = statement.indexOf(' ', indexOfHash) + 1;
 
-                Processor preprocessor = Processor.valueOf(statement.substring(indexOfHash, indexOfData - 1).toUpperCase());
-                String data = statement.substring(indexOfData);
+                String preprocessor = statement.substring(indexOfHash, indexOfData - 1);
+                String data = statement.substring(indexOfData); // kind of the arguments to the preprocessor
 
-                Processor.process(statements, preprocessor, data);
-                // clear the statement
-                statements[i] = "";
+                process(statements, preprocessor, data);
+                // remove the preprocessor, once it's been processed
+                statements.remove(statement);
             }
 
         }
@@ -28,41 +31,29 @@ public class Preprocessor {
         return statements;
     }
 
+    private static void process(LinkedList<String> statements, String processor, String data) throws GargioniException {
+        switch (processor)
+        {
+            case "define":
+                String word = data.substring(0, data.indexOf(' '));
+                String definition = data.substring(data.indexOf(' ')+1);
+                statements.forEach(statement -> statement = statement.replaceAll(word, definition));
+                break;
 
-    public enum Processor {
+            case "endif":
+                break;
 
-        DEFINE,
-        INCLUDE,
-        IFDEF,
-        IFNDEF,
-        ENDIF;
+            case "ifdef":
+                break;
 
-        public static void process(String[] statements, Processor processor, String data) throws GargioniException {
-            switch (processor)
-            {
-                case DEFINE:
-                    String word = data.substring(0, data.indexOf(' '));
-                    String definition = data.substring(data.indexOf(' ')+1);
-                    for (int i = 0; i != statements.length; i++) {
-                        statements[i] = statements[i].replaceAll(word, definition);
-                    }
-                    break;
+            case "include":
+                break;
 
-                case ENDIF:
-                    break;
+            case "ifndef":
+                break;
 
-                case IFDEF:
-                    break;
-
-                case INCLUDE:
-                    break;
-
-                case IFNDEF:
-                    break;
-
-                default:
-                    throw new GargioniException("Unrecognized preprocessor");
-            }
+            default:
+                throw new GargioniException("Unrecognized preprocessor");
         }
     }
 
