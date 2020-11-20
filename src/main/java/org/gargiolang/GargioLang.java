@@ -3,6 +3,7 @@ package org.gargiolang;
 import org.gargiolang.environment.Environment;
 import org.gargiolang.runtime.Runtime;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -15,11 +16,18 @@ public class GargioLang {
         Environment environment = new Environment();
         Runtime runtime = new Runtime(environment);
 
+        // parse arguments
+        int varIndex = Arrays.asList(args).indexOf("-var"); // variables to be passed (-var var1=value1,var2=value2)
+        if (varIndex != -1) {
+            String[] vars = args[varIndex+1].split(",");
+            environment.loadVariables(vars);
+        }
+
         // if no file is specified --> launch interactive shell
-        if (args == null || args.length < 1) {
+        if (args.length == 1 || (args.length == 2 && varIndex != -1)) {
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("GargioLang interactive shell\n");
+            System.out.println("GargioLang interactive shell");
             while (true) {
                 System.out.print("> ");
 
@@ -36,10 +44,9 @@ public class GargioLang {
         // if a file is specified --> execute it
         else {
 
-
-
             runtime.loadScript(args[0]);
             runtime.run();
+
         }
     }
 }
