@@ -8,13 +8,13 @@ import java.util.LinkedList;
 public class Parser {
 
 
-    private final String[] statements;
+    private final LinkedList<String> statements;
     private int lineNumber;
 
     // a 2d linked list of lines of tokens
     private final LinkedList<LinkedList<Token>> tokens;
 
-    public Parser(String[] statements) {
+    public Parser(LinkedList<String> statements) {
         this.statements = statements;
         this.tokens = new LinkedList<>();
     }

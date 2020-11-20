@@ -24,7 +24,7 @@ public class GargioLang {
         }
 
         // if no file is specified --> launch interactive shell
-        if (args.length == 1 || (args.length == 2 && varIndex != -1)) {
+        if (args.length == 0) {
             Scanner scanner = new Scanner(System.in);
 
             System.out.println("GargioLang interactive shell");

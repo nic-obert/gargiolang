@@ -23,4 +23,11 @@ public class Environment {
         }
     }
 
+    public HashMap<String, String> getVariables() {
+        return variables;
+    }
+
+    public static Environment getInstance() {
+        return instance;
+    }
 }

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public final class Runtime {
 
     private final SymbolTable symbolTable;
 
-    private String[] statements;
+    private LinkedList<String> statements;
 
     private final List<Dependency> loadedDependencies = new ArrayList<>();
 
@@ -31,6 +32,7 @@ public final class Runtime {
 
         this.environment = environment;
         this.symbolTable = new SymbolTable();
+        this.statements = new LinkedList<>();
     }
 
     public void loadScript(String scriptName) throws IOException, GargioniException {
@@ -47,18 +49,18 @@ public final class Runtime {
             builder.append((char) aByte);
         }
 
-        this.statements = builder.toString().split(";");
+        this.statements.addAll(Arrays.asList(builder.toString().split(";")));
     }
 
 
     public void loadStatement(String statement) {
-        this.statements = new String[]{statement};
+        this.statements.add(statement);
     }
 
 
     public void run() throws GargioniException {
 
-        Preprocessor.process(statements).toArray(statements);
+        Preprocessor.process(statements);
 
         LinkedList<LinkedList<Token>> tokens = new Parser(statements).parseTokens();
 
