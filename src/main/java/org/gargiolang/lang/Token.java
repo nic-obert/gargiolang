@@ -1,5 +1,9 @@
 package org.gargiolang.lang;
 
+import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.runtime.Runtime;
+import org.gargiolang.runtime.Variable;
+
 import java.util.LinkedList;
 
 public class Token {
@@ -29,9 +33,17 @@ public class Token {
         return tokenType;
     }
 
+
     public Object getValue() {
         return value;
     }
+
+    // if token is a variable --> return its value, otherwise return token's value
+    public Object getVarValue(Runtime runtime) throws GargioniException {
+        if (this.getType() == TokenType.VAR) return runtime.getSymbolTable().getVariableThrow((String) this.value).getValue();
+        else return getValue();
+    }
+
 
     public int getPriority() {
         return priority;
@@ -48,6 +60,7 @@ public class Token {
         STR((byte) 0),
         NUM((byte) 0),
         BOOL((byte) 0),
+        VAR((byte) 0),
 
         TYPE((byte) 0),
         KEYWORD((byte) 1),

@@ -1,12 +1,14 @@
 package org.gargiolang.lang;
 
 import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.Variable;
 
 import java.util.LinkedList;
 
 public class Parser {
 
+    private final Runtime runtime;
 
     private final LinkedList<String> statements;
     private int lineNumber;
@@ -14,9 +16,10 @@ public class Parser {
     // a 2d linked list of lines of tokens
     private final LinkedList<LinkedList<Token>> tokens;
 
-    public Parser(LinkedList<String> statements) {
+    public Parser(LinkedList<String> statements, Runtime runtime) {
         this.statements = statements;
         this.tokens = new LinkedList<>();
+        this.runtime = runtime;
     }
 
 
@@ -29,6 +32,15 @@ public class Parser {
         for(String statement : statements) {
             lineNumber++;
             if (statement == null) continue;
+
+            // check if line is labelled
+            if (statement.stripLeading().startsWith("@")) {
+                String label = statement.substring(statement.indexOf('@')+1).strip();
+                runtime.getLabelTable().putLabel(label, statements.indexOf(statement));
+                // do not parse labelled line
+                continue;
+            }
+
             LinkedList<Token> line = parseStatement(statement);
             // ignore empty statements
             if (line.size() != 0)

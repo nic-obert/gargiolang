@@ -1,6 +1,7 @@
 package org.gargiolang.runtime;
 
-import org.gargiolang.lang.Keyword;
+import org.gargiolang.lang.Token;
+import org.gargiolang.lang.exception.GargioniException;
 
 public class Variable {
 
@@ -27,7 +28,7 @@ public class Variable {
     }
 
     public Accessibility getAccessibility() {
-        return accessibility;
+        return this.accessibility;
     }
 
     public void setAccessibility(Accessibility accessibility) {
@@ -42,6 +43,22 @@ public class Variable {
         public static Type getType(String str){
             for(Type t : Type.values()) if(t.toString().equalsIgnoreCase(str)) return t;
             return null;
+        }
+
+        // extract Variable.Type from Token
+        public static Type extractVarType(Token token) throws GargioniException {
+            switch (token.getType())
+            {
+                case NUM:
+                    if ((int) token.getValue() % 10 == 0) return INT;
+                    else return FLOAT;
+
+                case STR:
+                    return STRING;
+
+                default:
+                    throw new GargioniException("Cannot extract variable type from token: " + token);
+            }
         }
 
     }

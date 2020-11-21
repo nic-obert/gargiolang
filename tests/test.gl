@@ -1,3 +1,6 @@
-#ifndef name;
+
+@lab1;
+
 1+1;
-#endif;
+
+goto lab1;

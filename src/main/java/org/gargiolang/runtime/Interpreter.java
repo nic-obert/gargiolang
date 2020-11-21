@@ -1,6 +1,7 @@
 package org.gargiolang.runtime;
 
 import org.gargiolang.lang.ArithmeticOperator;
+import org.gargiolang.lang.Keyword;
 import org.gargiolang.lang.Parenthesis;
 import org.gargiolang.lang.Token;
 import org.gargiolang.lang.exception.GargioniException;
@@ -13,23 +14,51 @@ public class Interpreter {
     private final Runtime runtime;
     private final LinkedList<LinkedList<Token>> tokens;
 
+    // line that is currently being executed
+    private int lineIndex = 0;
+    private LinkedList<Token> line;
+    // token that is currently being evaluated
+    private int currentTokenIndex;
+
     public Interpreter(Runtime runtime, LinkedList<LinkedList<Token>> tokens) {
         this.runtime = runtime;
         this.tokens = tokens;
     }
 
+
+    public LinkedList<Token> getLine() {
+        return line;
+    }
+
+    public int getLineIndex() {
+        return lineIndex;
+    }
+
+    public int getCurrentTokenIndex() {
+        return currentTokenIndex;
+    }
+
+    public void setLineIndex(int lineIndex) throws GargioniException {
+        // check is given lineIndex exceeds the number of lines
+        if (lineIndex > tokens.size()) throw new GargioniException("Line index out of bounds: " + lineIndex + " > " + tokens.size());
+        this.lineIndex = lineIndex;
+    }
+
+    public Runtime getRuntime() {
+        return runtime;
+    }
+
     public void execute() throws GargioniException {
-        int lineIndex = 0;
         int eof = tokens.size();
 
         for (; lineIndex < eof; lineIndex ++) {
             // here a copy of the line is needed, not its reference (for goto, function calls, loops and repeating code)
-            LinkedList<Token> line = (LinkedList<Token>) tokens.get(lineIndex).clone();
+            line = (LinkedList<Token>) tokens.get(lineIndex).clone();
 
-            while (true){
+            while (!line.isEmpty()){
 
-                int highestPriorityIndex = Token.getHighestPriority(line);
-                Token highest = line.get(highestPriorityIndex);
+                currentTokenIndex = Token.getHighestPriority(line);
+                Token highest = line.get(currentTokenIndex);
 
                 // if no more token to evaluate --> break out of the loop
                 if (highest.getPriority() == 0) {
@@ -41,8 +70,8 @@ public class Interpreter {
                     // TODO support string concatenation (maybe operator overloading in the Token class?)
                     ArithmeticOperator operator = ArithmeticOperator.valueOf(highest.getValue().toString());
 
-                    Number a = MathUtils.createNumber(line.get(highestPriorityIndex - 1).getValue().toString());
-                    Number b = MathUtils.createNumber(line.get(highestPriorityIndex + 1).getValue().toString());
+                    Number a = MathUtils.createNumber(line.get(currentTokenIndex - 1).getValue().toString());
+                    Number b = MathUtils.createNumber(line.get(currentTokenIndex + 1).getValue().toString());
                     Number result = 0;
 
                     switch (operator) {
@@ -68,9 +97,9 @@ public class Interpreter {
                         }
                     }
 
-                    line.set(highestPriorityIndex, new Token(Token.TokenType.NUM, result));
-                    line.remove(highestPriorityIndex + 1);
-                    line.remove(highestPriorityIndex - 1);
+                    line.set(currentTokenIndex, new Token(Token.TokenType.NUM, result));
+                    line.remove(currentTokenIndex + 1);
+                    line.remove(currentTokenIndex - 1);
                 }
 
 
@@ -78,10 +107,10 @@ public class Interpreter {
                     //Code below will be implemented soon
                     SymbolTable table = runtime.getSymbolTable();
 
-                    System.out.println(highestPriorityIndex);
+                    System.out.println(currentTokenIndex);
 
-                    Token after = line.get(highestPriorityIndex + 1);
-                    Token before = line.get(highestPriorityIndex - 1);
+                    Token after = line.get(currentTokenIndex + 1);
+                    Token before = line.get(currentTokenIndex - 1);
 
                     if(after == null || before == null){
                         throw new GargioniException("Invalid statement");
@@ -92,22 +121,22 @@ public class Interpreter {
                             throw new GargioniException("Type isn't provided");
                         }
 
-                        table.addVariable((String) before.getValue(), new Variable(after.getValue(), Variable.Type.valueOf(line.get(highestPriorityIndex - 2).getValue().toString().toUpperCase()), Accessibility.PUBLIC));
+                        table.addVariable((String) before.getValue(), new Variable(after.getValue(), Variable.Type.valueOf(line.get(currentTokenIndex - 2).getValue().toString().toUpperCase()), Accessibility.PUBLIC));
 
                         //Lo ripeto due volte perchè mi bestemmia addosso per l'ordine
-                        line.remove(highestPriorityIndex + 1);
-                        line.remove(highestPriorityIndex);
-                        line.remove(highestPriorityIndex - 1);
-                        line.remove(highestPriorityIndex - 2);
+                        line.remove(currentTokenIndex + 1);
+                        line.remove(currentTokenIndex);
+                        line.remove(currentTokenIndex - 1);
+                        line.remove(currentTokenIndex - 2);
                     } else {
                         if(line.size() == 4){
                             throw new GargioniException("Variable \"" + before.getValue() + "\" is already defined");
                         }
                         Variable var = table.getVariable((String)before.getValue());
                         table.updateVariable((String) before.getValue(), new Variable(after.getValue(), var.getType(), var.getAccessibility()));
-                        line.remove(highestPriorityIndex + 1);
-                        line.remove(highestPriorityIndex);
-                        line.remove(highestPriorityIndex - 1);
+                        line.remove(currentTokenIndex + 1);
+                        line.remove(currentTokenIndex);
+                        line.remove(currentTokenIndex - 1);
                     }
 
                     System.out.println("test: " + table.getVariable("test").getValue());
@@ -118,7 +147,7 @@ public class Interpreter {
                 else if (highest.getType().equals(Token.TokenType.PAREN) && highest.getValue().equals(Parenthesis.OPEN)) {
                     // number of opening parenthesis encountered
                     int parenCount = 1;
-                    for (int counter = highestPriorityIndex + 1; true; counter++) {
+                    for (int counter = currentTokenIndex + 1; true; counter++) {
                         Token token = line.get(counter);
 
                         if (token.getType().equals(Token.TokenType.PAREN)) {
@@ -138,7 +167,11 @@ public class Interpreter {
                     }
 
                     // remove opening parenthesis token
-                    line.remove(highestPriorityIndex);
+                    line.remove(currentTokenIndex);
+                }
+
+                else if (highest.getType().equals(Token.TokenType.KEYWORD)) {
+                    Keyword.evaluate(Keyword.valueOf(((String) highest.getValue()).toUpperCase()), this);
                 }
 
 

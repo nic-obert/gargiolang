@@ -19,6 +19,8 @@ public final class Runtime {
 
     private static Runtime instance;
 
+    private final LabelTable labelTable;
+
     private final Environment environment;
 
     private final SymbolTable symbolTable;
@@ -27,12 +29,14 @@ public final class Runtime {
 
     private final List<Dependency> loadedDependencies = new ArrayList<>();
 
+
     public Runtime(Environment environment) {
         instance = this;
 
         this.environment = environment;
         this.symbolTable = new SymbolTable();
         this.statements = new LinkedList<>();
+        this.labelTable = new LabelTable();
     }
 
     public void loadScript(String scriptName) throws IOException, GargioniException {
@@ -62,11 +66,11 @@ public final class Runtime {
 
         Preprocessor.process(statements);
 
-        LinkedList<LinkedList<Token>> tokens = new Parser(statements).parseTokens();
+        LinkedList<LinkedList<Token>> tokens = new Parser(statements, this).parseTokens();
 
         System.out.println(tokens);
 
-        Interpreter interpreter = new Interpreter(getRuntime(), tokens);
+        Interpreter interpreter = new Interpreter(this, tokens);
         interpreter.execute();
     }
 
@@ -80,5 +84,9 @@ public final class Runtime {
 
     public List<Dependency> getLoadedDependencies() {
         return loadedDependencies;
+    }
+
+    public LabelTable getLabelTable() {
+        return labelTable;
     }
 }
