@@ -1,7 +1,10 @@
 package org.gargiolang.lang;
 
 import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.runtime.Interpreter;
+import org.gargiolang.util.MathUtils;
 
+import java.util.LinkedList;
 import java.util.Map;
 
 public enum ArithmeticOperator {
@@ -58,6 +61,46 @@ public enum ArithmeticOperator {
 
     ArithmeticOperator(String repr) {
         this.repr = repr;
+    }
+
+
+    public static void evaluate(Interpreter interpreter) {
+        LinkedList<Token> line = interpreter.getLine();
+        Token highest = line.get(interpreter.getCurrentTokenIndex());
+        int currentTokenIndex = interpreter.getCurrentTokenIndex();
+
+        ArithmeticOperator operator = ArithmeticOperator.valueOf(highest.getValue().toString());
+
+        Number a = MathUtils.createNumber(line.get(currentTokenIndex - 1).getValue().toString());
+        Number b = MathUtils.createNumber(line.get(currentTokenIndex + 1).getValue().toString());
+        Number result = 0;
+
+        switch (operator) {
+            case ADD: {
+                result = MathUtils.addNumbers(a, b);
+                break;
+            }
+            case SUB: {
+                result = MathUtils.subtractNumbers(a, b);
+                break;
+            }
+            case MUL: {
+                result = MathUtils.multiplyNumbers(a, b);
+                break;
+            }
+            case DIV: {
+                result = MathUtils.divideNumbers(a, b);
+                break;
+            }
+            case POW: {
+                result = MathUtils.elevateNumbers(a, b);
+                break;
+            }
+        }
+
+        line.set(currentTokenIndex, new Token(Token.TokenType.NUM, result));
+        line.remove(currentTokenIndex + 1);
+        line.remove(currentTokenIndex - 1);
     }
 
 
