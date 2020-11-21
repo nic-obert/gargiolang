@@ -23,11 +23,27 @@ public class Environment {
         }
     }
 
+    public String getProperty(String property){
+        return System.getProperty(property);
+    }
+
+    public String getEnv(String env){
+        return System.getenv(env);
+    }
+
     public HashMap<String, String> getVariables() {
         return variables;
     }
 
     public static Environment getInstance() {
         return instance;
+    }
+
+    public String getOsName(){
+        return getProperty("os.name");
+    }
+
+    public String getOsVersion(){
+        return getProperty("os.version");
     }
 }

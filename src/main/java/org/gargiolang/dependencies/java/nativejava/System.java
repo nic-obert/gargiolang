@@ -3,6 +3,7 @@ package org.gargiolang.dependencies.java.nativejava;
 import org.gargiolang.dependencies.java.JavaDependency;
 import org.gargiolang.dependencies.java.NativeJavaDependency;
 import org.gargiolang.dependencies.java.ReflectionJavaDependency;
+import org.gargiolang.environment.Environment;
 
 /**
  * I will implement a system through which you can simply use the words "#include org.gargiolang.java.nativejava.System"
@@ -21,6 +22,14 @@ public class System extends NativeJavaDependency {
 
     public long currentNanos(){
         return java.lang.System.nanoTime();
+    }
+
+    public String getProperty(String name) {
+        return Environment.getInstance().getProperty(name);
+    }
+
+    public String getEnv(String name){
+        return Environment.getInstance().getEnv(name);
     }
 
 }
