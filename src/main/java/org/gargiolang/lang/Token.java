@@ -1,6 +1,7 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.lang.exception.evaluation.UndeclaredVariableException;
+import org.gargiolang.lang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.Variable;
 
@@ -34,7 +35,7 @@ public class Token {
     }
 
     // return the type of the token's value, not the token's
-    public Variable.Type getVarType(Runtime runtime) throws GargioniException {
+    public Variable.Type getVarType(Runtime runtime) throws UnrecognizedTypeException {
         if (this.getType().equals(TokenType.TXT)) {
             return runtime.getSymbolTable().getVariable((String) this.value).getType();
         }
@@ -47,7 +48,7 @@ public class Token {
     }
 
     // if token is a variable --> return its value, otherwise return token's value
-    public Object getVarValue(Runtime runtime) throws GargioniException {
+    public Object getVarValue(Runtime runtime) throws UndeclaredVariableException {
         if (this.getType().equals(TokenType.TXT)) return runtime.getSymbolTable().getVariableThrow((String) this.value).getValue();
         else return getValue();
     }

@@ -1,6 +1,7 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.lang.exception.parsing.InvalidCharacterException;
+import org.gargiolang.lang.exception.parsing.ParsingException;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.Variable;
 
@@ -28,7 +29,7 @@ public class Parser {
     }
 
 
-    public LinkedList<LinkedList<Token>> parseTokens() throws GargioniException {
+    public LinkedList<LinkedList<Token>> parseTokens() throws ParsingException {
         for(String statement : statements) {
             lineNumber++;
             if (statement == null) continue;
@@ -51,7 +52,7 @@ public class Parser {
     }
 
 
-    private LinkedList<Token> parseStatement(String statement) throws GargioniException {
+    private LinkedList<Token> parseStatement(String statement) throws ParsingException {
         // list of tokens representing the tokenized statement
         LinkedList<Token> line = new LinkedList<>();
 
@@ -82,10 +83,12 @@ public class Parser {
                 if (Keyword.isKeyword(String.valueOf(token.getValue()))) {
                     // if it's a keyword, then treat it as such
                     line.add(new Token(Token.TokenType.KEYWORD, token.getValue()));
-                } else if(Variable.Type.getType(String.valueOf(token.getValue())) != null){
+                } else if(Variable.Type.getType(String.valueOf(token.getValue())) != null) {
                     line.add(new Token(Token.TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
-                } else if(token.getValue().equals("true") || token.getValue().equals("false")){
-                    line.add(new Token(Token.TokenType.BOOL, Boolean.parseBoolean((String) token.getValue())));
+                } else if(token.getValue().equals("true")) {
+                    line.add(new Token(Token.TokenType.BOOL, true));
+                } else if (token.getValue().equals("false")) {
+                    line.add(new Token(Token.TokenType.BOOL, false));
                 } else {
                     // if token is not a keyword, add it as normal text
                     line.add(token);
@@ -222,7 +225,7 @@ public class Parser {
             if (c == 0) break;
 
 
-            throw new GargioniException("Unable to parse character \"" + c + "\" (" + (byte)c + ") at position " + position + " on line " + lineNumber);
+            throw new InvalidCharacterException("Unable to parse character \"" + c + "\" (" + (byte)c + ") at position " + position + " on line " + lineNumber);
         }
 
         if (token != null) {

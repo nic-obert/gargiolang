@@ -1,17 +1,14 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.GargioniException;
-import org.gargiolang.runtime.Accessibility;
-import org.gargiolang.runtime.Interpreter;
+import org.gargiolang.lang.exception.evaluation.*;
 import org.gargiolang.runtime.Runtime;
-import org.gargiolang.runtime.SymbolTable;
-import org.gargiolang.runtime.Variable;
+import org.gargiolang.runtime.*;
 
 import java.util.LinkedList;
 
 public class AssignmentOperator {
 
-    public static void evaluate(Interpreter interpreter) throws GargioniException {
+    public static void evaluate(Interpreter interpreter) throws NotLValueException, VariableRedeclarationException, UnrecognizedTypeException, UndeclaredVariableException, BadTypeException {
         Runtime runtime = Runtime.getRuntime();
         SymbolTable table = runtime.getSymbolTable();
         int currentTokenIndex = interpreter.getCurrentTokenIndex();
@@ -27,7 +24,7 @@ public class AssignmentOperator {
 
         // check if lValue is actually an lvalue
         if (lValue.getType() != Token.TokenType.TXT)
-            throw new GargioniException(lValue + " is not an lvalue");
+            throw new NotLValueException(lValue + " is not an lvalue");
 
         // check if a variable type is specified
         if (currentTokenIndex - 2 >= 0) {

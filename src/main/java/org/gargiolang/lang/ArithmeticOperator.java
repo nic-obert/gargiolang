@@ -1,6 +1,6 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.lang.exception.parsing.UnrecognizedOperatorException;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.util.MathUtils;
 
@@ -104,12 +104,12 @@ public enum ArithmeticOperator {
     }
 
 
-    public static ArithmeticOperator fromString(String repr) throws GargioniException {
+    public static ArithmeticOperator fromString(String repr) throws UnrecognizedOperatorException {
         for (ArithmeticOperator operator : values()) {
             if (operator.getRepr().equals(repr))
                 return operator;
         }
 
-        throw new GargioniException("Operator '" + repr + "' is not recognized");
+        throw new UnrecognizedOperatorException("Operator '" + repr + "' is not recognized");
     }
 }

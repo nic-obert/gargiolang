@@ -1,6 +1,8 @@
 package org.gargiolang.runtime;
 
-import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.lang.exception.evaluation.BadTypeException;
+import org.gargiolang.lang.exception.evaluation.UndeclaredVariableException;
+import org.gargiolang.lang.exception.evaluation.VariableRedeclarationException;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,8 +22,8 @@ public final class SymbolTable {
     }
 
 
-    public void addVariable(String name, Variable variable) throws GargioniException {
-        if (variables.containsKey(name)) throw new GargioniException("Variable '" + name + "' is already declared");
+    public void addVariable(String name, Variable variable) throws VariableRedeclarationException {
+        if (variables.containsKey(name)) throw new VariableRedeclarationException("Variable '" + name + "' is already declared");
         variables.put(name, variable);
     }
 
@@ -29,9 +31,9 @@ public final class SymbolTable {
         return variables.getOrDefault(varName, null);
     }
 
-    public Variable getVariableThrow(String varName) throws GargioniException {
+    public Variable getVariableThrow(String varName) throws UndeclaredVariableException {
         Variable variable = variables.getOrDefault(varName, null);
-        if (variable == null) throw new GargioniException("Variable '" + varName + "' hasn't been declared");
+        if (variable == null) throw new UndeclaredVariableException("Variable '" + varName + "' hasn't been declared");
         return variable;
     }
 
@@ -41,14 +43,15 @@ public final class SymbolTable {
      *
      * @param varName the name of the variable to update
      * @param variable the new value of the variable
-     * @throws GargioniException
+     * @throws BadTypeException if variable types do not match
+     * @throws UndeclaredVariableException if variable is undeclared
      */
-    public void updateVariable(String varName, Variable variable) throws GargioniException {
+    public void updateVariable(String varName, Variable variable) throws BadTypeException, UndeclaredVariableException {
         Variable original = getVariableThrow(varName);
 
         // since GargioLang is statically typed, you cannot assign a different type from the one the variable was first initialized with
         if (!original.getType().equals(variable.getType())) {
-            throw new GargioniException("Variable types do not match: " + original.getType() + ", " + variable.getType() + ")");
+            throw new BadTypeException("Variable types do not match: " + original.getType() + ", " + variable.getType() + ")");
         }
 
         variables.put(varName, variable);
@@ -72,7 +75,7 @@ public final class SymbolTable {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{\n");
         for (String variable : variables.keySet()) {
-            stringBuilder.append("\t" + variable + ": " + variables.get(variable) + ",\n");
+            stringBuilder.append("\t").append(variable).append(": ").append(variables.get(variable)).append(",\n");
         }
         stringBuilder.append("}");
         return stringBuilder.toString();
