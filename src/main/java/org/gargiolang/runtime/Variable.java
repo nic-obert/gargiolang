@@ -62,6 +62,9 @@ public class Variable {
                 case STR:
                     return STRING;
 
+                case BOOL:
+                    return BOOLEAN;
+
                 default:
                     throw new GargioniException("Cannot extract variable type from token: " + token);
             }

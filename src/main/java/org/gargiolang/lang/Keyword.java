@@ -2,7 +2,9 @@ package org.gargiolang.lang;
 
 import org.gargiolang.lang.exception.GargioniException;
 import org.gargiolang.runtime.Interpreter;
+import org.gargiolang.runtime.Variable;
 
+import java.util.LinkedList;
 import java.util.Stack;
 
 public enum Keyword {
@@ -37,6 +39,29 @@ public enum Keyword {
         switch (keyword)
         {
             case IF:
+                LinkedList<Token> line = interpreter.getLine();
+                Token condition = line.get(interpreter.getCurrentTokenIndex() + 1);
+
+                // check if condition is actually a boolean
+                if (!condition.getVarType(interpreter.getRuntime()).equals(Variable.Type.BOOLEAN))
+                    throw new GargioniException("Condition is not a boolean: " + condition);
+
+                // remove if keyword and condition
+                line.remove(condition);
+                line.remove(interpreter.getCurrentTokenIndex());
+
+                // get the position of the next matching scopes
+                int[][] scopes = Scope.findNextScope(interpreter);
+
+                if (condition.getVarValue(interpreter.getRuntime()).equals(true)) {
+                    interpreter.setLineFrom(scopes[0][0], scopes[0][1]);
+                    interpreter.setCurrentTokenIndex(0);
+                    // tell the interpreter not to search for the highest priority token next time
+                    interpreter.blockCurrentTokenIndex();
+                } else {
+                    interpreter.setLineFrom(scopes[1][0], scopes[1][1] + 1);
+                }
+
                 break;
 
             case FOR:

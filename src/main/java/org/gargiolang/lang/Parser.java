@@ -82,10 +82,12 @@ public class Parser {
                 if (Keyword.isKeyword(String.valueOf(token.getValue()))) {
                     // if it's a keyword, then treat it as such
                     line.add(new Token(Token.TokenType.KEYWORD, token.getValue()));
-                } else if(Variable.Type.getType(String.valueOf(token.getValue())) != null){
+                } else if(Variable.Type.getType(String.valueOf(token.getValue())) != null) {
                     line.add(new Token(Token.TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
-                } else if(token.getValue().equals("true") || token.getValue().equals("false")){
-                    line.add(new Token(Token.TokenType.BOOL, Boolean.parseBoolean((String) token.getValue())));
+                } else if(token.getValue().equals("true")) {
+                    line.add(new Token(Token.TokenType.BOOL, true));
+                } else if (token.getValue().equals("false")) {
+                    line.add(new Token(Token.TokenType.BOOL, false));
                 } else {
                     // if token is not a keyword, add it as normal text
                     line.add(token);

@@ -1,3 +1,8 @@
-goto label1;
-@label1;
-goback;
+
+if (false) {
+1+1;
+2+2;
+3+3;
+}
+
+0+1;
