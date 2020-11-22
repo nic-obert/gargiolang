@@ -36,6 +36,11 @@ public class Variable {
     }
 
 
+    public String toString() {
+        return "{ " + type + ", " + value + ", " + accessibility + " }";
+    }
+
+
     public enum Type {
 
         INT, FLOAT, STRING, BOOLEAN, NULL, DEF;
@@ -50,8 +55,9 @@ public class Variable {
             switch (token.getType())
             {
                 case NUM:
-                    if ((int) token.getValue() % 10 == 0) return INT;
-                    else return FLOAT;
+                    // TODO optimize here by removing conversion to string
+                    if (token.getValue().toString().contains("\\.")) return FLOAT;
+                    else return INT;
 
                 case STR:
                     return STRING;

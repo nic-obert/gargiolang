@@ -3,15 +3,26 @@ package org.gargiolang.runtime;
 import org.gargiolang.lang.exception.GargioniException;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.Stack;
 
 // wrapper around a Map
 public final class SymbolTable {
 
-    private final Map<String, Variable> variables = new HashMap<>();
+    private final HashMap<String, Variable> variables;
 
-    public void addVariable(String name, Variable variable){
-        variables.putIfAbsent(name, variable);
+    private final Stack<Integer> scopes;
+
+
+    public SymbolTable() {
+        this.scopes = new Stack<>();
+        this.variables = new HashMap<>();
+    }
+
+
+    public void addVariable(String name, Variable variable) throws GargioniException {
+        if (variables.containsKey(name)) throw new GargioniException("Variable '" + name + "' is already declared");
+        variables.put(name, variable);
     }
 
     public Variable getVariable(String varName) {
@@ -24,14 +35,46 @@ public final class SymbolTable {
         return variable;
     }
 
+    /**
+     * Updates the specified variable with the given new variable.
+     * Throws GargioniException if the variable is not declared.
+     *
+     * @param varName the name of the variable to update
+     * @param variable the new value of the variable
+     * @throws GargioniException
+     */
     public void updateVariable(String varName, Variable variable) throws GargioniException {
-        Variable original = getVariable(varName);
+        Variable original = getVariableThrow(varName);
 
         // since GargioLang is statically typed, you cannot assign a different type from the one the variable was first initialized with
-        if (original != null && !original.getType().equals(variable.getType())) {
+        if (!original.getType().equals(variable.getType())) {
             throw new GargioniException("Variable types do not match: " + original.getType() + ", " + variable.getType() + ")");
         }
 
         variables.put(varName, variable);
+    }
+
+    public void addScope() {
+        scopes.push(variables.size());
+    }
+
+    public void popScope() {
+        int scope = scopes.pop();
+        int i = 1; // here 1 is used instead of 0 for optimization
+        // remove variables from table that belong to the popped scope
+        for (Iterator<String> iterator = variables.keySet().iterator(); iterator.hasNext(); i++) {
+            iterator.next();
+            if (i > scope) iterator.remove();
+        }
+    }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{\n");
+        for (String variable : variables.keySet()) {
+            stringBuilder.append("\t" + variable + ": " + variables.get(variable) + ",\n");
+        }
+        stringBuilder.append("}");
+        return stringBuilder.toString();
     }
 }

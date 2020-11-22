@@ -33,6 +33,14 @@ public class Token {
         return tokenType;
     }
 
+    // return the type of the token's value, not the token's
+    public Variable.Type getVarType(Runtime runtime) throws GargioniException {
+        if (this.getType().equals(TokenType.TXT)) {
+            return runtime.getSymbolTable().getVariable((String) this.value).getType();
+        }
+        return Variable.Type.extractVarType(this);
+    }
+
 
     public Object getValue() {
         return value;
@@ -40,7 +48,7 @@ public class Token {
 
     // if token is a variable --> return its value, otherwise return token's value
     public Object getVarValue(Runtime runtime) throws GargioniException {
-        if (this.getType() == TokenType.VAR) return runtime.getSymbolTable().getVariableThrow((String) this.value).getValue();
+        if (this.getType().equals(TokenType.TXT)) return runtime.getSymbolTable().getVariableThrow((String) this.value).getValue();
         else return getValue();
     }
 
@@ -60,10 +68,10 @@ public class Token {
         STR((byte) 0),
         NUM((byte) 0),
         BOOL((byte) 0),
-        VAR((byte) 0),
 
         TYPE((byte) 0),
         KEYWORD((byte) 1),
+        SCOPE((byte) 1),
         ASSIGNMENT_OPERATOR((byte) 1),
 
         ARITHMETIC_OPERATOR((byte) 0), // priority depends on the operator

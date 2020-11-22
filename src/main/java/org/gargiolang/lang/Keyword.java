@@ -27,7 +27,11 @@ public enum Keyword {
     }
 
 
-    public static void evaluate(Keyword keyword, Interpreter interpreter) throws GargioniException {
+    public static void evaluate(Interpreter interpreter) throws GargioniException {
+        Keyword keyword = Keyword.valueOf(
+                ((String) interpreter.getLine().get(interpreter.getCurrentTokenIndex()).getValue()).toUpperCase()
+        );
+
         switch (keyword)
         {
             case IF:

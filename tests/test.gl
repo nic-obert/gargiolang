@@ -1,6 +1,9 @@
 
-@lab1;
+{
+int var = 1;
+int var2 = 4;
+var = 2;
+}
 
-1+1;
+int var3 = 7;
 
-goto lab1;

@@ -41,7 +41,7 @@ public class Parser {
                 continue;
             }
 
-            LinkedList<Token> line = parseStatement(statement);
+            LinkedList<Token> line = parseStatement(statement + (char) 0);
             // ignore empty statements
             if (line.size() != 0)
                 tokens.add(line);
@@ -201,9 +201,26 @@ public class Parser {
                 continue;
             }
 
+            // ASCII 13 --> carriage return
             if((byte) c == 13){
                 continue;
             }
+
+            if (c == '{') {
+                if (token != null) line.add(token);
+                token = new Token(Token.TokenType.SCOPE, Scope.OPEN);
+                continue;
+            }
+
+            if (c == '}') {
+                if (token != null) line.add(token);
+                token = new Token(Token.TokenType.SCOPE, Scope.CLOSE);
+                continue;
+            }
+
+            // null termination character
+            if (c == 0) break;
+
 
             throw new GargioniException("Unable to parse character \"" + c + "\" (" + (byte)c + ") at position " + position + " on line " + lineNumber);
         }

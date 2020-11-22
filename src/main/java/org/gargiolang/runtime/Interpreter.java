@@ -61,20 +61,31 @@ public class Interpreter {
                     break;
                 }
 
-                if (highest.getType().equals(Token.TokenType.ARITHMETIC_OPERATOR)) {
-                    ArithmeticOperator.evaluate(this);
-                }
-                else if (highest.getType().equals(Token.TokenType.ASSIGNMENT_OPERATOR)) {
-                    AssignmentOperator.evaluate(this);
-                }
-                else if (highest.getType().equals(Token.TokenType.PAREN) && highest.getValue().equals(Parenthesis.OPEN)) {
-                    Parenthesis.evaluate(this);
-                }
-                else if (highest.getType().equals(Token.TokenType.KEYWORD)) {
-                    Keyword.evaluate(Keyword.valueOf(((String) highest.getValue()).toUpperCase()), this);
-                }
-                else {
-                    throw new GargioniException("Could not evaluate token " + highest);
+                switch (highest.getType())
+                {
+                    case ARITHMETIC_OPERATOR:
+                        ArithmeticOperator.evaluate(this);
+                        break;
+
+                    case ASSIGNMENT_OPERATOR:
+                        AssignmentOperator.evaluate(this);
+                        break;
+
+                    case PAREN:
+                        Parenthesis.evaluate(this);
+                        break;
+
+                    case KEYWORD:
+                        Keyword.evaluate(this);
+                        break;
+
+                    case SCOPE:
+                        Scope.evaluate(this);
+                        break;
+
+                    default:
+                        throw new GargioniException("Could not evaluate token " + highest);
+
                 }
 
 
@@ -82,6 +93,7 @@ public class Interpreter {
 
             // print resulting line for debugging
             System.out.println(line);
+            //System.out.println(runtime.getSymbolTable());
 
         } // end of script evaluation
 
