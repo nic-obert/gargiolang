@@ -1,5 +1,6 @@
 package org.gargiolang;
 
+import org.gargiolang.dependencies.DependencyLoader;
 import org.gargiolang.environment.Environment;
 import org.gargiolang.runtime.Runtime;
 
@@ -48,5 +49,7 @@ public class GargioLang {
             runtime.run();
 
         }
+
+        new DependencyLoader().loadDependency("Test");
     }
 }
