@@ -1,5 +1,6 @@
 package org.gargiolang.runtime;
 
+import org.gargiolang.dependencies.DependencyLoader;
 import org.gargiolang.environment.Environment;
 import org.gargiolang.lang.exception.GargioniException;
 
@@ -69,6 +70,13 @@ public class Preprocessor {
 
 
                     case "include": {
+                        assert data != null;
+                        String s = data.strip();
+
+                        //Load the dependency
+                        new DependencyLoader().loadDependency(s);
+
+                        //We will load the file from here
                         break;
                     }
 

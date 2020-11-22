@@ -49,7 +49,5 @@ public class GargioLang {
             runtime.run();
 
         }
-
-        new DependencyLoader().loadDependency("Test");
     }
 }

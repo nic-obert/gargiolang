@@ -14,29 +14,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented if statement">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/BadTypeException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/EvaluationException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/GoBackException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/IndexOutOfBoundsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/NotLValueException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/UndeclaredVariableException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/UndefinedLabelException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/UnrecognizedTypeException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/VariableRedeclarationException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/parsing/InvalidCharacterException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/parsing/LabelRedefinitionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/parsing/ParsingException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/parsing/UnrecognizedOperatorException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/AssignmentOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/AssignmentOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/AssignmentOperator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/AssignmentOperator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Keyword$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Keyword$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Scope.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Scope.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Interpreter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Interpreter$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/LabelTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/LabelTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Variable$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Variable$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/LabelTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/LabelTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/SymbolTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Variable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Preprocessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Preprocessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -380,26 +368,26 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605694392932" />
-    <state width="1308" height="287" key="GridCell.Tab.0.bottom" timestamp="1606056495442">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.bottom" timestamp="1606059466534">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1308" height="287" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606056495442" />
-    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605956893342" />
-    <state width="1308" height="287" key="GridCell.Tab.0.center" timestamp="1606056495441">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059466534" />
+    <state width="1879" height="279" key="GridCell.Tab.0.center" timestamp="1606059466534">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1308" height="287" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606056495441" />
-    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605956893342" />
-    <state width="1308" height="287" key="GridCell.Tab.0.left" timestamp="1606056495441">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059466534" />
+    <state width="1879" height="279" key="GridCell.Tab.0.left" timestamp="1606059466533">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1308" height="287" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606056495441" />
-    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605956893341" />
-    <state width="1308" height="287" key="GridCell.Tab.0.right" timestamp="1606056495442">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059466533" />
+    <state width="1879" height="279" key="GridCell.Tab.0.right" timestamp="1606059466534">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1308" height="287" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606056495442" />
-    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605956893342" />
+    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059466534" />
     <state width="1308" height="287" key="GridCell.Tab.1.bottom" timestamp="1606056495443">
       <screen x="0" y="0" width="1366" height="742" />
     </state>

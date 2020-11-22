@@ -159,6 +159,9 @@ public class Parser {
                         else if (token.getValue().equals(ArithmeticOperator.SUB) && c == '-') {
                             line.add(new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.DEC));
                         }
+                        else if(token.getValue().equals(ArithmeticOperator.MUL) && c == '*'){
+                            line.add(new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.POW));
+                        }
                         // break tokenization --> the rest of the line is a comment (//)
                         else if (token.getValue().equals(ArithmeticOperator.DIV) && c == '/') {
                             token = null;
@@ -220,6 +223,8 @@ public class Parser {
                 token = new Token(Token.TokenType.SCOPE, Scope.CLOSE);
                 continue;
             }
+
+            if(c == '#') continue;
 
             // null termination character
             if (c == 0) break;
