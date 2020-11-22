@@ -1,7 +1,8 @@
 package org.gargiolang.runtime;
 
 import org.gargiolang.lang.*;
-import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.lang.exception.evaluation.EvaluationException;
+import org.gargiolang.lang.exception.evaluation.IndexOutOfBoundsException;
 
 import java.util.LinkedList;
 
@@ -35,7 +36,7 @@ public class Interpreter {
         return line;
     }
 
-    public void setLine(int lineIndex) throws GargioniException {
+    public void setLine(int lineIndex) throws IndexOutOfBoundsException {
         this.setLineIndex(lineIndex);
         this.line = (LinkedList<Token>) tokens.get(lineIndex).clone();
     }
@@ -45,9 +46,9 @@ public class Interpreter {
      *
      * @param lineIndex the index of the line to jump to
      * @param fromToken the position from which to start the execution of the line
-     * @throws GargioniException if the specified lineIndex is out of bounds
+     * @throws IndexOutOfBoundsException if the specified lineIndex is out of bounds
      */
-    public void setLineFrom(int lineIndex, int fromToken) throws GargioniException {
+    public void setLineFrom(int lineIndex, int fromToken) throws IndexOutOfBoundsException {
         this.setLineIndex(lineIndex);
         this.line = new LinkedList<>(tokens.get(lineIndex).subList(fromToken, tokens.get(lineIndex).size()));
     }
@@ -57,9 +58,9 @@ public class Interpreter {
      *
      * @param lineIndex the index of the line to jump to
      * @param untilToken the position where the line should stop
-     * @throws GargioniException if the specified lineIndex is out of bounds
+     * @throws IndexOutOfBoundsException if the specified lineIndex is out of bounds
      */
-    public void setLineUntil(int lineIndex, int untilToken) throws GargioniException {
+    public void setLineUntil(int lineIndex, int untilToken) throws IndexOutOfBoundsException {
         this.setLineIndex(lineIndex);
         this.line = new LinkedList<>(tokens.get(lineIndex).subList(0, untilToken));
     }
@@ -72,14 +73,14 @@ public class Interpreter {
         return currentTokenIndex;
     }
 
-    public void setCurrentTokenIndex(int currentTokenIndex) throws GargioniException {
-        if (currentTokenIndex > line.size() || currentTokenIndex < 0) throw new GargioniException("Given index out of bounds: Index: " + currentTokenIndex + ", Size: " + line.size());
+    public void setCurrentTokenIndex(int currentTokenIndex) throws IndexOutOfBoundsException {
+        if (currentTokenIndex > line.size() || currentTokenIndex < 0) throw new IndexOutOfBoundsException("Given index out of bounds: Index: " + currentTokenIndex + ", Size: " + line.size());
         this.currentTokenIndex = currentTokenIndex;
     }
 
-    public void setLineIndex(int lineIndex) throws GargioniException {
+    public void setLineIndex(int lineIndex) throws IndexOutOfBoundsException {
         // check is given lineIndex exceeds the number of lines
-        if (lineIndex > tokens.size() || currentTokenIndex < 0) throw new GargioniException("Line index out of bounds: Index: " + lineIndex + ", Size: " + tokens.size());
+        if (lineIndex > tokens.size() || currentTokenIndex < 0) throw new IndexOutOfBoundsException("Line index out of bounds: Index: " + lineIndex + ", Size: " + tokens.size());
         this.lineIndex = lineIndex;
     }
 
@@ -87,7 +88,7 @@ public class Interpreter {
         return runtime;
     }
 
-    public void execute() throws GargioniException {
+    public void execute() throws EvaluationException {
         int eof = tokens.size();
 
         for (; lineIndex < eof; lineIndex ++) {
@@ -131,7 +132,7 @@ public class Interpreter {
                         break;
 
                     default:
-                        throw new GargioniException("Could not evaluate token " + highest);
+                        throw new EvaluationException("Could not evaluate token " + highest);
 
                 }
 

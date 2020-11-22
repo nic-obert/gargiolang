@@ -1,7 +1,7 @@
 package org.gargiolang.runtime;
 
 import org.gargiolang.lang.Token;
-import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.lang.exception.evaluation.UnrecognizedTypeException;
 
 public class Variable {
 
@@ -51,7 +51,7 @@ public class Variable {
         }
 
         // extract Variable.Type from Token
-        public static Type extractVarType(Token token) throws GargioniException {
+        public static Type extractVarType(Token token) throws UnrecognizedTypeException {
             switch (token.getType())
             {
                 case NUM:
@@ -66,7 +66,7 @@ public class Variable {
                     return BOOLEAN;
 
                 default:
-                    throw new GargioniException("Cannot extract variable type from token: " + token);
+                    throw new UnrecognizedTypeException("Cannot extract variable type from token: " + token);
             }
         }
 
