@@ -51,6 +51,8 @@ public class Interpreter {
             // here a copy of the line is needed, not its reference (for goto, function calls, loops and repeating code)
             line = (LinkedList<Token>) tokens.get(lineIndex).clone();
 
+            //System.out.println(line);
+
             while (!line.isEmpty()){
 
                 currentTokenIndex = Token.getHighestPriority(line);
@@ -92,7 +94,7 @@ public class Interpreter {
             } // end of line evaluation
 
             // print resulting line for debugging
-            System.out.println(line);
+            //System.out.println(line);
             //System.out.println(runtime.getSymbolTable());
 
         } // end of script evaluation

@@ -13,24 +13,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="cleaned Interpreter.java by handling the token evaluation in their own class">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java" afterDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented scopes and reimplemented assignment operator">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Keyword.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Keyword.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$TokenType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token$TokenType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/lang/Token.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Interpreter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Interpreter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/SymbolTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/SymbolTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Variable$Type.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Variable$Type.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Variable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Variable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/AssignmentOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/AssignmentOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Runtime.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gargiolang/org/gargiolang/runtime/Runtime.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/SymbolTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Variable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -280,7 +270,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605975502061</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="implemented scopes and reimplemented assignment operator">
+      <created>1606041667806</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1606041667806</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,7 +313,8 @@
     <MESSAGE value="implemented passing variables as command line arguments via -var var1=val1,var2=val2" />
     <MESSAGE value="implemented goto keyword" />
     <MESSAGE value="cleaned Interpreter.java by handling the token evaluation in their own class" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleaned Interpreter.java by handling the token evaluation in their own class" />
+    <MESSAGE value="implemented scopes and reimplemented assignment operator" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented scopes and reimplemented assignment operator" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
@@ -352,25 +350,25 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605694392932" />
-    <state width="1308" height="176" key="GridCell.Tab.0.bottom" timestamp="1606041622774">
+    <state width="1308" height="176" key="GridCell.Tab.0.bottom" timestamp="1606044580517">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="176" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606041622774" />
+    <state width="1308" height="176" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606044580517" />
     <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605956893342" />
-    <state width="1308" height="176" key="GridCell.Tab.0.center" timestamp="1606041622773">
+    <state width="1308" height="176" key="GridCell.Tab.0.center" timestamp="1606044580516">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="176" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606041622773" />
+    <state width="1308" height="176" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606044580516" />
     <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605956893342" />
-    <state width="1308" height="176" key="GridCell.Tab.0.left" timestamp="1606041622772">
+    <state width="1308" height="176" key="GridCell.Tab.0.left" timestamp="1606044580515">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="176" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606041622772" />
+    <state width="1308" height="176" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606044580515" />
     <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605956893341" />
-    <state width="1308" height="176" key="GridCell.Tab.0.right" timestamp="1606041622774">
+    <state width="1308" height="176" key="GridCell.Tab.0.right" timestamp="1606044580517">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="176" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606041622774" />
+    <state width="1308" height="176" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606044580517" />
     <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605956893342" />
     <state width="1879" height="345" key="GridCell.Tab.1.bottom" timestamp="1605648723937">
       <screen x="0" y="0" width="1920" height="1050" />
@@ -405,10 +403,10 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="407" y="84" width="528" height="605" key="VCS.ChangeListViewerDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609093856" />
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1605975510880">
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1606041673793">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1605975510880" />
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1606041673793" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
     <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605609162774">
       <screen x="0" y="0" width="1366" height="742" />

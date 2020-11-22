@@ -3,6 +3,8 @@ package org.gargiolang.lang;
 import org.gargiolang.lang.exception.GargioniException;
 import org.gargiolang.runtime.Interpreter;
 
+import java.util.Stack;
+
 public enum Keyword {
 
     IF("if"),
@@ -49,6 +51,8 @@ public enum Keyword {
                 Token toLineToken = interpreter.getLine().get(interpreter.getCurrentTokenIndex() + 1);
                 // check if the label to go to is of type Token.TokenType.TXT
                 if (toLineToken.getType().equals(Token.TokenType.TXT)) {
+                    // push the lineIndex from where goto has been called to the gotoStack
+                    interpreter.getRuntime().getGotoStack().push(interpreter.getLineIndex());
                     // set the line of execution to the specified labelled line
                     interpreter.setLineIndex(
                             interpreter.getRuntime().getLabelTable().getLabel((String) toLineToken.getValue()) - 1); // -1 because the interpreter increments lineIndex by 1 in its for loop
@@ -66,6 +70,12 @@ public enum Keyword {
                 break;
 
             case GOBACK:
+                Stack<Integer> gotoStack = interpreter.getRuntime().getGotoStack();
+                if (gotoStack.isEmpty()) throw new GargioniException("Cannot go back more than this: goto stack is empty");
+                interpreter.setLineIndex(gotoStack.pop() - 1);
+
+                // finally remove the keyword
+                interpreter.getLine().remove(interpreter.getCurrentTokenIndex());
                 break;
         }
 

@@ -10,16 +10,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public final class Runtime {
 
     private static Runtime instance;
 
     private final LabelTable labelTable;
+
+    private final Stack<Integer> gotoStack;
 
     private final Environment environment;
 
@@ -37,6 +36,7 @@ public final class Runtime {
         this.symbolTable = new SymbolTable();
         this.statements = new LinkedList<>();
         this.labelTable = new LabelTable();
+        this.gotoStack = new Stack<>();
     }
 
     public void loadScript(String scriptName) throws IOException, GargioniException {
@@ -88,5 +88,9 @@ public final class Runtime {
 
     public LabelTable getLabelTable() {
         return labelTable;
+    }
+
+    public Stack<Integer> getGotoStack() {
+        return gotoStack;
     }
 }
