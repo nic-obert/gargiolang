@@ -67,9 +67,8 @@ public class Variable {
             switch (token.getType())
             {
                 case NUM:
-                    // TODO optimize here by removing conversion to string
-                    if (token.getValue().toString().contains(".")) return FLOAT;
-                    else return INT;
+                    if (token.getValue() instanceof java.lang.Integer) return INT;
+                    else return FLOAT;
 
                 case STR:
                     return STRING;
