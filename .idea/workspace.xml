@@ -13,14 +13,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="reimplemented power operator">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" afterDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented increment and decrement operators">
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +134,7 @@
       <workItem from="1605783716652" duration="4889000" />
       <workItem from="1605863483610" duration="9406000" />
       <workItem from="1606054793622" duration="3602000" />
-      <workItem from="1606163106237" duration="17225000" />
+      <workItem from="1606163106237" duration="17526000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -309,7 +304,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606209391863</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="implemented increment and decrement operators">
+      <created>1606215757890</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1606215757890</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -350,7 +352,8 @@
     <MESSAGE value="implemented if statement" />
     <MESSAGE value="reimplemented arithmetic operations and implemented arithmetic operators overloading (for ints, floats, strings etc..)" />
     <MESSAGE value="reimplemented power operator" />
-    <option name="LAST_COMMIT_MESSAGE" value="reimplemented power operator" />
+    <MESSAGE value="implemented increment and decrement operators" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented increment and decrement operators" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
@@ -388,25 +391,25 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605694392932" />
-    <state width="1308" height="271" key="GridCell.Tab.0.bottom" timestamp="1606209260643">
+    <state width="1308" height="320" key="GridCell.Tab.0.bottom" timestamp="1606216005099">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="271" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606209260643" />
+    <state width="1308" height="320" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606216005099" />
     <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757846" />
-    <state width="1308" height="271" key="GridCell.Tab.0.center" timestamp="1606209260642">
+    <state width="1308" height="320" key="GridCell.Tab.0.center" timestamp="1606216005098">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="271" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606209260642" />
+    <state width="1308" height="320" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606216005098" />
     <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757845" />
-    <state width="1308" height="271" key="GridCell.Tab.0.left" timestamp="1606209260642">
+    <state width="1308" height="320" key="GridCell.Tab.0.left" timestamp="1606216005098">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="271" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606209260642" />
+    <state width="1308" height="320" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606216005098" />
     <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757845" />
-    <state width="1308" height="271" key="GridCell.Tab.0.right" timestamp="1606209260642">
+    <state width="1308" height="320" key="GridCell.Tab.0.right" timestamp="1606216005098">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="271" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606209260642" />
+    <state width="1308" height="320" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606216005098" />
     <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757846" />
     <state width="1308" height="131" key="GridCell.Tab.1.bottom" timestamp="1606205002206">
       <screen x="0" y="0" width="1366" height="742" />
@@ -432,14 +435,14 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="262" y="117" width="830" height="507" key="IDE.errors.dialog/0.0.1366.742@0.0.1366.742" timestamp="1606131085711" />
-    <state x="64" y="88" width="1098" height="622" key="MergeDialog" timestamp="1605525431106">
+    <state x="64" y="88" width="1098" height="622" key="MergeDialog" timestamp="1606215797935">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="64" y="88" width="1098" height="622" key="MergeDialog/0.0.1366.742@0.0.1366.742" timestamp="1605525431106" />
-    <state x="252" y="174" width="734" height="477" key="MultipleFileMergeDialog" timestamp="1605609173295">
+    <state x="64" y="88" width="1098" height="622" key="MergeDialog/0.0.1366.742@0.0.1366.742" timestamp="1606215797935" />
+    <state x="252" y="174" width="734" height="477" key="MultipleFileMergeDialog" timestamp="1606215804041">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="252" y="174" width="734" height="477" key="MultipleFileMergeDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609173295" />
+    <state x="252" y="174" width="734" height="477" key="MultipleFileMergeDialog/0.0.1366.742@0.0.1366.742" timestamp="1606215804041" />
     <state x="328" y="0" width="1030" height="739" key="SettingsEditor" timestamp="1606202209601">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
@@ -454,10 +457,10 @@
     </state>
     <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1606209399090" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
-    <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605609162774">
+    <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606215868227">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.742@0.0.1366.742" timestamp="1605609162774" />
+    <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.742@0.0.1366.742" timestamp="1606215868227" />
     <state x="203" y="90" width="948" height="646" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1606204289653">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
