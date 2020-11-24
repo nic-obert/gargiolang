@@ -89,7 +89,7 @@ public class Variable {
             Runtime runtime = Runtime.getRuntime();
             Token result;
 
-            switch (a.getVarType(runtime))
+            switch (this)
             {
                 case INT -> result = Integer.add((int) a.getVarValue(runtime), b);
 
@@ -110,7 +110,7 @@ public class Variable {
             Runtime runtime = Runtime.getRuntime();
             Token result;
 
-            switch (a.getVarType(runtime))
+            switch (this)
             {
                 case INT -> result = Integer.subtract((int) a.getVarValue(runtime), b);
 
@@ -129,7 +129,7 @@ public class Variable {
             Runtime runtime = Runtime.getRuntime();
             Token result;
 
-            switch (a.getVarType(runtime))
+            switch (this)
             {
                 case INT -> result = Integer.multiply((int) a.getVarValue(runtime), b);
 
@@ -150,7 +150,7 @@ public class Variable {
             Runtime runtime = Runtime.getRuntime();
             Token result;
 
-            switch (a.getVarType(runtime))
+            switch (this)
             {
                 case INT -> result = Integer.divide((int) a.getVarValue(runtime), b);
 
@@ -166,7 +166,7 @@ public class Variable {
             Runtime runtime = Runtime.getRuntime();
             Token result;
 
-            switch (a.getVarType(runtime))
+            switch (this)
             {
                 case INT -> result = Integer.power((int) a.getVarValue(runtime), b);
 
@@ -176,6 +176,28 @@ public class Variable {
             }
 
             return result;
+        }
+
+        public void increment(Token a) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
+            switch (this)
+            {
+                case INT -> Integer.increment(a);
+
+                case FLOAT -> Float.increment(a);
+
+                default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(Runtime.getRuntime()));
+            }
+        }
+
+        public void decrement(Token a) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
+            switch (this)
+            {
+                case INT -> Integer.decrement(a);
+
+                case FLOAT -> Float.decrement(a);
+
+                default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(Runtime.getRuntime()));
+            }
         }
     }
 }

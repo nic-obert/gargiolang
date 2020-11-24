@@ -6,6 +6,8 @@ import org.gargiolang.lang.exception.evaluation.UnhandledOperationException;
 import org.gargiolang.lang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.lang.exception.evaluation.ZeroDivisionException;
 import org.gargiolang.runtime.Runtime;
+import org.gargiolang.runtime.variable.SymbolTable;
+import org.gargiolang.runtime.variable.Variable;
 
 public class Float extends Type {
     public static Token add(double a, Token b) throws UnhandledOperationException, UndeclaredVariableException, UnrecognizedTypeException {
@@ -84,5 +86,15 @@ public class Float extends Type {
         }
 
         return result;
+    }
+
+    public static void increment(Token a) throws UndeclaredVariableException {
+        Variable variable = Runtime.getRuntime().getSymbolTable().getVariableThrow((java.lang.String) a.getValue());
+        variable.setValue((double) variable.getValue() + 1);
+    }
+
+    public static void decrement(Token a) throws UndeclaredVariableException {
+        Variable variable = Runtime.getRuntime().getSymbolTable().getVariableThrow((java.lang.String) a.getValue());
+        variable.setValue((double) variable.getValue() - 1);
     }
 }

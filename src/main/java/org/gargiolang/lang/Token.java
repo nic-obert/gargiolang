@@ -50,6 +50,18 @@ public class Token {
         return this.getVarType(Runtime.getRuntime()).power(this, other);
     }
 
+    public void increment() throws UnhandledOperationException, UndeclaredVariableException, UnrecognizedTypeException, UnimplementedException {
+        // check if token is a variable
+        if (!this.getType().equals(TokenType.TXT)) throw new UnhandledOperationException("Can only increment a variable, but " + this + " was provided");
+        this.getVarType(Runtime.getRuntime()).increment(this);
+    }
+
+    public void decrement() throws UnhandledOperationException, UndeclaredVariableException, UnrecognizedTypeException, UnimplementedException {
+        // check if token is a variable
+        if (!this.getType().equals(TokenType.TXT)) throw new UnhandledOperationException("Can only decrement a variable, but " + this + " was provided");
+        this.getVarType(Runtime.getRuntime()).decrement(this);
+    }
+
 
     public TokenType getType() {
         return tokenType;
@@ -120,14 +132,7 @@ public class Token {
     public void buildValue(char c) {
         // build the token's value based on it's type
         switch (tokenType) {
-
-            case NUM:
-
-            case TXT:
-
-            case STR:
-                value += Character.toString(c);
-                break;
+            case NUM, TXT, STR -> value += Character.toString(c);
         }
     }
 

@@ -6,6 +6,7 @@ import org.gargiolang.lang.exception.evaluation.UnhandledOperationException;
 import org.gargiolang.lang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.lang.exception.evaluation.ZeroDivisionException;
 import org.gargiolang.runtime.Runtime;
+import org.gargiolang.runtime.variable.Variable;
 
 public class Integer extends Type {
     public static Token add(int a, Token b) throws UnhandledOperationException, UndeclaredVariableException, UnrecognizedTypeException {
@@ -85,5 +86,15 @@ public class Integer extends Type {
             default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
         }
         return result;
+    }
+
+    public static void increment(Token a) throws UndeclaredVariableException {
+        Variable variable = Runtime.getRuntime().getSymbolTable().getVariableThrow((java.lang.String) a.getValue());
+        variable.setValue((int) variable.getValue() + 1);
+    }
+
+    public static void decrement(Token a) throws UndeclaredVariableException {
+        Variable variable = Runtime.getRuntime().getSymbolTable().getVariableThrow((java.lang.String) a.getValue());
+        variable.setValue((int) variable.getValue() - 1);
     }
 }

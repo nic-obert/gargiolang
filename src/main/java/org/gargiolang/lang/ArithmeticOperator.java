@@ -3,8 +3,6 @@ package org.gargiolang.lang;
 import org.gargiolang.lang.exception.evaluation.*;
 import org.gargiolang.lang.exception.parsing.UnrecognizedOperatorException;
 import org.gargiolang.runtime.Interpreter;
-import org.gargiolang.runtime.Runtime;
-import org.gargiolang.runtime.variable.Variable;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -114,8 +112,12 @@ public enum ArithmeticOperator {
                 line.remove(exponent);
             }
             case INC -> {
+                line.get(currentTokenIndex - 1).increment();
+                line.remove(operator);
             }
             case DEC -> {
+                line.get(currentTokenIndex - 1).decrement();
+                line.remove(operator);
             }
         }
 
