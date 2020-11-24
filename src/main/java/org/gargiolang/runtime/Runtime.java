@@ -5,6 +5,7 @@ import org.gargiolang.environment.Environment;
 import org.gargiolang.lang.Parser;
 import org.gargiolang.lang.Token;
 import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.runtime.variable.SymbolTable;
 
 import java.io.File;
 import java.io.IOException;

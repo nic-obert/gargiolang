@@ -1,6 +1,5 @@
 package org.gargiolang;
 
-import org.gargiolang.dependencies.DependencyLoader;
 import org.gargiolang.environment.Environment;
 import org.gargiolang.runtime.Runtime;
 

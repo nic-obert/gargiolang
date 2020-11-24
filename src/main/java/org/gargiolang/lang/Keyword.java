@@ -1,10 +1,9 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.GargioniException;
 import org.gargiolang.lang.exception.evaluation.*;
 import org.gargiolang.lang.exception.evaluation.IndexOutOfBoundsException;
 import org.gargiolang.runtime.Interpreter;
-import org.gargiolang.runtime.Variable;
+import org.gargiolang.runtime.variable.Variable;
 
 import java.util.LinkedList;
 import java.util.Stack;

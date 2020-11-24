@@ -140,7 +140,7 @@ public class Interpreter {
             } // end of line evaluation
 
             // print resulting line for debugging
-            //System.out.println(line);
+            System.out.println(line);
             //System.out.println(runtime.getSymbolTable());
 
         } // end of script evaluation

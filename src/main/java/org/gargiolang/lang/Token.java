@@ -1,9 +1,8 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.evaluation.UndeclaredVariableException;
-import org.gargiolang.lang.exception.evaluation.UnrecognizedTypeException;
+import org.gargiolang.lang.exception.evaluation.*;
 import org.gargiolang.runtime.Runtime;
-import org.gargiolang.runtime.Variable;
+import org.gargiolang.runtime.variable.Variable;
 
 import java.util.LinkedList;
 
@@ -30,6 +29,24 @@ public class Token {
     }
 
 
+    public Token add(Token other) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException {
+        // let the variable type handle the operation
+        return this.getVarType(Runtime.getRuntime()).sum(this, other);
+    }
+
+    public Token subtract(Token other) throws UnrecognizedTypeException, UnhandledOperationException, UnimplementedException, UndeclaredVariableException {
+        return this.getVarType(Runtime.getRuntime()).subtract(this, other);
+    }
+
+    public Token multiply(Token other) throws UnrecognizedTypeException, UnhandledOperationException, UnimplementedException, UndeclaredVariableException {
+        return this.getVarType(Runtime.getRuntime()).multiply(this, other);
+    }
+
+    public Token divide(Token other) throws UnrecognizedTypeException, ZeroDivisionException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
+        return this.getVarType(Runtime.getRuntime()).divide(this, other);
+    }
+
+
     public TokenType getType() {
         return tokenType;
     }
@@ -51,6 +68,10 @@ public class Token {
     public Object getVarValue(Runtime runtime) throws UndeclaredVariableException {
         if (this.getType().equals(TokenType.TXT)) return runtime.getSymbolTable().getVariableThrow((String) this.value).getValue();
         else return getValue();
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
 
 

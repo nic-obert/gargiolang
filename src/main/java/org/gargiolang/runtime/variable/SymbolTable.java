@@ -1,8 +1,9 @@
-package org.gargiolang.runtime;
+package org.gargiolang.runtime.variable;
 
 import org.gargiolang.lang.exception.evaluation.BadTypeException;
 import org.gargiolang.lang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.lang.exception.evaluation.VariableRedeclarationException;
+import org.gargiolang.runtime.variable.Variable;
 
 import java.util.HashMap;
 import java.util.Iterator;

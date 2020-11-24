@@ -1,4 +1,4 @@
-package org.gargiolang.runtime;
+package org.gargiolang.runtime.variable;
 
 public enum Accessibility {
 

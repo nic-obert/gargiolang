@@ -3,7 +3,7 @@ package org.gargiolang.lang;
 import org.gargiolang.lang.exception.parsing.InvalidCharacterException;
 import org.gargiolang.lang.exception.parsing.ParsingException;
 import org.gargiolang.runtime.Runtime;
-import org.gargiolang.runtime.Variable;
+import org.gargiolang.runtime.variable.Variable;
 
 import java.util.LinkedList;
 

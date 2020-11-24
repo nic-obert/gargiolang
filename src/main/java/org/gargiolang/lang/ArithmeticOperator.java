@@ -1,8 +1,10 @@
 package org.gargiolang.lang;
 
+import org.gargiolang.lang.exception.evaluation.*;
 import org.gargiolang.lang.exception.parsing.UnrecognizedOperatorException;
 import org.gargiolang.runtime.Interpreter;
-import org.gargiolang.util.MathUtils;
+import org.gargiolang.runtime.Runtime;
+import org.gargiolang.runtime.variable.Variable;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -64,7 +66,56 @@ public enum ArithmeticOperator {
     }
 
 
-    public static void evaluate(Interpreter interpreter) {
+    public static void evaluate(Interpreter interpreter) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException, ZeroDivisionException {
+
+        LinkedList<Token> line = interpreter.getLine();
+        int currentTokenIndex = interpreter.getCurrentTokenIndex();
+        Token operator = line.get(currentTokenIndex);
+
+        switch ((ArithmeticOperator) operator.getValue()) {
+            case ADD -> {
+                Token a = line.get(currentTokenIndex - 1);
+                Token b = line.get(currentTokenIndex + 1);
+                line.set(currentTokenIndex, a.add(b));
+
+                line.remove(a);
+                line.remove(b);
+            }
+            case SUB -> {
+                Token a = line.get(currentTokenIndex - 1);
+                Token b = line.get(currentTokenIndex + 1);
+                line.set(currentTokenIndex, a.subtract(b));
+
+                line.remove(a);
+                line.remove(b);
+            }
+            case MUL -> {
+                Token a = line.get(currentTokenIndex - 1);
+                Token b = line.get(currentTokenIndex + 1);
+                line.set(currentTokenIndex, a.multiply(b));
+
+                line.remove(a);
+                line.remove(b);
+            }
+            case DIV -> {
+                Token a = line.get(currentTokenIndex - 1);
+                Token b = line.get(currentTokenIndex + 1);
+                line.set(currentTokenIndex, a.divide(b));
+
+                line.remove(a);
+                line.remove(b);
+            }
+            case POW -> {
+            }
+            case INC -> {
+            }
+            case DEC -> {
+            }
+        }
+
+
+        /*
+
         LinkedList<Token> line = interpreter.getLine();
         Token highest = line.get(interpreter.getCurrentTokenIndex());
         int currentTokenIndex = interpreter.getCurrentTokenIndex();
@@ -101,6 +152,8 @@ public enum ArithmeticOperator {
         line.set(currentTokenIndex, new Token(Token.TokenType.NUM, result));
         line.remove(currentTokenIndex + 1);
         line.remove(currentTokenIndex - 1);
+
+         */
     }
 
 
