@@ -49,6 +49,5 @@ public class GargioLang {
 
         }
 
-        System.out.println(runtime.getSymbolTable().getVariable("var").getValue());
     }
 }

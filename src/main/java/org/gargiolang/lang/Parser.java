@@ -79,18 +79,23 @@ public class Parser {
                 }
                 // if char is not text --> it has finished building, thus it should be appended to the token list
                 isText = false;
+
                 // firstly check if the token is a keyword
-                if (Keyword.isKeyword(String.valueOf(token.getValue()))) {
-                    // if it's a keyword, then treat it as such
-                    line.add(new Token(Token.TokenType.KEYWORD, token.getValue()));
-                } else if(Variable.Type.getType(String.valueOf(token.getValue())) != null) {
+                if (Keyword.isKeyword((String) token.getValue())) {
+                    line.add(new Token(Token.TokenType.KEYWORD, Keyword.valueOf(((String) token.getValue()).toUpperCase())));
+                }
+                else if(Variable.Type.getType(String.valueOf(token.getValue())) != null) {
                     line.add(new Token(Token.TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
-                } else if(token.getValue().equals("true")) {
+                }
+                // check if is a boolean
+                else if(token.getValue().equals("true")) {
                     line.add(new Token(Token.TokenType.BOOL, true));
-                } else if (token.getValue().equals("false")) {
+                }
+                else if (token.getValue().equals("false")) {
                     line.add(new Token(Token.TokenType.BOOL, false));
-                } else {
-                    // if token is not a keyword, add it as normal text
+                }
+                // if token is not a keyword, add it as normal text
+                else {
                     line.add(token);
                 }
                 // set the current token to null

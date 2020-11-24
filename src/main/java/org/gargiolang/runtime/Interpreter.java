@@ -36,6 +36,11 @@ public class Interpreter {
         return line;
     }
 
+    public LinkedList<Token> getLine(int lineIndex) throws IndexOutOfBoundsException {
+        if (lineIndex == tokens.size() || currentTokenIndex < 0) throw new IndexOutOfBoundsException("Line index out of bounds: Index: " + lineIndex + ", Size: " + tokens.size());
+        return tokens.get(lineIndex);
+    }
+
     public void setLine(int lineIndex) throws IndexOutOfBoundsException {
         this.setLineIndex(lineIndex);
         this.line = (LinkedList<Token>) tokens.get(lineIndex).clone();
@@ -74,7 +79,7 @@ public class Interpreter {
     }
 
     public void setCurrentTokenIndex(int currentTokenIndex) throws IndexOutOfBoundsException {
-        if (currentTokenIndex > line.size() || currentTokenIndex < 0) throw new IndexOutOfBoundsException("Given index out of bounds: Index: " + currentTokenIndex + ", Size: " + line.size());
+        if (currentTokenIndex == line.size() || currentTokenIndex < 0) throw new IndexOutOfBoundsException("Given index out of bounds: Index: " + currentTokenIndex + ", Size: " + line.size());
         this.currentTokenIndex = currentTokenIndex;
     }
 
@@ -111,29 +116,17 @@ public class Interpreter {
 
                 switch (highest.getType())
                 {
-                    case ARITHMETIC_OPERATOR:
-                        ArithmeticOperator.evaluate(this);
-                        break;
+                    case ARITHMETIC_OPERATOR -> ArithmeticOperator.evaluate(this);
 
-                    case ASSIGNMENT_OPERATOR:
-                        AssignmentOperator.evaluate(this);
-                        break;
+                    case ASSIGNMENT_OPERATOR -> AssignmentOperator.evaluate(this);
 
-                    case PAREN:
-                        Parenthesis.evaluate(this);
-                        break;
+                    case PAREN -> Parenthesis.evaluate(this);
 
-                    case KEYWORD:
-                        Keyword.evaluate(this);
-                        break;
+                    case KEYWORD -> Keyword.evaluate(this);
 
-                    case SCOPE:
-                        Scope.evaluate(this);
-                        break;
+                    case SCOPE -> Scope.evaluate(this);
 
-                    default:
-                        throw new EvaluationException("Could not evaluate token " + highest);
-
+                    default -> throw new EvaluationException("Could not evaluate token " + highest);
                 }
 
 

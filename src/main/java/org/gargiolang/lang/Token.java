@@ -17,14 +17,14 @@ public class Token {
         this.tokenType = tokenType;
         this.value = value;
 
-        switch (tokenType) {
-            case ARITHMETIC_OPERATOR:
-                this.priority = ((ArithmeticOperator) this.value).getPriority();
-                break;
+        // switch statement for setting priority
+        switch (tokenType)
+        {
+            case ARITHMETIC_OPERATOR -> this.priority = ((ArithmeticOperator) this.value).getPriority();
 
-            default:
-                this.priority = tokenType.getPriority();
-                break;
+            case KEYWORD -> this.priority = ((Keyword) this.value).getPriority();
+
+            default -> this.priority = tokenType.getPriority();
         }
     }
 
@@ -112,13 +112,15 @@ public class Token {
         BOOL((byte) 0),
 
         TYPE((byte) 0),
-        KEYWORD((byte) 1),
+
         SCOPE((byte) 1),
+
         ASSIGNMENT_OPERATOR((byte) 1),
 
         ARITHMETIC_OPERATOR((byte) 0), // priority depends on the operator
+        KEYWORD((byte) 0), // priority depends on the keyword
 
-        PAREN((byte) 10),
+        PAREN((byte) 10), // highest priority
         CALL((byte) 10);
 
 
@@ -163,10 +165,16 @@ public class Token {
         int tokenIndex = 0;
         Token highestToken = line.getFirst();
 
+        // if the first token of the line is a scope --> evaluate it right away
+        if (highestToken.getType().equals(TokenType.SCOPE)) return 0;
+
         for (Token token : line) {
             if (token.getPriority() > highestToken.getPriority()) {
                 highestToken = token;
                 highestIndex = tokenIndex;
+
+                // line evaluation should not go beyond the current scope
+                if (token.getType().equals(TokenType.SCOPE)) break;
             }
             tokenIndex ++;
         }

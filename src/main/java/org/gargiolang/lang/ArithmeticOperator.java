@@ -32,7 +32,7 @@ public enum ArithmeticOperator {
     );
 
 
-    private static char[] chars = {'+', '-', '*', '/', '%'};
+    private static final char[] chars = {'+', '-', '*', '/', '%'};
 
 
     public static boolean isArithmeticOperator(char ch) {
@@ -43,10 +43,6 @@ public enum ArithmeticOperator {
     }
 
 
-    public static int getPriority(ArithmeticOperator operator) {
-        return operator.getPriority();
-    }
-
     public int getPriority() {
         return priorities.get(this);
     }
@@ -54,10 +50,6 @@ public enum ArithmeticOperator {
 
     public String getRepr() {
         return this.repr;
-    }
-
-    public static String getRepr(ArithmeticOperator operator) {
-        return operator.getRepr();
     }
 
 

@@ -1,5 +1,7 @@
 package org.gargiolang.lang;
 
+import org.gargiolang.lang.exception.evaluation.IndexOutOfBoundsException;
+import org.gargiolang.lang.exception.evaluation.OpenScopeException;
 import org.gargiolang.runtime.Interpreter;
 
 import java.util.LinkedList;
@@ -23,13 +25,14 @@ public enum Scope {
      * @param interpreter the interpreter that is currently executing the script
      * @return position of the next matching scopes [[line, pos], [line, pos]]
      */
-    public static int[][] findNextScope(Interpreter interpreter) {
+    public static int[][] findNextScope(Interpreter interpreter) throws IndexOutOfBoundsException, OpenScopeException {
 
         int[][] scopes = new int[2][2];
         int lineIndex = interpreter.getLineIndex();
 
-        for (int scopeCount = 0; scopeCount != -1; lineIndex++) {
-            LinkedList<Token> line = interpreter.getTokens().get(lineIndex);
+
+        LinkedList<Token> line = interpreter.getLine();
+        for (int scopeCount = 0; true; line = interpreter.getLine(lineIndex)) {
 
             for (Token token : line) {
                 if (token.getType().equals(Token.TokenType.SCOPE)) {
@@ -37,7 +40,7 @@ public enum Scope {
                     // if the scope is an open scope
                     if (token.getValue().equals(OPEN)) {
                         if (scopeCount == 0) {
-                            scopes[0] = new int[]{lineIndex, line.indexOf(token)};
+                            scopes[0] = new int[]{lineIndex, interpreter.getLine(lineIndex).indexOf(token)};
                         }
                         scopeCount ++;
                     } else {
@@ -45,16 +48,21 @@ public enum Scope {
                         scopeCount --;
                         if (scopeCount == 0) {
                             // means that the matching closing scope has been found
-                            scopes[1] = new int[]{lineIndex, line.indexOf(token)};
-                            scopeCount = -1; // this breaks the outer loop
-                            break;
+                            scopes[1] = new int[]{lineIndex, interpreter.getLine(lineIndex).indexOf(token)};
+
+                            // return the array of scope positions
+                            return scopes;
                         }
                     }
                 }
-            }
-        }
+            } // end of for loop that searches the line
 
-        return scopes;
+            // pass to the next line
+            lineIndex ++;
+            if (lineIndex == interpreter.getTokens().size()) throw new OpenScopeException("Scope is opened, but never closed");
+        } // end of for loop that searches the whole script
+
+        // no return statement since this line cannot be reached without throwing the above OpenScopeException
     }
 
 }

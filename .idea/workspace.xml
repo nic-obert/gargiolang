@@ -14,13 +14,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented increment and decrement operators">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/OpenScopeException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,6 +94,19 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -380,49 +394,53 @@
     </state>
     <state x="491" y="192" width="530" height="501" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.742@0.0.1366.742" timestamp="1606205002028" />
     <state x="690" y="272" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605446379433" />
+    <state x="440" y="116" key="#xdebugger.evaluate" timestamp="1606241225699">
+      <screen x="0" y="0" width="1366" height="742" />
+    </state>
+    <state x="440" y="116" key="#xdebugger.evaluate/0.0.1366.742@0.0.1366.742" timestamp="1606241225699" />
     <state x="740" y="280" key="FileChooserDialogImpl" timestamp="1605694392932">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605694392932" />
-    <state width="1879" height="279" key="GridCell.Tab.0.bottom" timestamp="1606218316999">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state width="1308" height="320" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606216005099" />
-    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606218316999" />
-    <state width="1879" height="279" key="GridCell.Tab.0.center" timestamp="1606218316999">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state width="1308" height="320" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606216005098" />
-    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606218316999" />
-    <state width="1879" height="279" key="GridCell.Tab.0.left" timestamp="1606218316999">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state width="1308" height="320" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606216005098" />
-    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606218316999" />
-    <state width="1879" height="279" key="GridCell.Tab.0.right" timestamp="1606218316999">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state width="1308" height="320" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606216005098" />
-    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606218316999" />
-    <state width="1308" height="131" key="GridCell.Tab.1.bottom" timestamp="1606205002206">
+    <state width="1318" height="355" key="GridCell.Tab.0.bottom" timestamp="1606241423422">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="131" key="GridCell.Tab.1.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606205002206" />
+    <state width="1318" height="355" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606241423422" />
+    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757846" />
+    <state width="1318" height="355" key="GridCell.Tab.0.center" timestamp="1606241423420">
+      <screen x="0" y="0" width="1366" height="742" />
+    </state>
+    <state width="1318" height="355" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606241423420" />
+    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757845" />
+    <state width="1318" height="355" key="GridCell.Tab.0.left" timestamp="1606241423419">
+      <screen x="0" y="0" width="1366" height="742" />
+    </state>
+    <state width="1318" height="355" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606241423419" />
+    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757845" />
+    <state width="1318" height="355" key="GridCell.Tab.0.right" timestamp="1606241423421">
+      <screen x="0" y="0" width="1366" height="742" />
+    </state>
+    <state width="1318" height="355" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606241423421" />
+    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757846" />
+    <state width="1318" height="355" key="GridCell.Tab.1.bottom" timestamp="1606240990010">
+      <screen x="0" y="0" width="1366" height="742" />
+    </state>
+    <state width="1318" height="355" key="GridCell.Tab.1.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606240990010" />
     <state width="1879" height="345" key="GridCell.Tab.1.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605648723937" />
-    <state width="1308" height="131" key="GridCell.Tab.1.center" timestamp="1606205002206">
+    <state width="1318" height="355" key="GridCell.Tab.1.center" timestamp="1606240990008">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="131" key="GridCell.Tab.1.center/0.0.1366.742@0.0.1366.742" timestamp="1606205002206" />
+    <state width="1318" height="355" key="GridCell.Tab.1.center/0.0.1366.742@0.0.1366.742" timestamp="1606240990008" />
     <state width="1879" height="345" key="GridCell.Tab.1.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605648723937" />
-    <state width="1308" height="131" key="GridCell.Tab.1.left" timestamp="1606205002205">
+    <state width="1318" height="355" key="GridCell.Tab.1.left" timestamp="1606240990008">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="131" key="GridCell.Tab.1.left/0.0.1366.742@0.0.1366.742" timestamp="1606205002205" />
+    <state width="1318" height="355" key="GridCell.Tab.1.left/0.0.1366.742@0.0.1366.742" timestamp="1606240990008" />
     <state width="1879" height="345" key="GridCell.Tab.1.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605648723937" />
-    <state width="1308" height="131" key="GridCell.Tab.1.right" timestamp="1606205002206">
+    <state width="1318" height="355" key="GridCell.Tab.1.right" timestamp="1606240990009">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1308" height="131" key="GridCell.Tab.1.right/0.0.1366.742@0.0.1366.742" timestamp="1606205002206" />
+    <state width="1318" height="355" key="GridCell.Tab.1.right/0.0.1366.742@0.0.1366.742" timestamp="1606240990009" />
     <state width="1879" height="345" key="GridCell.Tab.1.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605648723937" />
     <state x="262" y="117" width="830" height="507" key="IDE.errors.dialog" timestamp="1606131085711">
       <screen x="0" y="0" width="1366" height="742" />
@@ -485,8 +503,13 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java</url>
-          <line>95</line>
+          <line>100</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
