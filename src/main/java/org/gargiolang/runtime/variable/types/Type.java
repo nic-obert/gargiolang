@@ -21,4 +21,15 @@ abstract public class Type {
         return null;
     }
 
+    public static Token power(Object a, Token b) {
+        return null;
+    }
+    
+    public static Token increment(Object a, Token b) {
+        return null;
+    }
+
+    public static Token decrement(Object a, Token b) {
+        return null;
+    }
 }

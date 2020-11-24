@@ -72,4 +72,18 @@ public class Integer extends Type {
         }
         return result;
     }
+
+    public static Token power(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+        Token result = new Token(Token.TokenType.NUM, null);
+
+        switch (b.getVarType(Runtime.getRuntime()))
+        {
+            case INT -> result.setValue(Math.round(Math.pow(a, (int) b.getVarValue(Runtime.getRuntime()))));
+
+            case FLOAT -> result.setValue(Math.pow(a, (double) b.getVarValue(Runtime.getRuntime())));
+
+            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+        }
+        return result;
+    }
 }

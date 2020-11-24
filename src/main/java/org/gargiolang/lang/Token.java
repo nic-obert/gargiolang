@@ -46,6 +46,10 @@ public class Token {
         return this.getVarType(Runtime.getRuntime()).divide(this, other);
     }
 
+    public Token power(Token other) throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException {
+        return this.getVarType(Runtime.getRuntime()).power(this, other);
+    }
+
 
     public TokenType getType() {
         return tokenType;

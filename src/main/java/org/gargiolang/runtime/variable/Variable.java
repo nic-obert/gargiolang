@@ -161,5 +161,21 @@ public class Variable {
 
             return result;
         }
+
+        public Token power(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
+            Runtime runtime = Runtime.getRuntime();
+            Token result;
+
+            switch (a.getVarType(runtime))
+            {
+                case INT -> result = Integer.power((int) a.getVarValue(runtime), b);
+
+                case FLOAT -> result = Float.power((double) a.getVarValue(runtime), b);
+
+                default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(runtime));
+            }
+
+            return result;
+        }
     }
 }

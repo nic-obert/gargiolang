@@ -106,6 +106,12 @@ public enum ArithmeticOperator {
                 line.remove(b);
             }
             case POW -> {
+                Token base = line.get(currentTokenIndex - 1);
+                Token exponent = line.get(currentTokenIndex + 1);
+                line.set(currentTokenIndex, base.power(exponent));
+
+                line.remove(base);
+                line.remove(exponent);
             }
             case INC -> {
             }
