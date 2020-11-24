@@ -161,6 +161,24 @@ public class Variable {
             return result;
         }
 
+        public Token mod(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException, ZeroDivisionException {
+            // TODO implement this using method overloading, reflection or this kind of stuff. I don't know if it's doable in java, but in C++ you can.
+
+            Runtime runtime = Runtime.getRuntime();
+            Token result;
+
+            switch (this)
+            {
+                case INT -> result = Integer.mod((int) a.getVarValue(runtime), b);
+
+                case FLOAT -> result = Float.mod((double) a.getVarValue(runtime), b);
+
+                default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(runtime));
+            }
+
+            return result;
+        }
+
         public Token power(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
             Runtime runtime = Runtime.getRuntime();
             Token result;

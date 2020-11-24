@@ -13,6 +13,7 @@ public enum ArithmeticOperator {
     SUB("-"),
     MUL("*"),
     DIV("/"),
+    MOD("%"),
     POW("**"),
     INC("++"),
     DEC("--");
@@ -24,13 +25,14 @@ public enum ArithmeticOperator {
             SUB, 3,
             MUL, 4,
             DIV, 4,
+            MOD, 3,
             POW, 5,
             INC, 8,
             DEC, 8
     );
 
 
-    private static char[] chars = {'+', '-', '*', '/'};
+    private static char[] chars = {'+', '-', '*', '/', '%'};
 
 
     public static boolean isArithmeticOperator(char ch) {
@@ -99,6 +101,14 @@ public enum ArithmeticOperator {
                 Token a = line.get(currentTokenIndex - 1);
                 Token b = line.get(currentTokenIndex + 1);
                 line.set(currentTokenIndex, a.divide(b));
+
+                line.remove(a);
+                line.remove(b);
+            }
+            case MOD -> {
+                Token a = line.get(currentTokenIndex - 1);
+                Token b = line.get(currentTokenIndex + 1);
+                line.set(currentTokenIndex, a.mod(b));
 
                 line.remove(a);
                 line.remove(b);

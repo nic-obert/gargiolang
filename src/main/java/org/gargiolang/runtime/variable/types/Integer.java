@@ -74,6 +74,28 @@ public class Integer extends Type {
         return result;
     }
 
+    public static Token mod(int a, Token b) throws UnhandledOperationException, ZeroDivisionException, UnrecognizedTypeException, UndeclaredVariableException {
+        Token result = new Token(Token.TokenType.NUM, null);
+
+        switch (b.getVarType(Runtime.getRuntime()))
+        {
+            case INT -> {
+                int bValue = (int) b.getVarValue(Runtime.getRuntime());
+                if (bValue == 0) throw new ZeroDivisionException("Cannot divide by zero");
+                result.setValue(a % bValue);
+            }
+
+            case FLOAT -> {
+                double bValue = (double) b.getVarValue(Runtime.getRuntime());
+                if (bValue == 0) throw new ZeroDivisionException("Cannot divide by zero");
+                result.setValue(a % bValue);
+            }
+
+            default -> throw new UnhandledOperationException("Unhandled operation: division between Integer and " + b);
+        }
+        return result;
+    }
+
     public static Token power(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
         Token result = new Token(Token.TokenType.NUM, null);
 
