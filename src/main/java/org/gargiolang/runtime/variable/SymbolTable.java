@@ -72,6 +72,22 @@ public final class SymbolTable {
         }
     }
 
+    public void popScopes(int count) {
+        int scope = 0;
+        for (; count != 0; count--) scope = scopes.pop();
+
+        int i = 1; // here 1 is used instead of 0 for optimization
+        // remove variables from table that belong to the popped scope
+        for (Iterator<String> iterator = variables.keySet().iterator(); iterator.hasNext(); i++) {
+            iterator.next();
+            if (i > scope) iterator.remove();
+        }
+    }
+
+    public int scopeCount() {
+        return this.scopes.size();
+    }
+
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{\n");
