@@ -21,8 +21,7 @@ public enum Keyword {
     IF("if", (byte) 9),
     ELSE("else", (byte) 9),
 
-    WHILE("while", (byte) 9),
-
+    WHILE("while", (byte) 10),
     FOR("for", (byte) 10);
 
     private final String value;
@@ -116,6 +115,8 @@ public enum Keyword {
             case FOR -> {
                 /*
                     Algorithm:
+                        - store the current number of scopes
+
                         - firstly push a new scope to the stack
                         - get the position of the code block to execute
                         - execute the first statement (e.g. int i = 0;)
@@ -125,9 +126,12 @@ public enum Keyword {
                         - execute the third statement (e.g. i++;)
                         - repeat
 
-                        - when the loop is broken --> pop the previously added scope
+                        - when the loop is broken --> pop the previously added scopes
                         - set line execution to after the while loop
                  */
+
+                // store the current number of scopes
+                int scopeCount = interpreter.getRuntime().getSymbolTable().scopeCount();
 
                 // push a new scope to the stack
                 interpreter.getRuntime().getSymbolTable().pushScope();
@@ -155,9 +159,8 @@ public enum Keyword {
 
                 // check if the second statement evaluates to a boolean (e.g. i < 10;)
                 interpreter.setLine(secondStatementLine);
-                Token condition = interpreter.executeLine().getFirst();
-
-                if (!condition.getType().equals(Token.TokenType.BOOL))
+                interpreter.executeLine();
+                if (interpreter.getLine().size() == 0 || !interpreter.getLine().getFirst().getType().equals(Token.TokenType.BOOL))
                     throw new BadTypeException("Statement does not evaluate to a boolean: " + interpreter.getLine(secondStatementLine));
 
 
@@ -169,7 +172,9 @@ public enum Keyword {
                 boolean forLooping = true;
                 while (forLooping) {
 
-                    if (condition.getVarValue(interpreter.getRuntime()).equals(false)) break;
+                    // check the second boolean statement (the loop's condition e.g. i < 10;)
+                    interpreter.setLine(secondStatementLine);
+                    if (interpreter.executeLine().getFirst().getVarValue(interpreter.getRuntime()).equals(false)) break;
 
                     // execute the code block
 
@@ -189,10 +194,13 @@ public enum Keyword {
                             // if the result is a BREAK or CONTINUE keyword --> act consequently
                             if (result.getType().equals(Token.TokenType.KEYWORD)) {
                                 switch ((Keyword) result.getValue()) {
-                                    case BREAK:
+                                    case BREAK -> {
                                         forLooping = false;
-                                    case CONTINUE:
                                         executingBlock = false;
+                                    }
+                                    case CONTINUE -> {
+                                        executingBlock = false;
+                                    }
                                 }
                             }
                         }
@@ -219,8 +227,8 @@ public enum Keyword {
                 } // ----------------------------------  end of for loop
 
 
-                // pop previously added scope
-                interpreter.getRuntime().getSymbolTable().popScope();
+                // pop previously added scopes
+                interpreter.getRuntime().getSymbolTable().popScopes(interpreter.getRuntime().getSymbolTable().scopeCount() - scopeCount);
 
                 // set the line execution to after the for loop
                 interpreter.setLineFrom(forBlock[1][0], forBlock[1][1] + 1);
@@ -253,7 +261,94 @@ public enum Keyword {
             }
 
             case WHILE -> {
+                /*
+                    - store the current number of scopes
 
+                    - first push a new scope to the stack
+                    - check the boolean condition
+                    - execute the code block
+
+                    - pop the previously added scope
+                    - set line execution to after the while loop
+                 */
+
+                // store the current number of scopes
+                int scopeCount = interpreter.getRuntime().getSymbolTable().scopeCount();
+
+                // push new scope
+                interpreter.getRuntime().getSymbolTable().pushScope();
+
+                // get the loop's condition statement
+                int[][] parenthesis = Parenthesis.findNextParenthesis(interpreter);
+
+                // get the code block
+                int[][] whileBlock = Scope.findNextScope(interpreter);
+
+                // check if loop's condition statement evaluates to a boolean
+                interpreter.setLineBetween(parenthesis[0][0], parenthesis[0][1] + 1, parenthesis[1][1]);
+                interpreter.executeLine();
+                if (interpreter.getLine().size() == 0 || !interpreter.getLine().getFirst().getType().equals(Token.TokenType.BOOL))
+                    throw new BadTypeException("Statement does not evaluate to a boolean: " + interpreter.getLine(parenthesis[0][0]).subList(parenthesis[0][1], parenthesis[1][1]));
+
+
+                boolean whileLooping = true;
+                while (whileLooping) {
+
+                    // check the loop's condition
+                    interpreter.setLineBetween(parenthesis[0][0], parenthesis[0][1] + 1, parenthesis[1][1]);
+                    if (interpreter.executeLine().getFirst().getValue().equals(false)) break;
+
+                    // execute the code block
+
+                    // set the line execution to the beginning of the code block
+                    interpreter.setLineFrom(whileBlock[0][0], whileBlock[0][1]);
+                    boolean executingBlock = true;
+                    while (executingBlock) {
+
+                        // execute the current line
+                        interpreter.executeLine();
+
+                        // check first if the line is not empty
+                        if (interpreter.getLine().size() != 0) {
+                            // get the result of line execution
+                            Token result = interpreter.getLine().getFirst();
+
+                            // if the result is a BREAK or CONTINUE keyword --> act consequently
+                            if (result.getType().equals(Token.TokenType.KEYWORD)) {
+                                switch ((Keyword) result.getValue()) {
+                                    case BREAK -> {
+                                        whileLooping = false;
+                                        executingBlock = false;
+                                    }
+                                    case CONTINUE -> {
+                                        executingBlock = false;
+                                    }
+                                }
+                            }
+                        }
+
+                        // if the next line is the last line of the loop --> include only until the closing scope
+                        if (interpreter.getLineIndex() == whileBlock[1][0] - 1) {
+                            interpreter.setLineUntil(whileBlock[1][0], whileBlock[1][1] + 1);
+                        }
+                        // if the current line is the last line of the loop --> set executingBlock to false to break the loop
+                        else if (interpreter.getLineIndex() == whileBlock[1][0]) {
+                            executingBlock = false;
+                        }
+                        // otherwise just jump to the next line
+                        else {
+                            interpreter.setLine(interpreter.getLineIndex() + 1);
+                        }
+
+                    } // --------------------- end of code block
+
+                } // -------------------------- end of while loop
+
+                // pop previously added scopes
+                interpreter.getRuntime().getSymbolTable().popScopes(interpreter.getRuntime().getSymbolTable().scopeCount() - scopeCount);
+
+                // set line execution to after the while loop
+                interpreter.setLineFrom(whileBlock[1][0], whileBlock[1][1] + 1);
             }
 
             case GOBACK -> {

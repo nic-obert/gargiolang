@@ -1,7 +1,6 @@
 
-for (int i = 0; true; i++) {
-    continue;
+while (true) {
+    break;
     1+1;
-    2+2;
 }
 

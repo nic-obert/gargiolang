@@ -70,7 +70,7 @@ public class Interpreter {
     /**
      * Set the current line to be executed to the one specified.
      *
-     * @param lineIndex the index of the line to jump to
+     * @param lineIndex the index of the line to execute to
      * @param fromToken the position from which to start the execution of the line
      * @throws IndexOutOfBoundsException if the specified lineIndex is out of bounds
      */
@@ -78,6 +78,21 @@ public class Interpreter {
         this.setLineIndex(lineIndex);
         this.line = new LinkedList<>(this.getLine(lineIndex).subList(fromToken, this.getLine(lineIndex).size()));
     }
+
+
+    /**
+     * Set the current line to be executed to the one specified
+     *
+     * @param lineIndex the index of the line to execute
+     * @param fromToken the position from which to start the execution of the line
+     * @param untilToken the position up to which to execute the line
+     * @throws IndexOutOfBoundsException if the specified lineIndex is out of bounds
+     */
+    public void setLineBetween(int lineIndex, int fromToken, int untilToken) throws IndexOutOfBoundsException {
+        this.setLineIndex(lineIndex);
+        this.line = new LinkedList<>(this.getLine(lineIndex).subList(fromToken, untilToken));
+    }
+
 
     /**
      * Set the current line to be executed to the one specified.
