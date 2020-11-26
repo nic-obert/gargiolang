@@ -24,4 +24,14 @@ public class LabelTable {
         if (labels.containsKey(label)) throw new LabelRedefinitionException("Label '" + label + "' is already defined");
         labels.put(label, line);
     }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{\n");
+        for (String variable : labels.keySet()) {
+            stringBuilder.append("\t").append(variable).append(": ").append(labels.get(variable)).append(",\n");
+        }
+        stringBuilder.append("}");
+        return stringBuilder.toString();
+    }
 }
