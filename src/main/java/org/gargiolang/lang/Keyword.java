@@ -1,7 +1,8 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.evaluation.*;
-import org.gargiolang.lang.exception.evaluation.IndexOutOfBoundsException;
+import org.gargiolang.lang.exception.evaluation.BadTypeException;
+import org.gargiolang.lang.exception.evaluation.EvaluationException;
+import org.gargiolang.lang.exception.evaluation.GoBackException;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.variable.Variable;
 
@@ -10,21 +11,28 @@ import java.util.Stack;
 
 public enum Keyword {
 
+    GOTO("goto", (byte) 1),
+    GOBACK("goback", (byte) 1),
+
+    BREAK("break", (byte) 1),
+    CONTINUE("continue", (byte) 1),
+
     IF("if", (byte) 9),
     ELSE("else", (byte) 9),
-    WHILE("while", (byte) 9),
-    FOR("for", (byte) 9),
 
-    GOTO("goto", (byte) 1),
-    GOBACK("goback", (byte) 1);
+    WHILE("while", (byte) 9),
+
+    FOR("for", (byte) 10);
 
     private final String value;
     private final byte priority;
+
 
     Keyword(String str, byte priority){
         this.value = str;
         this.priority = priority;
     }
+
 
     public static boolean isKeyword(String str){
         for(Keyword keyword : Keyword.values()){
@@ -39,7 +47,7 @@ public enum Keyword {
     }
 
 
-    public static void evaluate(Interpreter interpreter) throws BadTypeException, UnrecognizedTypeException, UndeclaredVariableException, IndexOutOfBoundsException, UndefinedLabelException, GoBackException, OpenScopeException {
+    public static void evaluate(Interpreter interpreter) throws EvaluationException {
         Keyword keyword = (Keyword) interpreter.getLine().get(interpreter.getCurrentTokenIndex()).getValue();
 
         switch (keyword)
@@ -77,6 +85,116 @@ public enum Keyword {
             }
 
             case FOR -> {
+                /*
+                    Algorithm:
+                        - firstly push a new scope to the stack
+                        - get the position of the code block to execute
+                        - execute the first statement (e.g. int i = 0;)
+
+                        - check the second boolean statement (e.g. i > 10;)
+                        - execute code block in the next scope
+                        - execute the third statement (e.g. i++;)
+                        - repeat
+
+                        - when the loop is broken --> pop the previously added scope
+                        - set line execution to after the while loop
+                 */
+
+                // push a new scope to the stack
+                interpreter.getRuntime().getSymbolTable().pushScope();
+
+                // get the position of parenthesis
+                int[][] parenthesis = Parenthesis.findNextParenthesis(interpreter);
+
+                // get the position of the for loop's block
+                int[][] forBlock = Scope.findNextScope(interpreter);
+                /*
+                    forBlock[][]'s structure:
+                        [0][0] --> line of the opening scope
+                        [0][1] --> index of the opening scope in its line
+                        [1][0] --> line of the closing scope
+                        [1][1] --> index of the closing scope in its line
+                 */
+
+                // store statement positions for ease of use
+                int secondStatementLine = parenthesis[0][0] + 1;
+                int thirdStatementLine = parenthesis[0][0] + 2;
+
+                // execute the first statement (e.g. int i = 0;)
+                interpreter.setLineFrom(parenthesis[0][0], parenthesis[0][1] + 1);
+                interpreter.executeLine();
+
+                // check if the second statement evaluates to a boolean (e.g. i < 10;)
+                interpreter.setLine(secondStatementLine);
+                Token condition = interpreter.executeLine().getFirst();
+
+                if (!condition.getType().equals(Token.TokenType.BOOL))
+                    throw new BadTypeException("Statement does not evaluate to a boolean: " + interpreter.getLine(secondStatementLine));
+
+
+                /*
+                    - check the boolean statement
+                    - execute the code block
+                    - execute the third statement
+                 */
+                boolean forLooping = true;
+                while (forLooping) {
+
+                    if (condition.getVarValue(interpreter.getRuntime()).equals(false)) break;
+
+                    // execute the code block
+
+                    // set the line execution to the beginning of the for loop
+                    interpreter.setLineFrom(forBlock[0][0], forBlock[0][1]);
+                    boolean executingBlock = true;
+                    while (executingBlock) {
+
+                        // execute the current line and store result
+                        interpreter.executeLine();
+
+                        // check first if line is not empty
+                        if (interpreter.getLine().size() != 0) {
+                            // get the result of line execution
+                            Token result = interpreter.getLine().getFirst();
+
+                            // if the result is a BREAK or CONTINUE keyword --> act consequently
+                            if (result.getType().equals(Token.TokenType.KEYWORD)) {
+                                switch ((Keyword) result.getValue()) {
+                                    case BREAK:
+                                        forLooping = false;
+                                    case CONTINUE:
+                                        executingBlock = false;
+                                }
+                            }
+                        }
+
+                        // if the next line is the last line of the loop --> include only until the closing scope
+                        if (interpreter.getLineIndex() == forBlock[1][0] - 1) {
+                            interpreter.setLineUntil(forBlock[1][0], forBlock[1][1] + 1);
+                        }
+                        // if the current line is the last line of the loop --> set executingBlock to false to break the loop
+                        else if (interpreter.getLineIndex() == forBlock[1][0]) {
+                            executingBlock = false;
+                        }
+                        // otherwise just jump to the next line
+                        else {
+                            interpreter.setLine(interpreter.getLineIndex() + 1);
+                        }
+
+                    } // ---------------------------- end of code block
+
+                    // execute third statement (e.g. i++;)
+                    interpreter.setLineUntil(thirdStatementLine, parenthesis[1][1]);
+                    interpreter.executeLine();
+
+                } // ----------------------------------  end of for loop
+
+
+                // pop previously added scope
+                interpreter.getRuntime().getSymbolTable().popScope();
+
+                // set the line execution to after the for loop
+                interpreter.setLineFrom(forBlock[1][0], forBlock[1][1] + 1);
 
             }
 

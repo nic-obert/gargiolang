@@ -16,14 +16,14 @@ public enum Scope {
         Token scope = line.remove(interpreter.getCurrentTokenIndex());
 
         // add or pop scope based on whether the token is { or }
-        if (scope.getValue().equals(OPEN)) interpreter.getRuntime().getSymbolTable().addScope();
+        if (scope.getValue().equals(OPEN)) interpreter.getRuntime().getSymbolTable().pushScope();
         else interpreter.getRuntime().getSymbolTable().popScope();
     }
 
     /**
      *
      * @param interpreter the interpreter that is currently executing the script
-     * @return position of the next matching scopes [[line, pos], [line, pos]]
+     * @return position of the next matching scopes [[line, index], [line, index]]
      */
     public static int[][] findNextScope(Interpreter interpreter) throws IndexOutOfBoundsException, OpenScopeException {
 

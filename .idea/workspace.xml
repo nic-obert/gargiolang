@@ -13,15 +13,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented increment and decrement operators">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/OpenScopeException.java" afterDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented ELSE keyword and fixed some bugs in the IF statement">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/OpenParenthesisException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parenthesis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parenthesis.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/SymbolTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,19 +93,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -318,7 +304,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606215757890</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="implemented ELSE keyword and fixed some bugs in the IF statement">
+      <created>1606241935971</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1606241935971</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -360,7 +353,8 @@
     <MESSAGE value="reimplemented arithmetic operations and implemented arithmetic operators overloading (for ints, floats, strings etc..)" />
     <MESSAGE value="reimplemented power operator" />
     <MESSAGE value="implemented increment and decrement operators" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented increment and decrement operators" />
+    <MESSAGE value="implemented ELSE keyword and fixed some bugs in the IF statement" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented ELSE keyword and fixed some bugs in the IF statement" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
@@ -402,50 +396,50 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605694392932" />
-    <state width="1318" height="355" key="GridCell.Tab.0.bottom" timestamp="1606241423422">
+    <state width="1318" height="89" key="GridCell.Tab.0.bottom" timestamp="1606381837709">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1318" height="355" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606241423422" />
+    <state width="1318" height="89" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606381837709" />
     <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757846" />
-    <state width="1318" height="355" key="GridCell.Tab.0.center" timestamp="1606241423420">
+    <state width="1318" height="89" key="GridCell.Tab.0.center" timestamp="1606381837707">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1318" height="355" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606241423420" />
+    <state width="1318" height="89" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606381837707" />
     <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757845" />
-    <state width="1318" height="355" key="GridCell.Tab.0.left" timestamp="1606241423419">
+    <state width="1318" height="89" key="GridCell.Tab.0.left" timestamp="1606381837707">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1318" height="355" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606241423419" />
+    <state width="1318" height="89" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606381837707" />
     <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757845" />
-    <state width="1318" height="355" key="GridCell.Tab.0.right" timestamp="1606241423421">
+    <state width="1318" height="89" key="GridCell.Tab.0.right" timestamp="1606381837709">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1318" height="355" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606241423421" />
+    <state width="1318" height="89" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606381837709" />
     <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757846" />
-    <state width="1318" height="355" key="GridCell.Tab.1.bottom" timestamp="1606240990010">
+    <state width="1318" height="391" key="GridCell.Tab.1.bottom" timestamp="1606381837307">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1318" height="355" key="GridCell.Tab.1.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606240990010" />
+    <state width="1318" height="391" key="GridCell.Tab.1.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606381837307" />
     <state width="1879" height="345" key="GridCell.Tab.1.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605648723937" />
-    <state width="1318" height="355" key="GridCell.Tab.1.center" timestamp="1606240990008">
+    <state width="1318" height="391" key="GridCell.Tab.1.center" timestamp="1606381837306">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1318" height="355" key="GridCell.Tab.1.center/0.0.1366.742@0.0.1366.742" timestamp="1606240990008" />
+    <state width="1318" height="391" key="GridCell.Tab.1.center/0.0.1366.742@0.0.1366.742" timestamp="1606381837306" />
     <state width="1879" height="345" key="GridCell.Tab.1.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605648723937" />
-    <state width="1318" height="355" key="GridCell.Tab.1.left" timestamp="1606240990008">
+    <state width="1318" height="391" key="GridCell.Tab.1.left" timestamp="1606381837306">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1318" height="355" key="GridCell.Tab.1.left/0.0.1366.742@0.0.1366.742" timestamp="1606240990008" />
+    <state width="1318" height="391" key="GridCell.Tab.1.left/0.0.1366.742@0.0.1366.742" timestamp="1606381837306" />
     <state width="1879" height="345" key="GridCell.Tab.1.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605648723937" />
-    <state width="1318" height="355" key="GridCell.Tab.1.right" timestamp="1606240990009">
+    <state width="1318" height="391" key="GridCell.Tab.1.right" timestamp="1606381837307">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1318" height="355" key="GridCell.Tab.1.right/0.0.1366.742@0.0.1366.742" timestamp="1606240990009" />
+    <state width="1318" height="391" key="GridCell.Tab.1.right/0.0.1366.742@0.0.1366.742" timestamp="1606381837307" />
     <state width="1879" height="345" key="GridCell.Tab.1.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605648723937" />
-    <state x="262" y="117" width="830" height="507" key="IDE.errors.dialog" timestamp="1606131085711">
+    <state x="410" y="104" width="830" height="519" key="IDE.errors.dialog" timestamp="1606296078773">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="262" y="117" width="830" height="507" key="IDE.errors.dialog/0.0.1366.742@0.0.1366.742" timestamp="1606131085711" />
+    <state x="410" y="104" width="830" height="519" key="IDE.errors.dialog/0.0.1366.742@0.0.1366.742" timestamp="1606296078773" />
     <state x="64" y="88" width="1098" height="622" key="MergeDialog" timestamp="1606215797935">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
@@ -463,10 +457,10 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="407" y="84" width="528" height="605" key="VCS.ChangeListViewerDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609093856" />
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1606209399090">
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1606241952122">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1606209399090" />
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1606241952122" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
     <state x="460" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606215868227">
       <screen x="0" y="0" width="1366" height="742" />
@@ -480,10 +474,10 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="435" y="118" width="483" height="506" key="refactoring.ChangeSignatureDialog/0.0.1366.742@0.0.1366.742" timestamp="1606164107678" />
-    <state x="342" y="164" key="run.anything.popup" timestamp="1606034222815">
+    <state x="342" y="164" key="run.anything.popup" timestamp="1606295110878">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="342" y="164" key="run.anything.popup/0.0.1366.742@0.0.1366.742" timestamp="1606034222815" />
+    <state x="342" y="164" key="run.anything.popup/0.0.1366.742@0.0.1366.742" timestamp="1606295110878" />
     <state x="443" y="160" width="672" height="480" key="search.everywhere.popup" timestamp="1605969552786">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
@@ -501,16 +495,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java</url>
-          <line>100</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

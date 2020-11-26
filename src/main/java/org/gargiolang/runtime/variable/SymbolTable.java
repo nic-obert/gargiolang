@@ -58,7 +58,7 @@ public final class SymbolTable {
         variables.put(varName, variable);
     }
 
-    public void addScope() {
+    public void pushScope() {
         scopes.push(variables.size());
     }
 
