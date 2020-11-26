@@ -6,7 +6,6 @@ import org.gargiolang.lang.exception.evaluation.GoBackException;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.variable.Variable;
 
-import java.security.Key;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -198,9 +197,7 @@ public enum Keyword {
                                         forLooping = false;
                                         executingBlock = false;
                                     }
-                                    case CONTINUE -> {
-                                        executingBlock = false;
-                                    }
+                                    case CONTINUE -> executingBlock = false;
                                 }
                             }
                         }
@@ -320,9 +317,7 @@ public enum Keyword {
                                         whileLooping = false;
                                         executingBlock = false;
                                     }
-                                    case CONTINUE -> {
-                                        executingBlock = false;
-                                    }
+                                    case CONTINUE -> executingBlock = false;
                                 }
                             }
                         }
