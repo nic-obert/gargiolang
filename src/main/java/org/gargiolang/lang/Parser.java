@@ -183,6 +183,16 @@ public class Parser {
                 continue;
             }
 
+            if(Token.isLogicalOperator(c)){
+                if(token != null){
+                    if(token.getType().equals(Token.TokenType.LOGICAL_OPERATOR)){
+                        //will put >=, <= and ==
+                    }
+                }
+                token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.fromString(Character.toString(c)));
+                continue;
+            }
+
             if (c == '=') {
                 if (token != null) line.add(token);
                 token = new Token(Token.TokenType.ASSIGNMENT_OPERATOR, '=');

@@ -216,5 +216,53 @@ public class Variable {
                 default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(Runtime.getRuntime()));
             }
         }
+
+        public Token isMore(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
+            Runtime runtime = Runtime.getRuntime();
+            Token result;
+
+            switch (this)
+            {
+                case INT -> result = Integer.isMore((int) a.getVarValue(runtime), b);
+
+                case FLOAT -> result = Float.isMore((double) a.getVarValue(runtime), b);
+
+                default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(runtime));
+            }
+
+            return result;
+        }
+
+        public Token isLess(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
+            Runtime runtime = Runtime.getRuntime();
+            Token result;
+
+            switch (this)
+            {
+                case INT -> result = Integer.isLess((int) a.getVarValue(runtime), b);
+
+                case FLOAT -> result = Float.isLess((double) a.getVarValue(runtime), b);
+
+                default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(runtime));
+            }
+
+            return result;
+        }
+
+        public Token isEquals(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
+            Runtime runtime = Runtime.getRuntime();
+            Token result;
+
+            switch (this)
+            {
+                case INT -> result = Integer.isEquals((int) a.getVarValue(runtime), b);
+
+                case FLOAT -> result = Float.isEquals((double) a.getVarValue(runtime), b);
+
+                default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(runtime));
+            }
+
+            return result;
+        }
     }
 }

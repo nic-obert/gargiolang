@@ -22,6 +22,8 @@ public class Token {
         {
             case ARITHMETIC_OPERATOR -> this.priority = ((ArithmeticOperator) this.value).getPriority();
 
+            case LOGICAL_OPERATOR -> this.priority = ((LogicalOperator) this.value).getPriority();
+
             case KEYWORD -> this.priority = ((Keyword) this.value).getPriority();
 
             default -> this.priority = tokenType.getPriority();
@@ -66,6 +68,17 @@ public class Token {
         this.getVarType(Runtime.getRuntime()).decrement(this);
     }
 
+    public Token isMore(Token other) throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException{
+        return this.getVarType(Runtime.getRuntime()).isMore(this, other);
+    }
+
+    public Token isLess(Token other)throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException{
+        return this.getVarType(Runtime.getRuntime()).isLess(this, other);
+    }
+
+    public Token isEquals(Token other)throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException{
+        return this.getVarType(Runtime.getRuntime()).isEquals(this, other);
+    }
 
     public TokenType getType() {
         return tokenType;
@@ -121,6 +134,7 @@ public class Token {
 
         ASSIGNMENT_OPERATOR((byte) 1),
 
+        LOGICAL_OPERATOR((byte) 0), // priority depends on the operator
         ARITHMETIC_OPERATOR((byte) 0), // priority depends on the operator
         KEYWORD((byte) 0), // priority depends on the keyword
 
@@ -161,6 +175,9 @@ public class Token {
         return ArithmeticOperator.isArithmeticOperator(c);
     }
 
+    public static boolean isLogicalOperator(char c){
+        return LogicalOperator.isLogicalOperator(c);
+    }
 
     // returns the index of the token with the highest priority in a linked list of tokens
     public static int getHighestPriority(LinkedList<Token> line) {

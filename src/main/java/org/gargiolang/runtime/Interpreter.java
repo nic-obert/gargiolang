@@ -171,6 +171,8 @@ public class Interpreter {
             {
                 case ARITHMETIC_OPERATOR -> ArithmeticOperator.evaluate(this);
 
+                case LOGICAL_OPERATOR -> LogicalOperator.evaluate(this);
+
                 case ASSIGNMENT_OPERATOR -> AssignmentOperator.evaluate(this);
 
                 case PAREN -> Parenthesis.evaluate(this);

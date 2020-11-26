@@ -64,54 +64,45 @@ public enum ArithmeticOperator {
         int currentTokenIndex = interpreter.getCurrentTokenIndex();
         Token operator = line.get(currentTokenIndex);
 
+        Token a = line.get(currentTokenIndex - 1);
+        Token b = line.get(currentTokenIndex + 1);
+
         switch ((ArithmeticOperator) operator.getValue()) {
             case ADD -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
                 line.set(currentTokenIndex, a.add(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case SUB -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
                 line.set(currentTokenIndex, a.subtract(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case MUL -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
                 line.set(currentTokenIndex, a.multiply(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case DIV -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
                 line.set(currentTokenIndex, a.divide(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case MOD -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
                 line.set(currentTokenIndex, a.mod(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case POW -> {
-                Token base = line.get(currentTokenIndex - 1);
-                Token exponent = line.get(currentTokenIndex + 1);
-                line.set(currentTokenIndex, base.power(exponent));
+                line.set(currentTokenIndex, a.power(b));
 
-                line.remove(base);
-                line.remove(exponent);
+                line.remove(a);
+                line.remove(b);
             }
             case INC -> {
                 line.get(currentTokenIndex - 1).increment();

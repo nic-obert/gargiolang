@@ -119,4 +119,43 @@ public class Integer extends Type {
         Variable variable = Runtime.getRuntime().getSymbolTable().getVariableThrow((java.lang.String) a.getValue());
         variable.setValue((int) variable.getValue() - 1);
     }
+
+    public static Token isMore(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+        Token result = new Token(Token.TokenType.NUM, null);
+
+        switch (b.getVarType(Runtime.getRuntime())) {
+            case INT -> result.setValue(a > (int) b.getVarValue(Runtime.getRuntime()));
+
+            case FLOAT -> result.setValue(a > (double) b.getVarValue(Runtime.getRuntime()));
+
+            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+        }
+        return result;
+    }
+
+    public static Token isLess(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+        Token result = new Token(Token.TokenType.NUM, null);
+
+        switch (b.getVarType(Runtime.getRuntime())) {
+            case INT -> result.setValue(a < (int) b.getVarValue(Runtime.getRuntime()));
+
+            case FLOAT -> result.setValue(a < (double) b.getVarValue(Runtime.getRuntime()));
+
+            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+        }
+        return result;
+    }
+
+    public static Token isEquals(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+        Token result = new Token(Token.TokenType.NUM, null);
+
+        switch (b.getVarType(Runtime.getRuntime())) {
+            case INT -> result.setValue(a == (int) b.getVarValue(Runtime.getRuntime()));
+
+            case FLOAT -> result.setValue(a == (double) b.getVarValue(Runtime.getRuntime()));
+
+            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+        }
+        return result;
+    }
 }

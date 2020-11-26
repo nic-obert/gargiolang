@@ -14,8 +14,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented increment and decrement operators">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/LabelTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/LabelTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/util/MathUtils.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/LogicalOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +34,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -87,6 +95,17 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -399,26 +418,26 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605694392932" />
-    <state width="1314" height="34" key="GridCell.Tab.0.bottom" timestamp="1606382467427">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.bottom" timestamp="1606393289139">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1314" height="34" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606382467427" />
-    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757846" />
-    <state width="1314" height="34" key="GridCell.Tab.0.center" timestamp="1606382467426">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606393289139" />
+    <state width="1879" height="279" key="GridCell.Tab.0.center" timestamp="1606393289139">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1314" height="34" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606382467426" />
-    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757845" />
-    <state width="1314" height="34" key="GridCell.Tab.0.left" timestamp="1606382467425">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606393289139" />
+    <state width="1879" height="279" key="GridCell.Tab.0.left" timestamp="1606393289139">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1314" height="34" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606382467425" />
-    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757845" />
-    <state width="1314" height="34" key="GridCell.Tab.0.right" timestamp="1606382467426">
-      <screen x="0" y="0" width="1366" height="742" />
+    <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606393289139" />
+    <state width="1879" height="279" key="GridCell.Tab.0.right" timestamp="1606393289139">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1314" height="34" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606382467426" />
-    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606059757846" />
+    <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606393289139" />
     <state width="1318" height="391" key="GridCell.Tab.1.bottom" timestamp="1606381837307">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
