@@ -121,7 +121,7 @@ public class Float extends Type {
     }
 
     public static Token isMore(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -135,7 +135,7 @@ public class Float extends Type {
     }
 
     public static Token isLess(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -149,7 +149,7 @@ public class Float extends Type {
     }
 
     public static Token isEquals(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {

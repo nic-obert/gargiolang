@@ -22,13 +22,10 @@ public enum LogicalOperator {
     //operators like && and || will have a lower priority
     private final static Map<LogicalOperator, Integer> priorities = Map.of(
             GR, 2,
-            LS, 2,
-            GRE, 2,
-            LSE, 2,
-            EQ, 2
+            LS, 2
     );
 
-    private static final char[] chars = {'>', '<', '='};
+    private static final char[] chars = {'>', '<'};
 
 
     public static boolean isLogicalOperator(char ch) {
@@ -63,6 +60,27 @@ public enum LogicalOperator {
         Token a = line.get(currentTokenIndex - 1);
         Token b = line.get(currentTokenIndex + 1);
 
+        if(a.getType().equals(Token.TokenType.TXT)){
+            Variable aVar = interpreter.getRuntime().getSymbolTable().getVariable((String)a.getValue());
+            System.out.println(aVar);
+            if(aVar != null){
+                if(aVar.getType() != Variable.Type.FLOAT && aVar.getType() != Variable.Type.INT){
+                    throw new EvaluationException(a.getValue() + " isn't numeric");
+                }
+                a = new Token(Token.TokenType.NUM, aVar.getValue());
+            }
+        }
+
+        if(b.getType().equals(Token.TokenType.TXT)) {
+            Variable bVar = interpreter.getRuntime().getSymbolTable().getVariable((String)b.getValue());
+            if(bVar != null){
+                if(bVar.getType() != Variable.Type.FLOAT && bVar.getType() != Variable.Type.INT){
+                    throw new EvaluationException(b.getValue() + " isn't numeric");
+                }
+                b = new Token(Token.TokenType.NUM, bVar.getValue());
+            }
+        }
+
         boolean valid = (a.getVarType(interpreter.getRuntime()).equals(Variable.Type.FLOAT) ||
                 a.getVarType(interpreter.getRuntime()).equals(Variable.Type.INT)) &&
                         (b.getVarType(interpreter.getRuntime()).equals(Variable.Type.FLOAT) ||
@@ -72,6 +90,7 @@ public enum LogicalOperator {
 
         switch ((LogicalOperator) operator.getValue()) {
             case GR -> {
+
                 line.set(currentTokenIndex, a.isMore(b));
 
                 line.remove(a);

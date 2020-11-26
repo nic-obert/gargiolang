@@ -121,7 +121,7 @@ public class Integer extends Type {
     }
 
     public static Token isMore(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case INT -> result.setValue(a > (int) b.getVarValue(Runtime.getRuntime()));
@@ -134,7 +134,7 @@ public class Integer extends Type {
     }
 
     public static Token isLess(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case INT -> result.setValue(a < (int) b.getVarValue(Runtime.getRuntime()));
@@ -147,7 +147,7 @@ public class Integer extends Type {
     }
 
     public static Token isEquals(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case INT -> result.setValue(a == (int) b.getVarValue(Runtime.getRuntime()));

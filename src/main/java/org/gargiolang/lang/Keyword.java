@@ -158,7 +158,7 @@ public enum Keyword {
                 Token condition = interpreter.executeLine().getFirst();
 
                 if (!condition.getType().equals(Token.TokenType.BOOL))
-                    throw new BadTypeException("Statement does not evaluate to a boolean: " + interpreter.getLine(secondStatementLine));
+                    throw new BadTypeException("Statement does not evaluate to a boolean: (" + interpreter.getLine(secondStatementLine) + "): " + condition);
 
 
                 /*

@@ -41,7 +41,7 @@ public class AssignmentOperator {
 
                 Variable variable = new Variable(
                         rValue.getVarValue(runtime),
-                        rValue.getVarType(runtime),
+                        Variable.Type.valueOf(type.getValue().toString()),
                         Accessibility.PUBLIC);
                 table.addVariable((String) lValue.getValue(), variable);
 

@@ -167,11 +167,13 @@ public class Interpreter {
                 break;
             }
 
+            //System.out.println("highest: " + highest);
+
             switch (highest.getType())
             {
-                case ARITHMETIC_OPERATOR -> ArithmeticOperator.evaluate(this);
-
                 case LOGICAL_OPERATOR -> LogicalOperator.evaluate(this);
+
+                case ARITHMETIC_OPERATOR -> ArithmeticOperator.evaluate(this);
 
                 case ASSIGNMENT_OPERATOR -> AssignmentOperator.evaluate(this);
 
@@ -188,7 +190,7 @@ public class Interpreter {
         } // end of line evaluation
 
         // print resulting line for debugging
-        System.out.println(line);
+        //System.out.println(line);
         //System.out.println(runtime.getSymbolTable());
 
         return line;
