@@ -1,7 +1,2 @@
 
-int count = 0;
-for (int i = 0; i != 3; i++) {
-count ++;
-}
-
-count + 1 - 1;
+false || false

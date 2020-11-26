@@ -10,6 +10,9 @@ import java.util.Map;
 
 public enum LogicalOperator {
 
+    INCOMPLETE_AND("&"),
+    INCOMPLETE_OR("|"),
+
     GR(">"),
     LS("<"),
     GRE(">="),
@@ -47,6 +50,7 @@ public enum LogicalOperator {
 
 
     public int getPriority() {
+        if (this == INCOMPLETE_AND || this == INCOMPLETE_OR) return 0;
         return priorities.get(this);
     }
 

@@ -185,7 +185,19 @@ public class Parser {
             }
 
             if(Token.isLogicalOperator(c)){
-                if(token != null) line.add(token);
+                if(token != null) {
+
+                    if (token.getType().equals(Token.TokenType.LOGICAL_OPERATOR)) {
+                        if (token.getValue().equals(LogicalOperator.INCOMPLETE_AND) && c == '&') token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.AND);
+                        else if (token.getValue().equals(LogicalOperator.INCOMPLETE_OR) && c == '|') token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.OR);
+
+                        line.add(token);
+                        token = null;
+                        continue;
+                    }
+
+                    line.add(token);
+                }
                 token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.fromString(Character.toString(c)));
                 continue;
             }
