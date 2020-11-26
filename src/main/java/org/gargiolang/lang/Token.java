@@ -99,6 +99,10 @@ public class Token {
         return priority;
     }
 
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
     public void incrementPriority() {
         this.priority += 10;
     }

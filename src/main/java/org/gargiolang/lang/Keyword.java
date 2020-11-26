@@ -6,6 +6,7 @@ import org.gargiolang.lang.exception.evaluation.GoBackException;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.variable.Variable;
 
+import java.security.Key;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -52,6 +53,34 @@ public enum Keyword {
 
         switch (keyword)
         {
+            case BREAK -> {
+                /*
+                    - clear the current line
+                    - create a token of type KEYWORD and value of BREAK
+                    - set its priority to 0
+                    - add it to the current line
+                 */
+
+                interpreter.getLine().clear();
+                Token token = new Token(Token.TokenType.KEYWORD, Keyword.BREAK);
+                token.setPriority(0);
+                interpreter.getLine().add(token);
+            }
+
+            case CONTINUE -> {
+                /*
+                    - clear the current line
+                    - create a token of type KEYWORD and value of CONTINUE
+                    - set its priority to 0
+                    - add it to the current line
+                 */
+
+                interpreter.getLine().clear();
+                Token token = new Token(Token.TokenType.KEYWORD, Keyword.CONTINUE);
+                token.setPriority(0);
+                interpreter.getLine().add(token);
+            }
+
             case IF -> {
                 LinkedList<Token> line = interpreter.getLine();
                 Token condition = line.get(interpreter.getCurrentTokenIndex() + 1);
