@@ -3,6 +3,7 @@ package org.gargiolang.runtime.variable;
 import org.gargiolang.lang.Token;
 import org.gargiolang.lang.exception.evaluation.*;
 import org.gargiolang.runtime.Runtime;
+import org.gargiolang.runtime.variable.types.Boolean;
 import org.gargiolang.runtime.variable.types.Float;
 import org.gargiolang.runtime.variable.types.Integer;
 import org.gargiolang.runtime.variable.types.String;
@@ -217,15 +218,15 @@ public class Variable {
             }
         }
 
-        public Token isMore(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
+        public Token greaterThan(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
             Runtime runtime = Runtime.getRuntime();
             Token result;
 
             switch (this)
             {
-                case INT -> result = Integer.isMore((int) a.getVarValue(runtime), b);
+                case INT -> result = Integer.greaterThan((int) a.getVarValue(runtime), b);
 
-                case FLOAT -> result = Float.isMore((double) a.getVarValue(runtime), b);
+                case FLOAT -> result = Float.lessThan((double) a.getVarValue(runtime), b);
 
                 default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(runtime));
             }
@@ -233,15 +234,15 @@ public class Variable {
             return result;
         }
 
-        public Token isLess(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
+        public Token lessThan(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
             Runtime runtime = Runtime.getRuntime();
             Token result;
 
             switch (this)
             {
-                case INT -> result = Integer.isLess((int) a.getVarValue(runtime), b);
+                case INT -> result = Integer.lessThan((int) a.getVarValue(runtime), b);
 
-                case FLOAT -> result = Float.isLess((double) a.getVarValue(runtime), b);
+                case FLOAT -> result = Float.lessThan((double) a.getVarValue(runtime), b);
 
                 default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(runtime));
             }
@@ -249,20 +250,74 @@ public class Variable {
             return result;
         }
 
-        public Token isEquals(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
+        public Token equalsTo(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException, UnhandledOperationException {
             Runtime runtime = Runtime.getRuntime();
             Token result;
 
             switch (this)
             {
-                case INT -> result = Integer.isEquals((int) a.getVarValue(runtime), b);
+                case INT -> result = Integer.equalsTo((int) a.getVarValue(runtime), b);
 
-                case FLOAT -> result = Float.isEquals((double) a.getVarValue(runtime), b);
+                case FLOAT -> result = Float.equalsTo((double) a.getVarValue(runtime), b);
+
+                case STRING -> result = String.equalsTo((java.lang.String) a.getVarValue(runtime), b);
+
+                case BOOLEAN -> result = Boolean.equalsTo((boolean) a.getVarValue(runtime), b);
 
                 default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(runtime));
             }
 
             return result;
         }
+
+        public static Token greaterOrEquals(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException {
+            return new Token(Token.TokenType.BOOL, (boolean) a.greaterThan(b).getValue() || (boolean) a.equalsTo(b).getValue());
+        }
+
+        public static Token lessOrEquals(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException {
+            return new Token(Token.TokenType.BOOL, (boolean) a.lessThan(b).getValue() || (boolean) a.equalsTo(b).getValue());
+        }
+
+        public Token notEqualsTo(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException {
+            return equalsTo(a, b).not();
+        }
+
+        public Token asBool(Token a) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
+            switch (this)
+            {
+                case INT -> {
+                    return Integer.asBool((int) a.getVarValue(Runtime.getRuntime()));
+                }
+
+                case FLOAT -> {
+                    return Float.asBool((double) a.getVarValue(Runtime.getRuntime()));
+                }
+
+                case STRING -> {
+                    return String.asBool((java.lang.String) a.getVarValue(Runtime.getRuntime()));
+                }
+
+                case BOOLEAN -> {
+                    return a;
+                }
+
+                default -> throw new UnimplementedException("Cannot convert type " + a.getVarType(Runtime.getRuntime()) + " to a boolean");
+            }
+        }
+
+        public Token not(Token a) throws UnrecognizedTypeException, UnimplementedException, UndeclaredVariableException {
+            Token bool = asBool(a);
+            bool.setValue(!(boolean)bool.getValue());
+            return bool;
+        }
+
+        public static Token or(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
+            return new Token(Token.TokenType.BOOL, (boolean) a.asBool().getValue() || (boolean) b.asBool().getValue());
+        }
+
+        public static Token and(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
+            return new Token(Token.TokenType.BOOL, (boolean) a.asBool().getValue() && (boolean) b.asBool().getValue());
+        }
+
     }
 }

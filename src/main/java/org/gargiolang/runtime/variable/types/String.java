@@ -44,4 +44,21 @@ public class String extends Type {
         return result;
     }
 
+    public static Token equalsTo(java.lang.String a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException {
+        Token result = new Token(Token.TokenType.BOOL, null);
+
+        switch (b.getVarType(Runtime.getRuntime()))
+        {
+            case STRING -> result.setValue(a.equals(b.getVarValue(Runtime.getRuntime())));
+
+            default -> throw new UnhandledOperationException("Unhandled operation: equality between String and " + b);
+        }
+
+        return result;
+    }
+
+    public static Token asBool(java.lang.String a) {
+        return new Token(Token.TokenType.BOOL, a.length() != 0);
+    }
+
 }

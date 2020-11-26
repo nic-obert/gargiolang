@@ -2,6 +2,7 @@ package org.gargiolang.lang;
 
 import org.gargiolang.lang.exception.parsing.InvalidCharacterException;
 import org.gargiolang.lang.exception.parsing.ParsingException;
+import org.gargiolang.lang.exception.parsing.UnexpectedTokenException;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 
@@ -184,17 +185,39 @@ public class Parser {
             }
 
             if(Token.isLogicalOperator(c)){
-                if(token != null){
-                    if(token.getType().equals(Token.TokenType.LOGICAL_OPERATOR)){
-                        //will put >=, <= and ==
-                    }
-                }
+                if(token != null) line.add(token);
                 token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.fromString(Character.toString(c)));
                 continue;
             }
 
             if (c == '=') {
-                if (token != null) line.add(token);
+                if (token != null) {
+
+                    // means the token is "=="
+                    if (token.getType().equals(Token.TokenType.ASSIGNMENT_OPERATOR)) {
+                        token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.EQ);
+                        line.add(token);
+                        token = null;
+                        continue;
+                    }
+                    // <= >= !=
+                    else if (token.getType().equals(Token.TokenType.LOGICAL_OPERATOR)) {
+                        switch ((LogicalOperator) token.getValue())
+                        {
+                            case GR -> token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.GRE);
+                            case LS -> token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.LSE);
+                            case NOT -> token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.NE);
+                            default -> throw new UnexpectedTokenException("Unexpected token: '=' after " + token);
+                        }
+
+                        line.add(token);
+                        token = null;
+                        continue;
+                    }
+
+                    line.add(token);
+                }
+
                 token = new Token(Token.TokenType.ASSIGNMENT_OPERATOR, '=');
                 continue;
             }

@@ -1,5 +1,7 @@
-for(int i = 0; 10 > i; i++){
-if(15 < i){
-break;
+
+int count = 0;
+for (int i = 0; i != 3; i++) {
+count ++;
 }
-}
+
+count + 1 - 1;

@@ -68,16 +68,34 @@ public class Token {
         this.getVarType(Runtime.getRuntime()).decrement(this);
     }
 
-    public Token isMore(Token other) throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException{
-        return this.getVarType(Runtime.getRuntime()).isMore(this, other);
+    public Token greaterThan(Token other) throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException{
+        return this.getVarType(Runtime.getRuntime()).greaterThan(this, other);
     }
 
-    public Token isLess(Token other)throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException{
-        return this.getVarType(Runtime.getRuntime()).isLess(this, other);
+    public Token lessThan(Token other) throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException{
+        return this.getVarType(Runtime.getRuntime()).lessThan(this, other);
     }
 
-    public Token isEquals(Token other)throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException{
-        return this.getVarType(Runtime.getRuntime()).isEquals(this, other);
+    public Token equalsTo(Token other) throws UnrecognizedTypeException, UnimplementedException, UnhandledOperationException, UndeclaredVariableException{
+        return this.getVarType(Runtime.getRuntime()).equalsTo(this, other);
+    }
+
+    public Token notEqualsTo(Token other) throws UnrecognizedTypeException, UnhandledOperationException, UnimplementedException, UndeclaredVariableException {
+        return this.getVarType(Runtime.getRuntime()).notEqualsTo(this, other);
+    }
+
+    public Token not() throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
+        return this.getVarType(Runtime.getRuntime()).not(this);
+    }
+
+    /**
+     * Returns the boolean representation of the token's value
+     *
+     * @return the boolean representation of the token's value
+     */
+    public Token asBool() throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
+        if (this.getType().equals(TokenType.BOOL)) return this;
+        return this.getVarType(Runtime.getRuntime()).asBool(this);
     }
 
     public TokenType getType() {

@@ -20,15 +20,15 @@ public enum ArithmeticOperator {
 
     private final String repr;
 
-    private final static Map<ArithmeticOperator, Integer> priorities = Map.of(
-            ADD, 3,
-            SUB, 3,
-            MUL, 4,
-            DIV, 4,
-            MOD, 3,
-            POW, 5,
-            INC, 8,
-            DEC, 8
+    private final static Map<ArithmeticOperator, Byte> priorities = Map.of(
+            ADD, (byte) 3,
+            SUB, (byte) 3,
+            MUL, (byte) 4,
+            DIV, (byte) 4,
+            MOD, (byte) 3,
+            POW, (byte) 5,
+            INC, (byte) 8,
+            DEC, (byte) 8
     );
 
 
@@ -130,48 +130,6 @@ public enum ArithmeticOperator {
                 line.remove(operator);
             }
         }
-
-
-        /*
-
-        LinkedList<Token> line = interpreter.getLine();
-        Token highest = line.get(interpreter.getCurrentTokenIndex());
-        int currentTokenIndex = interpreter.getCurrentTokenIndex();
-
-        ArithmeticOperator operator = ArithmeticOperator.valueOf(highest.getValue().toString());
-
-        Number a = MathUtils.createNumber(line.get(currentTokenIndex - 1).getValue().toString());
-        Number b = MathUtils.createNumber(line.get(currentTokenIndex + 1).getValue().toString());
-        Number result = 0;
-
-        switch (operator) {
-            case ADD: {
-                result = MathUtils.addNumbers(a, b);
-                break;
-            }
-            case SUB: {
-                result = MathUtils.subtractNumbers(a, b);
-                break;
-            }
-            case MUL: {
-                result = MathUtils.multiplyNumbers(a, b);
-                break;
-            }
-            case DIV: {
-                result = MathUtils.divideNumbers(a, b);
-                break;
-            }
-            case POW: {
-                result = MathUtils.elevateNumbers(a, b);
-                break;
-            }
-        }
-
-        line.set(currentTokenIndex, new Token(Token.TokenType.NUM, result));
-        line.remove(currentTokenIndex + 1);
-        line.remove(currentTokenIndex - 1);
-
-         */
     }
 
 

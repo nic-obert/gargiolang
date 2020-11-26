@@ -6,7 +6,6 @@ import org.gargiolang.lang.exception.evaluation.UnhandledOperationException;
 import org.gargiolang.lang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.lang.exception.evaluation.ZeroDivisionException;
 import org.gargiolang.runtime.Runtime;
-import org.gargiolang.runtime.variable.SymbolTable;
 import org.gargiolang.runtime.variable.Variable;
 
 public class Float extends Type {
@@ -120,7 +119,7 @@ public class Float extends Type {
         variable.setValue((double) variable.getValue() - 1);
     }
 
-    public static Token isMore(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+    public static Token greaterThan(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
         Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
@@ -129,12 +128,12 @@ public class Float extends Type {
 
             case FLOAT -> result.setValue(a > (double) b.getVarValue(Runtime.getRuntime()));
 
-            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+            default -> throw new UnhandledOperationException("Unhandled operation: greaterThan between Integer and " + b);
         }
         return result;
     }
 
-    public static Token isLess(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+    public static Token lessThan(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
         Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
@@ -143,12 +142,12 @@ public class Float extends Type {
 
             case FLOAT -> result.setValue(a < (double) b.getVarValue(Runtime.getRuntime()));
 
-            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+            default -> throw new UnhandledOperationException("Unhandled operation: lessThan between Integer and " + b);
         }
         return result;
     }
 
-    public static Token isEquals(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+    public static Token equalsTo(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
         Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
@@ -157,8 +156,12 @@ public class Float extends Type {
 
             case FLOAT -> result.setValue(a == (double) b.getVarValue(Runtime.getRuntime()));
 
-            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+            default -> throw new UnhandledOperationException("Unhandled operation: equality between Integer and " + b);
         }
         return result;
+    }
+
+    public static Token asBool(double a) {
+        return new Token(Token.TokenType.BOOL, a != 0);
     }
 }

@@ -120,7 +120,7 @@ public class Integer extends Type {
         variable.setValue((int) variable.getValue() - 1);
     }
 
-    public static Token isMore(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+    public static Token greaterThan(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
         Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
@@ -128,12 +128,12 @@ public class Integer extends Type {
 
             case FLOAT -> result.setValue(a > (double) b.getVarValue(Runtime.getRuntime()));
 
-            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+            default -> throw new UnhandledOperationException("Unhandled operation: greaterThan between Integer and " + b);
         }
         return result;
     }
 
-    public static Token isLess(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+    public static Token lessThan(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
         Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
@@ -141,12 +141,12 @@ public class Integer extends Type {
 
             case FLOAT -> result.setValue(a < (double) b.getVarValue(Runtime.getRuntime()));
 
-            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+            default -> throw new UnhandledOperationException("Unhandled operation: lessThan between Integer and " + b);
         }
         return result;
     }
 
-    public static Token isEquals(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
+    public static Token equalsTo(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
         Token result = new Token(Token.TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
@@ -154,8 +154,12 @@ public class Integer extends Type {
 
             case FLOAT -> result.setValue(a == (double) b.getVarValue(Runtime.getRuntime()));
 
-            default -> throw new UnhandledOperationException("Unhandled operation: power between Integer and " + b);
+            default -> throw new UnhandledOperationException("Unhandled operation: equality between Integer and " + b);
         }
         return result;
+    }
+
+    public static Token asBool(int a) {
+        return new Token(Token.TokenType.BOOL, a != 0);
     }
 }
