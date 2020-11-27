@@ -1,10 +1,10 @@
 package org.gargiolang.runtime.variable.types;
 
 import org.gargiolang.lang.Token;
-import org.gargiolang.lang.exception.evaluation.UndeclaredVariableException;
-import org.gargiolang.lang.exception.evaluation.UnhandledOperationException;
-import org.gargiolang.lang.exception.evaluation.UnrecognizedTypeException;
-import org.gargiolang.lang.exception.evaluation.ZeroDivisionException;
+import org.gargiolang.exception.evaluation.UndeclaredVariableException;
+import org.gargiolang.exception.evaluation.UnhandledOperationException;
+import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
+import org.gargiolang.exception.evaluation.ZeroDivisionException;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 

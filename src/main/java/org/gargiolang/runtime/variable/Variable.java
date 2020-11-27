@@ -1,7 +1,7 @@
 package org.gargiolang.runtime.variable;
 
 import org.gargiolang.lang.Token;
-import org.gargiolang.lang.exception.evaluation.*;
+import org.gargiolang.exception.evaluation.*;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.types.Boolean;
 import org.gargiolang.runtime.variable.types.Float;

@@ -1,8 +1,8 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.evaluation.BadTypeException;
-import org.gargiolang.lang.exception.evaluation.EvaluationException;
-import org.gargiolang.lang.exception.evaluation.GoBackException;
+import org.gargiolang.exception.evaluation.BadTypeException;
+import org.gargiolang.exception.evaluation.EvaluationException;
+import org.gargiolang.exception.evaluation.GoBackException;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.variable.Variable;
 

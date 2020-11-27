@@ -1,10 +1,12 @@
 package org.gargiolang.runtime;
 
-import org.gargiolang.dependencies.Dependency;
+import org.gargiolang.preprocessing.LabelTable;
+import org.gargiolang.preprocessing.Preprocessor;
+import org.gargiolang.preprocessing.dependencies.Dependency;
 import org.gargiolang.environment.Environment;
 import org.gargiolang.lang.Parser;
 import org.gargiolang.lang.Token;
-import org.gargiolang.lang.exception.GargioniException;
+import org.gargiolang.exception.GargioniException;
 import org.gargiolang.runtime.variable.SymbolTable;
 
 import java.io.File;

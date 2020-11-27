@@ -1,7 +1,7 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.evaluation.IndexOutOfBoundsException;
-import org.gargiolang.lang.exception.evaluation.OpenScopeException;
+import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
+import org.gargiolang.exception.evaluation.OpenScopeException;
 import org.gargiolang.runtime.Interpreter;
 
 import java.util.LinkedList;

@@ -1,8 +1,10 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.lang.exception.parsing.InvalidCharacterException;
-import org.gargiolang.lang.exception.parsing.ParsingException;
-import org.gargiolang.lang.exception.parsing.UnexpectedTokenException;
+import org.gargiolang.exception.parsing.InvalidCharacterException;
+import org.gargiolang.exception.parsing.ParsingException;
+import org.gargiolang.exception.parsing.UnexpectedTokenException;
+import org.gargiolang.lang.operators.ArithmeticOperator;
+import org.gargiolang.lang.operators.LogicalOperator;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 

@@ -1,8 +1,11 @@
 package org.gargiolang.runtime;
 
 import org.gargiolang.lang.*;
-import org.gargiolang.lang.exception.evaluation.EvaluationException;
-import org.gargiolang.lang.exception.evaluation.IndexOutOfBoundsException;
+import org.gargiolang.exception.evaluation.EvaluationException;
+import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
+import org.gargiolang.lang.operators.ArithmeticOperator;
+import org.gargiolang.lang.operators.AssignmentOperator;
+import org.gargiolang.lang.operators.LogicalOperator;
 
 import java.util.LinkedList;
 
@@ -64,6 +67,7 @@ public class Interpreter {
 
     public void setLine(int lineIndex) throws IndexOutOfBoundsException {
         this.setLineIndex(lineIndex);
+
         this.line = (LinkedList<Token>) tokens.get(lineIndex).clone();
     }
 

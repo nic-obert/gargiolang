@@ -1,10 +1,11 @@
 package org.gargiolang.runtime.variable.types;
 
 import org.gargiolang.lang.Token;
-import org.gargiolang.lang.exception.evaluation.UndeclaredVariableException;
-import org.gargiolang.lang.exception.evaluation.UnhandledOperationException;
-import org.gargiolang.lang.exception.evaluation.UnrecognizedTypeException;
+import org.gargiolang.exception.evaluation.UndeclaredVariableException;
+import org.gargiolang.exception.evaluation.UnhandledOperationException;
+import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.runtime.Runtime;
+import org.gargiolang.runtime.variable.Variable;
 
 public class String extends Type {
 
@@ -28,17 +29,10 @@ public class String extends Type {
     public static Token multiply(java.lang.String a, Token b) throws UnrecognizedTypeException, UnhandledOperationException, UndeclaredVariableException {
         Token result = new Token(Token.TokenType.STR, null);
 
-        switch (b.getVarType(Runtime.getRuntime()))
-        {
-            case INT -> {
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int times = (int) b.getVarValue(Runtime.getRuntime()); times != 0; times--) {
-                    stringBuilder.append(a);
-                }
-                result.setValue(stringBuilder.toString());
-            }
-
-            default -> throw new UnhandledOperationException("Unhandled operation: multiplication between String and " + b);
+        if (b.getVarType(Runtime.getRuntime()) == Variable.Type.INT) {
+            result.setValue(java.lang.String.valueOf(a).repeat(Math.max(0, (int) b.getVarValue(Runtime.getRuntime()))));
+        } else {
+            throw new UnhandledOperationException("Unhandled operation: multiplication between String and " + b);
         }
 
         return result;
@@ -47,11 +41,10 @@ public class String extends Type {
     public static Token equalsTo(java.lang.String a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException {
         Token result = new Token(Token.TokenType.BOOL, null);
 
-        switch (b.getVarType(Runtime.getRuntime()))
-        {
-            case STRING -> result.setValue(a.equals(b.getVarValue(Runtime.getRuntime())));
-
-            default -> throw new UnhandledOperationException("Unhandled operation: equality between String and " + b);
+        if (b.getVarType(Runtime.getRuntime()) == Variable.Type.STRING) {
+            result.setValue(a.equals(b.getVarValue(Runtime.getRuntime())));
+        } else {
+            throw new UnhandledOperationException("Unhandled operation: equality between String and " + b);
         }
 
         return result;
