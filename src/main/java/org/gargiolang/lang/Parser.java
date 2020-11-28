@@ -244,12 +244,7 @@ public class Parser {
 
             if (c == '(') {
                 if (token != null) line.add(token);
-
-                if (line.size() != 0 && line.getLast().getType() == Token.TokenType.TXT)
-                    token = new Token(Token.TokenType.CALL, Parenthesis.OPEN);
-                else
-                    token = new Token(Token.TokenType.PAREN, Parenthesis.OPEN);
-
+                token = new Token(Token.TokenType.PAREN, Parenthesis.OPEN);
                 continue;
             }
 
@@ -259,8 +254,13 @@ public class Parser {
                 continue;
             }
 
+            if (c == ',') {
+                if (token != null) line.add(token);
+                continue;
+            }
+
             // ASCII 13 --> carriage return
-            if((byte) c == 13){
+            if ((byte) c == 13){
                 continue;
             }
 

@@ -1,3 +1,4 @@
-while (true && false) {
 
+def null sum(int a, int b) {
+    a+b;
 }

@@ -7,6 +7,8 @@ import org.gargiolang.environment.Environment;
 import org.gargiolang.lang.Parser;
 import org.gargiolang.lang.Token;
 import org.gargiolang.exception.GargioniException;
+import org.gargiolang.runtime.function.CallStack;
+import org.gargiolang.runtime.function.FunctionTable;
 import org.gargiolang.runtime.variable.SymbolTable;
 
 import java.io.File;
@@ -22,6 +24,10 @@ public final class Runtime {
     private final LabelTable labelTable;
 
     private final Stack<Integer> gotoStack;
+
+    private final CallStack callStack;
+
+    private final FunctionTable functionTable;
 
     private final Environment environment;
 
@@ -40,6 +46,8 @@ public final class Runtime {
         this.statements = new LinkedList<>();
         this.labelTable = new LabelTable();
         this.gotoStack = new Stack<>();
+        this.callStack = new CallStack();
+        this.functionTable = new FunctionTable();
     }
 
     public void loadScript(String scriptName) throws IOException, GargioniException {
@@ -95,5 +103,9 @@ public final class Runtime {
 
     public Stack<Integer> getGotoStack() {
         return gotoStack;
+    }
+
+    public FunctionTable getFunctionTable() {
+        return functionTable;
     }
 }

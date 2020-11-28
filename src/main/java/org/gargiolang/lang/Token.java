@@ -158,8 +158,7 @@ public class Token {
         ARITHMETIC_OPERATOR((byte) 0), // priority depends on the operator
         KEYWORD((byte) 0), // priority depends on the keyword
 
-        PAREN((byte) 10), // highest priority
-        CALL((byte) 10);
+        PAREN((byte) 10); // highest priority
 
 
         private final byte priority;

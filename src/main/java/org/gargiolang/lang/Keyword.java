@@ -3,7 +3,9 @@ package org.gargiolang.lang;
 import org.gargiolang.exception.evaluation.BadTypeException;
 import org.gargiolang.exception.evaluation.EvaluationException;
 import org.gargiolang.exception.evaluation.GoBackException;
+import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.runtime.Interpreter;
+import org.gargiolang.runtime.function.Function;
 import org.gargiolang.runtime.variable.Variable;
 
 import java.util.LinkedList;
@@ -21,7 +23,9 @@ public enum Keyword {
     ELSE("else", (byte) 9),
 
     WHILE("while", (byte) 10),
-    FOR("for", (byte) 10);
+    FOR("for", (byte) 10),
+
+    DEF("def", (byte) 10);
 
     private final String value;
     private final byte priority;
@@ -31,7 +35,6 @@ public enum Keyword {
         this.value = str;
         this.priority = priority;
     }
-
 
     public static boolean isKeyword(String str){
         for(Keyword keyword : Keyword.values()){
@@ -354,6 +357,82 @@ public enum Keyword {
 
                 // finally remove the keyword
                 interpreter.getLine().remove(interpreter.getCurrentTokenIndex());
+            }
+
+            case DEF -> {
+                /*
+                    - first get return type
+                    - get function name
+                    - get function arguments
+                    - get function body
+                    - add the new function to the FunctionTable
+                    - set line execution to after the function's code block
+                 */
+
+
+                LinkedList<Token> line = interpreter.getLine();
+                int currentTokenIndex = interpreter.getCurrentTokenIndex();
+
+
+                // get return type
+                Token returnTypeToken = line.get(currentTokenIndex + 1);
+                if (!returnTypeToken.getType().equals(Token.TokenType.TYPE))
+                    throw new UnrecognizedTypeException("Unrecognized return type: " + returnTypeToken);
+                Variable.Type returnType = (Variable.Type) returnTypeToken.getValue();
+
+
+                // get function name
+                Token functionNameToken = line.get(currentTokenIndex + 2);
+                if (!functionNameToken.getType().equals(Token.TokenType.TXT))
+                    throw new BadTypeException("Token.TokenType.TXT expected for function names, but " + functionNameToken + " was provided instead");
+                String functionName = (String) functionNameToken.getValue();
+
+
+                // get argument list
+                int[][] parenthesis = Parenthesis.findNextParenthesis(interpreter);
+                LinkedList<Token[]> args = new LinkedList<>();
+
+                int argIndex = parenthesis[0][1] + 1;
+                while (argIndex != parenthesis[1][1]) {
+
+                    // get argument type
+                    Token argType = line.get(argIndex);
+                    if (!argType.getType().equals(Token.TokenType.TYPE))
+                        throw new UnrecognizedTypeException("Unrecognized return type: " + argType);
+
+                    argIndex ++;
+
+                    // get argument name
+                    Token argName = line.get(argIndex);
+                    if (!argName.getType().equals(Token.TokenType.TXT))
+                        throw new BadTypeException("Token.TokenType.TXT expected for argument names, but " + argName + " was provided instead");
+
+                    argIndex ++;
+
+                    args.add(new Token[]{argType, argName});
+                }
+
+
+                // get fuction code block
+                int[][] codeBlock = Scope.findNextScope(interpreter);
+
+
+                // create the function
+                Function function = new Function(
+                        codeBlock[0][0],
+                        codeBlock[0][1],
+                        args,
+                        returnType
+                );
+
+
+                // append the function to the FunctionTable
+                interpreter.getRuntime().getFunctionTable().addFunction(functionName, function);
+
+
+                // set the line execution to after the function's code block
+                interpreter.setLineFrom(codeBlock[1][0], codeBlock[1][1] + 1);
+
             }
         }
 

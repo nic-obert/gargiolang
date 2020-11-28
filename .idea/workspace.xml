@@ -13,55 +13,19 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented all logical operators (including &amp;&amp; and ||)">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/preprocessing/PreprocessingException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/preprocessing/UnmatchedConditionalException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/preprocessing/UnrecognizedPreprocessorException.java" afterDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="done some refactoring">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/EmptyCallStackException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/FunctionRedefinititionException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/UndefinedFunctionException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/function/Call.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/function/CallStack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/function/Function.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/function/FunctionTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/dependencies/Dependency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/preprocessing/dependencies/Dependency.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/dependencies/DependencyLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/preprocessing/dependencies/DependencyLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/dependencies/java/JavaDependency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/preprocessing/dependencies/java/JavaDependency.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/dependencies/java/NativeJavaDependency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/preprocessing/dependencies/java/NativeJavaDependency.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/dependencies/java/ReflectionJavaDependency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/preprocessing/dependencies/java/ReflectionJavaDependency.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/dependencies/java/nativejava/System.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/preprocessing/dependencies/java/nativejava/System.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/ArithmeticOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/ArithmeticOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/AssignmentOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/AssignmentOperator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/LogicalOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/LogicalOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parenthesis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parenthesis.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/GargioniException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/GargioniException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/BadTypeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/BadTypeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/EvaluationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/EvaluationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/GoBackException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/GoBackException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/IndexOutOfBoundsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/IndexOutOfBoundsException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/NotLValueException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/NotLValueException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/OpenParenthesisException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/OpenParenthesisException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/OpenScopeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/OpenScopeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/UndeclaredVariableException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/UndeclaredVariableException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/UndefinedLabelException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/UndefinedLabelException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/UnhandledOperationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/UnhandledOperationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/UnimplementedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/UnimplementedException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/UnrecognizedTypeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/UnrecognizedTypeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/VariableRedeclarationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/VariableRedeclarationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/evaluation/ZeroDivisionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/evaluation/ZeroDivisionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/parsing/InvalidCharacterException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/InvalidCharacterException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/parsing/LabelRedefinitionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/LabelRedefinitionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/parsing/ParsingException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/ParsingException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/parsing/UnexpectedTokenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/UnexpectedTokenException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/exception/parsing/UnrecognizedOperatorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/UnrecognizedOperatorException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/LabelTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/preprocessing/LabelTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Preprocessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/preprocessing/Preprocessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/SymbolTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Boolean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Boolean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/String.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/String.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -182,7 +146,7 @@
       <workItem from="1606163106237" duration="17526000" />
       <workItem from="1606382238313" duration="937000" />
       <workItem from="1606463641846" duration="154000" />
-      <workItem from="1606463926385" duration="4880000" />
+      <workItem from="1606463926385" duration="13603000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -387,7 +351,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606413455055</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="done some refactoring">
+      <created>1606469096067</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1606469096067</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -406,7 +377,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implemented tokenization for floats" />
     <MESSAGE value="added basic functionality to SymbolTable" />
     <MESSAGE value="implemented strings" />
     <MESSAGE value="implemented parenthesis, assignment operator and function call tokens" />
@@ -431,7 +401,8 @@
     <MESSAGE value="implemented for loop, but missing break, continue and logical operators" />
     <MESSAGE value="implemented all logical operators" />
     <MESSAGE value="implemented all logical operators (including &amp;&amp; and ||)" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented all logical operators (including &amp;&amp; and ||)" />
+    <MESSAGE value="done some refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="done some refactoring" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
@@ -473,25 +444,25 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605694392932" />
-    <state width="1314" height="316" key="GridCell.Tab.0.bottom" timestamp="1606468193862">
+    <state width="1318" height="240" key="GridCell.Tab.0.bottom" timestamp="1606553684564">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1314" height="316" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606468193862" />
+    <state width="1318" height="240" key="GridCell.Tab.0.bottom/0.0.1366.742@0.0.1366.742" timestamp="1606553684564" />
     <state width="1879" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606399054757" />
-    <state width="1314" height="316" key="GridCell.Tab.0.center" timestamp="1606468193861">
+    <state width="1318" height="240" key="GridCell.Tab.0.center" timestamp="1606553684562">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1314" height="316" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606468193861" />
+    <state width="1318" height="240" key="GridCell.Tab.0.center/0.0.1366.742@0.0.1366.742" timestamp="1606553684562" />
     <state width="1879" height="279" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606399054757" />
-    <state width="1314" height="316" key="GridCell.Tab.0.left" timestamp="1606468193860">
+    <state width="1318" height="240" key="GridCell.Tab.0.left" timestamp="1606553684562">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1314" height="316" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606468193860" />
+    <state width="1318" height="240" key="GridCell.Tab.0.left/0.0.1366.742@0.0.1366.742" timestamp="1606553684562" />
     <state width="1879" height="279" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606399054757" />
-    <state width="1314" height="316" key="GridCell.Tab.0.right" timestamp="1606468193861">
+    <state width="1318" height="240" key="GridCell.Tab.0.right" timestamp="1606553684563">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state width="1314" height="316" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606468193861" />
+    <state width="1318" height="240" key="GridCell.Tab.0.right/0.0.1366.742@0.0.1366.742" timestamp="1606553684563" />
     <state width="1879" height="279" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1606399054757" />
     <state width="1314" height="330" key="GridCell.Tab.1.bottom" timestamp="1606413174267">
       <screen x="0" y="0" width="1366" height="742" />
@@ -534,10 +505,10 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="407" y="84" width="528" height="605" key="VCS.ChangeListViewerDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609093856" />
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1606413459972">
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1606469127405">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1606413459972" />
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1606469127405" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
     <state width="683" height="371" key="XDebugger.FullValuePopup" timestamp="1606412210865">
       <screen x="0" y="0" width="1366" height="742" />
@@ -551,10 +522,10 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="203" y="90" width="948" height="646" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1366.742@0.0.1366.742" timestamp="1606204289653" />
-    <state x="435" y="118" width="483" height="506" key="refactoring.ChangeSignatureDialog" timestamp="1606164107678">
+    <state x="435" y="118" width="483" height="506" key="refactoring.ChangeSignatureDialog" timestamp="1606552834497">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="435" y="118" width="483" height="506" key="refactoring.ChangeSignatureDialog/0.0.1366.742@0.0.1366.742" timestamp="1606164107678" />
+    <state x="435" y="118" width="483" height="506" key="refactoring.ChangeSignatureDialog/0.0.1366.742@0.0.1366.742" timestamp="1606552834497" />
     <state x="342" y="164" key="run.anything.popup" timestamp="1606295110878">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
