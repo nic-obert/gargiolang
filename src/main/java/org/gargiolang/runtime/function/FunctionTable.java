@@ -14,13 +14,15 @@ public class FunctionTable {
     }
 
     public void addFunction(String name, Function function) throws FunctionRedefinititionException {
-        if (this.functionTable.containsKey(name)) throw new FunctionRedefinititionException("Function " + name + " is already defined");
+        if (this.functionTable.containsKey(name))
+            throw new FunctionRedefinititionException("Function " + name + " is already defined");
         this.functionTable.put(name, function);
     }
 
     public Function getFunction(String name) throws UndefinedFunctionException {
         Function function = this.functionTable.getOrDefault(name, null);
-        if (function == null) throw new UndefinedFunctionException("Function is not defined: " + name);
+        if (function == null)
+            throw new UndefinedFunctionException("Function is not defined: " + name);
         return function;
     }
 

@@ -4,8 +4,14 @@ import org.gargiolang.exception.evaluation.BadTypeException;
 import org.gargiolang.exception.evaluation.EvaluationException;
 import org.gargiolang.exception.evaluation.GoBackException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
+import org.gargiolang.lang.operators.Parenthesis;
 import org.gargiolang.runtime.Interpreter;
+import org.gargiolang.runtime.Runtime;
+import org.gargiolang.runtime.function.Call;
 import org.gargiolang.runtime.function.Function;
+import org.gargiolang.runtime.function.Parameter;
+import org.gargiolang.runtime.variable.Accessibility;
+import org.gargiolang.runtime.variable.SymbolTable;
 import org.gargiolang.runtime.variable.Variable;
 
 import java.util.LinkedList;
@@ -15,6 +21,8 @@ public enum Keyword {
 
     GOTO("goto", (byte) 1),
     GOBACK("goback", (byte) 1),
+
+    RETURN("return", (byte) 1),
 
     BREAK("break", (byte) 1),
     CONTINUE("continue", (byte) 1),
@@ -363,7 +371,7 @@ public enum Keyword {
                 /*
                     - first get return type
                     - get function name
-                    - get function arguments
+                    - get function parameters
                     - get function body
                     - add the new function to the FunctionTable
                     - set line execution to after the function's code block
@@ -383,37 +391,37 @@ public enum Keyword {
 
                 // get function name
                 Token functionNameToken = line.get(currentTokenIndex + 2);
-                if (!functionNameToken.getType().equals(Token.TokenType.TXT))
-                    throw new BadTypeException("Token.TokenType.TXT expected for function names, but " + functionNameToken + " was provided instead");
+                if (!functionNameToken.getType().equals(Token.TokenType.FUNC))
+                    throw new BadTypeException("Token.TokenType.FUNC expected for function names, but " + functionNameToken + " was provided instead");
                 String functionName = (String) functionNameToken.getValue();
 
 
-                // get argument list
-                int[][] parenthesis = Parenthesis.findNextParenthesis(interpreter);
-                LinkedList<Token[]> args = new LinkedList<>();
+                // get parameter list
+                LinkedList<Parameter> params = new LinkedList<>();
 
-                int argIndex = parenthesis[0][1] + 1;
-                while (argIndex != parenthesis[1][1]) {
+                int paramIndex = currentTokenIndex + 4;
+
+                while (!line.get(paramIndex).getType().equals(Token.TokenType.CALL)) {
 
                     // get argument type
-                    Token argType = line.get(argIndex);
-                    if (!argType.getType().equals(Token.TokenType.TYPE))
-                        throw new UnrecognizedTypeException("Unrecognized return type: " + argType);
+                    Token paramType = line.get(paramIndex);
+                    if (!paramType.getType().equals(Token.TokenType.TYPE))
+                        throw new UnrecognizedTypeException("Unrecognized return type: " + paramType);
 
-                    argIndex ++;
+                    paramIndex ++;
 
                     // get argument name
-                    Token argName = line.get(argIndex);
-                    if (!argName.getType().equals(Token.TokenType.TXT))
-                        throw new BadTypeException("Token.TokenType.TXT expected for argument names, but " + argName + " was provided instead");
+                    Token paramName = line.get(paramIndex);
+                    if (!paramName.getType().equals(Token.TokenType.TXT))
+                        throw new BadTypeException("Token.TokenType.TXT expected for parameter names, but " + paramName + " was provided instead");
 
-                    argIndex ++;
+                    paramIndex ++;
 
-                    args.add(new Token[]{argType, argName});
+                    params.add(new Parameter((String) paramName.getValue(), (Variable.Type) paramType.getValue()));
                 }
 
 
-                // get fuction code block
+                // get function code block
                 int[][] codeBlock = Scope.findNextScope(interpreter);
 
 
@@ -421,7 +429,7 @@ public enum Keyword {
                 Function function = new Function(
                         codeBlock[0][0],
                         codeBlock[0][1],
-                        args,
+                        params,
                         returnType
                 );
 
@@ -432,6 +440,63 @@ public enum Keyword {
 
                 // set the line execution to after the function's code block
                 interpreter.setLineFrom(codeBlock[1][0], codeBlock[1][1] + 1);
+
+            }
+
+            case RETURN -> {
+
+                /*
+                    - pop Call from the CallStack
+                    - get the return value (if any)
+                    - pop ALL the previously added scopes
+                    - get back to where the function was called
+                    - return the function's return value
+                 */
+
+                Runtime runtime = interpreter.getRuntime();
+                SymbolTable symbolTable = runtime.getSymbolTable();
+
+
+                // pop Call from the CallStack
+                Call call = runtime.getCallStack().pop();
+                Function function = call.getFunction();
+
+
+                // get the return value (if any)
+                Variable returnValue = null;
+                if (!function.getReturnType().equals(Variable.Type.NULL)) {
+                    Token returnToken = interpreter.getLine().get(interpreter.getCurrentTokenIndex() + 1);
+                    Variable.Type returnType = returnToken.getVarType(runtime);
+                    // check if return types match
+                    if (!returnType.equals(function.getReturnType()))
+                        throw new BadTypeException("Return type is '" + function.getReturnType() + "', but '" + returnType + "' was provided");
+
+                    returnValue = new Variable(
+                            returnToken.getVarValue(runtime),
+                            returnType,
+                            Accessibility.PUBLIC
+                    );
+                }
+
+
+                // pop ALL previously added scopes
+                symbolTable.popScopes(symbolTable.scopeCount() - call.getScopeCount());
+
+
+                // restore the previous interpreter's state
+                interpreter.setLine(call.getLineState(), call.getCalledFromLine(), call.getCalledFromIndex());
+
+
+                // initialize return token
+                Token returnToken;
+                if (returnValue == null) {
+                    returnToken = new Token(Token.TokenType.NULL, null);
+                } else {
+                    returnToken = new Token(Token.TokenType.fromVarType(returnValue.getType()), returnValue.getValue());
+                }
+
+                // actually return the token
+                interpreter.getLine().set(interpreter.getCurrentTokenIndex(), returnToken);
 
             }
         }

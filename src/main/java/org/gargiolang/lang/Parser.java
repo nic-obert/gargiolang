@@ -5,6 +5,7 @@ import org.gargiolang.exception.parsing.ParsingException;
 import org.gargiolang.exception.parsing.UnexpectedTokenException;
 import org.gargiolang.lang.operators.ArithmeticOperator;
 import org.gargiolang.lang.operators.LogicalOperator;
+import org.gargiolang.lang.operators.Parenthesis;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 
@@ -59,11 +60,14 @@ public class Parser {
         // list of tokens representing the tokenized statement
         LinkedList<Token> line = new LinkedList<>();
 
-        // useful variables when tokenizing a line
-        boolean isText = false;
-        boolean isString = false;
-        boolean isNumber = false;
+        // the current state of the tokenizer
+        State state = State.NULL;
 
+        // for function calls inside other function calls
+        int parenCount = 0;
+        int callDepth = 0;
+
+        // for exception verbosity
         int position = 0;
 
         // the token that is currently being built, to be added to token list when finished building
@@ -73,84 +77,124 @@ public class Parser {
         for (char c : statement.toCharArray()) {
             position ++;
 
-            // if the parser is already parsing a token of type text
-            if (isText) {
-                // check if char can be a token of type text
-                if (Token.isText(c) || Token.isNumber(c)) {
-                    token.buildValue(c);
-                    continue;
-                }
-                // if char is not text --> it has finished building, thus it should be appended to the token list
-                isText = false;
 
-                // firstly check if the token is a keyword
-                if (Keyword.isKeyword((String) token.getValue())) {
-                    line.add(new Token(Token.TokenType.KEYWORD, Keyword.valueOf(((String) token.getValue()).toUpperCase())));
+            switch (state)
+            {
+                // if the parser is already parsing a token of type text
+                case TEXT -> {
+                    // check if char can be a token of type text
+                    if (Token.isText(c) || Token.isNumber(c)) {
+                        token.buildValue(c);
+                        continue;
+                    }
+                    // if char is not text --> it has finished building, thus it should be appended to the token list
+                    state = State.NULL;
+
+                    // firstly check if the token is a Keyword
+                    if (Keyword.isKeyword((String) token.getValue())) {
+                        line.add(new Token(Token.TokenType.KEYWORD, Keyword.valueOf(((String) token.getValue()).toUpperCase())));
+                    }
+
+                    // check if token is a Type
+                    else if(Variable.Type.getType(String.valueOf(token.getValue())) != null) {
+                        line.add(new Token(Token.TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
+                    }
+
+                    // check if is a Boolean
+                    else if(token.getValue().equals("true")) {
+                        line.add(new Token(Token.TokenType.BOOL, true));
+                    }
+
+                    else if (token.getValue().equals("false")) {
+                        line.add(new Token(Token.TokenType.BOOL, false));
+                    }
+
+                    // check if it is a function call
+                    else if (c == '(') {
+                        // add the text as function
+                        line.add(new Token(Token.TokenType.FUNC, token.getValue()));
+                        // increase the call depth (for function calls inside other calls)
+                        callDepth ++;
+                        // add an opening Call parenthesis
+                        line.add(new Token(Token.TokenType.CALL, Call.OPEN));
+                        token = null;
+                        continue;
+                    }
+
+                    // if token is not a keyword, add it as normal text
+                    else {
+                        line.add(token);
+                    }
+
+                    // set the current token to null
+                    token = null;
                 }
-                else if(Variable.Type.getType(String.valueOf(token.getValue())) != null) {
-                    line.add(new Token(Token.TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
+
+                case NUMBER -> {
+                    if (Token.isNumber(c) || c == '.') {
+                        token.buildValue(c);
+                        continue;
+                    }
+
+                    state = State.NULL;
+
+                    if (((String) token.getValue()).contains("."))
+                        line.add(new Token(Token.TokenType.NUM, Double.parseDouble((String) token.getValue())));
+                    else
+                        line.add(new Token(Token.TokenType.NUM, Integer.parseInt((String) token.getValue())));
+
+                    token = null;
                 }
-                // check if is a boolean
-                else if(token.getValue().equals("true")) {
-                    line.add(new Token(Token.TokenType.BOOL, true));
-                }
-                else if (token.getValue().equals("false")) {
-                    line.add(new Token(Token.TokenType.BOOL, false));
-                }
-                // if token is not a keyword, add it as normal text
-                else {
+
+                case STRING -> {
+                    if (c != '"') {
+                        token.buildValue(c);
+                        continue;
+                    }
+
+                    state = State.NULL;
                     line.add(token);
-                }
-                // set the current token to null
-                token = null;
-            }
-
-            else if (isNumber) {
-                if (Token.isNumber(c) || c == '.') {
-                    token.buildValue(c);
+                    token = null;
                     continue;
                 }
-
-                isNumber = false;
-
-                if (((String) token.getValue()).contains("."))
-                    line.add(new Token(Token.TokenType.NUM, Double.parseDouble((String) token.getValue())));
-                else
-                    line.add(new Token(Token.TokenType.NUM, Integer.parseInt((String) token.getValue())));
-
-                token = null;
             }
 
-            else if (isString) {
-                if (c != '"') {
-                    token.buildValue(c);
-                    continue;
-                }
 
-                isString = false;
-                line.add(token);
-                token = null;
-                continue;
+            // checks for function calls
+            if (callDepth != 0) {
+                if (c == '(') parenCount ++;
+                else if (c == ')') {
+                    parenCount --;
+                    // when the closing parenthesis is met
+                    if (parenCount == -1) {
+
+                        callDepth --;
+                        if (callDepth == 0) state = State.NULL;
+
+                        line.add(new Token(Token.TokenType.CALL, Call.CLOSE));
+                        continue;
+                    }
+                }
             }
 
 
             if (c == '"') {
                 if (token != null) line.add(token);
-                isString = true;
+                state = State.STRING;
                 token = new Token(Token.TokenType.STR, "");
                 continue;
             }
 
             if (Token.isNumber(c)) {
                 if (token != null) line.add(token);
-                isNumber = true;
+                state = State.NUMBER;
                 token = new Token(Token.TokenType.NUM, Character.toString(c));
                 continue;
             }
 
             if (Token.isText(c)) {
                 if (token != null) line.add(token);
-                isText = true;
+                state = State.TEXT;
                 token = new Token(Token.TokenType.TXT, Character.toString(c));
                 continue;
             }
@@ -290,6 +334,16 @@ public class Parser {
         }
 
         return line;
+    }
+
+
+    public enum State {
+
+        NULL,
+        TEXT,
+        NUMBER,
+        STRING
+
     }
 
 }

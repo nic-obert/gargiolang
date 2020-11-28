@@ -108,4 +108,8 @@ public final class Runtime {
     public FunctionTable getFunctionTable() {
         return functionTable;
     }
+
+    public CallStack getCallStack() {
+        return callStack;
+    }
 }

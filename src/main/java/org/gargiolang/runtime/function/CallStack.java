@@ -17,7 +17,8 @@ public class CallStack {
     }
 
     public Call pop() throws EmptyCallStackException {
-        if (callStack.isEmpty()) throw new EmptyCallStackException("Cannot pop from call stack: it's empty");
+        if (callStack.isEmpty())
+            throw new EmptyCallStackException("Cannot pop from call stack: it's empty");
         return this.callStack.pop();
     }
 

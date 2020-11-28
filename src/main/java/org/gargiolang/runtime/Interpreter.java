@@ -6,6 +6,7 @@ import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
 import org.gargiolang.lang.operators.ArithmeticOperator;
 import org.gargiolang.lang.operators.AssignmentOperator;
 import org.gargiolang.lang.operators.LogicalOperator;
+import org.gargiolang.lang.operators.Parenthesis;
 
 import java.util.LinkedList;
 
@@ -60,8 +61,25 @@ public class Interpreter {
      * @throws IndexOutOfBoundsException if specified lineIndex or fromToken are out of bounds
      */
     public LinkedList<Token> getLineFrom(int lineIndex, int fromToken) throws IndexOutOfBoundsException {
-        if (fromToken == this.getLine(lineIndex).size() || fromToken < 0) throw new IndexOutOfBoundsException("Token index out of bounds: Index: " + fromToken + ", Size: " + this.getLine(lineIndex).size());
+        if (fromToken == this.getLine(lineIndex).size() || fromToken < 0)
+            throw new IndexOutOfBoundsException("Token index out of bounds: Index: " + fromToken + ", Size: " + this.getLine(lineIndex).size());
         return new LinkedList<>(this.getLine(lineIndex).subList(fromToken, this.getLine(lineIndex).size()));
+    }
+
+
+    /**
+     * Sets the current line to the one provided and pdates lineIndex and currentTokenIndex.
+     * This could also be referred as setting the interpreter's state.
+     *
+     * @param line the line to be set as current line
+     * @param lineIndex the index of the line inside the token list
+     * @param currentTokenIndex the token that is currently being executed
+     * @throws IndexOutOfBoundsException if the lineIndex is out of bounds with respect to the token list
+     */
+    public void setLine(LinkedList<Token> line, int lineIndex, int currentTokenIndex) throws IndexOutOfBoundsException {
+        this.line = line;
+        this.setLineIndex(lineIndex);
+        this.setCurrentTokenIndex(currentTokenIndex);
     }
 
 
@@ -122,7 +140,8 @@ public class Interpreter {
 
 
     public void setCurrentTokenIndex(int currentTokenIndex) throws IndexOutOfBoundsException {
-        if (currentTokenIndex == line.size() || currentTokenIndex < 0) throw new IndexOutOfBoundsException("Given index out of bounds: Index: " + currentTokenIndex + ", Size: " + line.size());
+        if (currentTokenIndex == line.size() || currentTokenIndex < 0)
+            throw new IndexOutOfBoundsException("Given index out of bounds: Index: " + currentTokenIndex + ", Size: " + line.size());
         this.currentTokenIndex = currentTokenIndex;
     }
 
@@ -135,7 +154,8 @@ public class Interpreter {
      */
     public void setLineIndex(int lineIndex) throws IndexOutOfBoundsException {
         // check is given lineIndex exceeds the number of lines
-        if (lineIndex > tokens.size() || currentTokenIndex < 0) throw new IndexOutOfBoundsException("Line index out of bounds: Index: " + lineIndex + ", Size: " + tokens.size());
+        if (lineIndex > tokens.size() || currentTokenIndex < 0)
+            throw new IndexOutOfBoundsException("Line index out of bounds: Index: " + lineIndex + ", Size: " + tokens.size());
         this.lineIndex = lineIndex;
     }
 
@@ -199,6 +219,10 @@ public class Interpreter {
                 case KEYWORD -> Keyword.evaluate(this);
 
                 case SCOPE -> Scope.evaluate(this);
+
+                case FUNC -> Function.evaluate(this);
+
+                case CALL -> Call.evaluate(this);
 
                 default -> throw new EvaluationException("Could not evaluate token " + highest);
             }

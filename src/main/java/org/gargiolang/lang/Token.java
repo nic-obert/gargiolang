@@ -147,6 +147,7 @@ public class Token {
         STR((byte) 0),
         NUM((byte) 0),
         BOOL((byte) 0),
+        NULL((byte) 0),
 
         TYPE((byte) 0),
 
@@ -154,11 +155,15 @@ public class Token {
 
         ASSIGNMENT_OPERATOR((byte) 1),
 
+        FUNC((byte) 2),
+        CALL((byte) 10),
+
+        PAREN((byte) 10), // highest priority
+
         LOGICAL_OPERATOR((byte) 0), // priority depends on the operator
         ARITHMETIC_OPERATOR((byte) 0), // priority depends on the operator
-        KEYWORD((byte) 0), // priority depends on the keyword
+        KEYWORD((byte) 0); // priority depends on the keyword
 
-        PAREN((byte) 10); // highest priority
 
 
         private final byte priority;
@@ -169,6 +174,26 @@ public class Token {
         public int getPriority() {
             return priority;
         }
+
+
+        /**
+         * Converts a variable type to a token type
+         *
+         * @param type the variable type
+         * @return the matching token type
+         * @throws BadTypeException if the provided type has no conversion
+         */
+        public static TokenType fromVarType(Variable.Type type) throws BadTypeException {
+            switch (type)
+            {
+                case STRING: return STR;
+                case INT, FLOAT: return NUM;
+                case BOOLEAN: return BOOL;
+            }
+
+            throw new BadTypeException("No conversion from variable type '" + type + "' to Token type");
+        }
+
     }
 
 

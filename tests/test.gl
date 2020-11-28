@@ -1,4 +1,6 @@
 
-def null sum(int a, int b) {
-    a+b;
+def String say(String what, String to) {
+    return what + " " + to;
 }
+
+say("ciao", "nic");
