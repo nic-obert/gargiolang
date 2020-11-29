@@ -170,7 +170,7 @@ public class Interpreter {
      *
      * @throws EvaluationException if an error occurs during the script execution
      */
-    public void execute() throws EvaluationException {
+    public void execute() throws EvaluationException, ReflectiveOperationException {
         int eof = tokens.size();
 
         for (; lineIndex < eof; lineIndex ++) {
@@ -190,7 +190,7 @@ public class Interpreter {
      * @throws EvaluationException if an error occurs during the line execution
      * @return returns the evaluated line
      */
-    public LinkedList<Token> executeLine() throws EvaluationException {
+    public LinkedList<Token> executeLine() throws EvaluationException, ReflectiveOperationException {
         // print the line for debugging
         System.out.println(line);
 

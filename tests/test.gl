@@ -1,6 +1,2 @@
 
-def String say(String what, String to) {
-    return what + " " + to;
-}
-
-say("ciao", "nic");
+system "print" "ciao io sono nic";

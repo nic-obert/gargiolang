@@ -13,6 +13,7 @@ import org.gargiolang.runtime.function.Parameter;
 import org.gargiolang.runtime.variable.Accessibility;
 import org.gargiolang.runtime.variable.SymbolTable;
 import org.gargiolang.runtime.variable.Variable;
+import org.gargiolang.util.ReflectionUtils;
 
 import java.util.LinkedList;
 import java.util.Stack;
@@ -26,6 +27,8 @@ public enum Keyword {
 
     BREAK("break", (byte) 1),
     CONTINUE("continue", (byte) 1),
+
+    SYSTEM("system", (byte) 2),  // kind of the C system() function, but a keyword
 
     IF("if", (byte) 9),
     ELSE("else", (byte) 9),
@@ -57,7 +60,7 @@ public enum Keyword {
     }
 
 
-    public static void evaluate(Interpreter interpreter) throws EvaluationException {
+    public static void evaluate(Interpreter interpreter) throws EvaluationException, ReflectiveOperationException {
         Keyword keyword = (Keyword) interpreter.getLine().get(interpreter.getCurrentTokenIndex()).getValue();
 
         switch (keyword)
@@ -497,6 +500,44 @@ public enum Keyword {
 
                 // actually return the token
                 interpreter.getLine().set(interpreter.getCurrentTokenIndex(), returnToken);
+
+            }
+
+            case SYSTEM -> {
+                /*
+                    - get function name
+                    - get function arguments
+                    - call the function
+                    - clear the line
+                 */
+
+                LinkedList<Token> line = interpreter.getLine();
+                int currentTokenIndex = interpreter.getCurrentTokenIndex();
+                Runtime runtime = interpreter.getRuntime();
+
+
+                // get function name to call
+                Token funcNameToken = line.get(currentTokenIndex + 1);
+                // ensure argument is a string
+                if (!funcNameToken.getVarType(runtime).equals(Variable.Type.STRING))
+                    throw new BadTypeException("Type String is required, but " + funcNameToken + " was provided");
+                String funcName = (String) funcNameToken.getVarValue(runtime);
+
+
+                // get function arguments
+                LinkedList<Object> args = new LinkedList<>();
+                // every token in the line is considered to be an argument
+                for (Token token : line.subList(currentTokenIndex + 2, line.size())) {
+                    args.add(token.getVarValue(runtime));
+                }
+
+
+                // invoke the system call
+                ReflectionUtils.invokeSystemCall(funcName, args);
+
+
+                // clear the line
+                line.clear();
 
             }
         }
