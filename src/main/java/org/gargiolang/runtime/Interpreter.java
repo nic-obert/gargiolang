@@ -7,6 +7,7 @@ import org.gargiolang.lang.operators.ArithmeticOperator;
 import org.gargiolang.lang.operators.AssignmentOperator;
 import org.gargiolang.lang.operators.LogicalOperator;
 import org.gargiolang.lang.operators.Parenthesis;
+import org.gargiolang.runtime.variable.types.String;
 
 import java.util.LinkedList;
 
@@ -223,6 +224,8 @@ public class Interpreter {
                 case FUNC -> Function.evaluate(this);
 
                 case CALL -> Call.evaluate(this);
+
+                case STR -> String.evaluate(this);
 
                 default -> throw new EvaluationException("Could not evaluate token " + highest);
             }
