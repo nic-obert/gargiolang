@@ -1,2 +1,3 @@
-int yes = 123;
-system "print" "ciao io sono nic ${yes}";
+string foo = "f00";
+int bar = 123789;
+system "print" "foo ${foo} bar ${bar}";
