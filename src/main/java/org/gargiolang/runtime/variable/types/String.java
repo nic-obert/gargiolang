@@ -1,11 +1,15 @@
 package org.gargiolang.runtime.variable.types;
 
+import org.gargiolang.exception.evaluation.OpenScopeException;
 import org.gargiolang.lang.Token;
 import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UnhandledOperationException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
+import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
+
+import java.util.LinkedList;
 
 public class String extends Type {
 
@@ -36,6 +40,37 @@ public class String extends Type {
         }
 
         return result;
+    }
+
+    //TODO not sure if this is the correct place to put this
+    public static void evaluate(Interpreter interpreter) throws OpenScopeException{
+        LinkedList<Token> line = interpreter.getLine();
+        int currentTokenIndex = interpreter.getCurrentTokenIndex();
+        Token token = line.get(currentTokenIndex);
+
+        java.lang.String value = token.getValue().toString();
+
+        if(value.contains("${")){
+            int index = value.indexOf("${");
+            int closing = findNextChar(value, index, '}');
+
+            if(closing == -1) {
+                throw new OpenScopeException("No closing brackets");
+            }
+
+            java.lang.String str = value.substring(index, closing);
+            System.out.println(str);
+            System.out.println(index + " " + closing);
+        }
+
+    }
+
+    private static int findNextChar(java.lang.String string, int index, char c){
+        for(; index < string.length(); index++){
+            if (string.charAt(index) == c) return index;
+        }
+
+        return -1;
     }
 
     public static Token equalsTo(java.lang.String a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException {

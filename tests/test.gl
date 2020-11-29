@@ -1,2 +1,2 @@
-
-system "print" "ciao io sono nic";
+int yes = 123;
+system "print" "ciao io sono nic ${yes}";

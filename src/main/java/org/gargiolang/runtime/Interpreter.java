@@ -7,6 +7,7 @@ import org.gargiolang.lang.operators.ArithmeticOperator;
 import org.gargiolang.lang.operators.AssignmentOperator;
 import org.gargiolang.lang.operators.LogicalOperator;
 import org.gargiolang.lang.operators.Parenthesis;
+import org.gargiolang.runtime.variable.types.String;
 
 import java.util.LinkedList;
 
