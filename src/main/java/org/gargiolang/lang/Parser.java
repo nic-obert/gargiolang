@@ -67,6 +67,9 @@ public class Parser {
         int parenCount = 0;
         int callDepth = 0;
 
+        // escape (backslash) for strings
+        boolean escape = false;
+
         // for exception verbosity
         int position = 0;
 
@@ -111,14 +114,17 @@ public class Parser {
 
                     // check if it is a function call
                     else if (c == '(') {
-                        // add the text as function
-                        line.add(new Token(Token.TokenType.FUNC, token.getValue()));
-                        // increase the call depth (for function calls inside other calls)
-                        callDepth ++;
-                        // add an opening Call parenthesis
-                        line.add(new Token(Token.TokenType.CALL, Call.OPEN));
-                        token = null;
-                        continue;
+                        // keywords are not functions
+                        if (!(line.size() != 0 && line.getLast().getType().equals(Token.TokenType.KEYWORD))) {
+                            // add the text as function
+                            line.add(new Token(Token.TokenType.FUNC, token.getValue()));
+                            // increase the call depth (for function calls inside other calls)
+                            callDepth ++;
+                            // add an opening Call parenthesis
+                            line.add(new Token(Token.TokenType.CALL, Call.OPEN));
+                            token = null;
+                            continue;
+                        }
                     }
 
                     // if token is not a keyword, add it as normal text
@@ -148,6 +154,19 @@ public class Parser {
 
                 case STRING -> {
                     if (c != '"') {
+
+                        if (c == '\\') escape = !escape;
+
+                        else if (escape) {
+                            switch (c)
+                            {
+                                case 'n': c = '\n';
+                                case 't': c = '\t';
+                                case 'r': c = '\r';
+                            }
+                            escape = false;
+                        }
+
                         token.buildValue(c);
                         continue;
                     }
@@ -155,6 +174,12 @@ public class Parser {
                     state = State.NULL;
                     line.add(token);
                     token = null;
+                    continue;
+                }
+
+                case COMMENT -> {
+                    if (c == '\n')
+                        state = State.NULL;
                     continue;
                 }
             }
@@ -214,10 +239,9 @@ public class Parser {
                         else if(token.getValue().equals(ArithmeticOperator.MUL) && c == '*'){
                             line.add(new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.POW));
                         }
-                        // break tokenization --> the rest of the line is a comment (//)
+                        // in case of a comment --> let it be handle by the above switch statement
                         else if (token.getValue().equals(ArithmeticOperator.DIV) && c == '/') {
-                            token = null;
-                            break;
+                            state = State.COMMENT;
                         }
 
                         token = null;
@@ -325,6 +349,8 @@ public class Parser {
             // null termination character
             if (c == 0) break;
 
+            if (c == ';') break;
+
 
             throw new InvalidCharacterException("Unable to parse character \"" + c + "\" (" + (byte)c + ") at position " + position + " on line " + lineNumber);
         }
@@ -342,7 +368,8 @@ public class Parser {
         NULL,
         TEXT,
         NUMBER,
-        STRING
+        STRING,
+        COMMENT
 
     }
 

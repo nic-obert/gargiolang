@@ -73,7 +73,7 @@ public final class Runtime {
     }
 
 
-    public void run() throws GargioniException, ReflectiveOperationException {
+    public void run() throws GargioniException, ReflectiveOperationException, IOException {
 
         Preprocessor.process(statements);
 

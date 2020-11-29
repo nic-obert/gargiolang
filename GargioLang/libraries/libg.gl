@@ -1,0 +1,6 @@
+// libg
+
+def null print(String message) {
+    system("print", message);
+    return;
+}

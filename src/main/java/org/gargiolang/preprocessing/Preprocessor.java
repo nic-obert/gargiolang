@@ -4,15 +4,19 @@ import org.gargiolang.environment.Environment;
 import org.gargiolang.exception.preprocessing.PreprocessingException;
 import org.gargiolang.exception.preprocessing.UnmatchedConditionalException;
 import org.gargiolang.exception.preprocessing.UnrecognizedPreprocessorException;
-import org.gargiolang.preprocessing.dependencies.DependencyLoader;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 
 public class Preprocessor {
 
-    public static void process(LinkedList<String> statements) throws PreprocessingException {
+    public static void process(LinkedList<String> rawStatements) throws PreprocessingException, IOException {
 
-        for (String statement : statements) {
+        for (int statementIndex = 0; statementIndex != rawStatements.size(); statementIndex++) {
+            String statement = rawStatements.get(statementIndex);
 
             if (statement.stripLeading().startsWith("#")) {
                 int indexOfHash = statement.indexOf('#') + 1;
@@ -33,9 +37,9 @@ public class Preprocessor {
                         String word = data.substring(0, data.indexOf(' '));
                         String definition = data.substring(data.indexOf(' ') + 1);
                         // replace all occurrences of word with definition
-                        statements.forEach(line -> line = line.replaceAll(word, definition));
+                        rawStatements.forEach(line -> line = line.replaceAll(word, definition));
                         // finally remove the preprocessor
-                        statements.set(statements.indexOf(statement), "");
+                        rawStatements.set(statementIndex, "");
                     }
 
                     case "ifdef" -> {
@@ -45,12 +49,12 @@ public class Preprocessor {
 
                         // search for closing #endif
                         int ifCount = 1;
-                        int index = statements.indexOf(statement);
+                        int index = statementIndex;
                         // remove preprocessor
-                        statements.set(index, "");
+                        rawStatements.set(statementIndex, "");
 
                         for (index++; true; index++) {
-                            String line = statements.get(index).stripLeading();
+                            String line = rawStatements.get(index).stripLeading();
 
                             if (line.startsWith("#if")) {
                                 ifCount++;
@@ -58,23 +62,39 @@ public class Preprocessor {
                                 ifCount--;
                                 if (ifCount == 0) {
                                     // remove #endif preprocessor
-                                    statements.set(index, "");
+                                    rawStatements.set(index, "");
                                     break;
                                 }
                             }
 
-                            if (doRemove) statements.set(index, "");
+                            if (doRemove) rawStatements.set(index, "");
                         }
                     }
 
                     case "include" -> {
                         assert data != null;
-                        String s = data.strip();
+                        String fileName = data.strip();
+
+                        File file = new File("GargioLang/libraries/" + fileName + ".gl");
+                        BufferedReader br = new BufferedReader(new FileReader(file));
+
+                        int index = statementIndex;
+                        rawStatements.set(statementIndex, "");
+                        String buffer;
+                        while ((buffer = br.readLine()) != null) {
+                            rawStatements.add(index, buffer);
+                            index ++;
+                        }
+
+
+                        /*
 
                         //Load the dependency
                         new DependencyLoader().loadDependency(s);
 
                         //We will load the file from here
+
+                         */
                     }
 
                     case "ifndef" -> {
@@ -84,12 +104,12 @@ public class Preprocessor {
 
                         // search for closing #endif
                         int ifCount = 1;
-                        int index = statements.indexOf(statement);
+                        int index = statementIndex;
                         // remove preprocessor
-                        statements.set(index, "");
+                        rawStatements.set(statementIndex, "");
 
                         for (index++; true; index++) {
-                            String line = statements.get(index).stripLeading();
+                            String line = rawStatements.get(index).stripLeading();
 
                             if (line.startsWith("#if")) {
                                 ifCount++;
@@ -97,12 +117,12 @@ public class Preprocessor {
                                 ifCount--;
                                 if (ifCount == 0) {
                                     // remove #endif preprocessor
-                                    statements.set(index, "");
+                                    rawStatements.set(index, "");
                                     break;
                                 }
                             }
 
-                            if (doRemove) statements.set(index, "");
+                            if (doRemove) rawStatements.set(index, "");
                         }
                     }
 
