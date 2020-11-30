@@ -193,7 +193,7 @@ public class Interpreter {
      */
     public LinkedList<Token> executeLine() throws EvaluationException, ReflectiveOperationException {
         // print the line for debugging
-        System.out.println(line);
+        //System.out.println(line);
 
         while (!line.isEmpty()) {
 

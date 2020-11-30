@@ -5,35 +5,58 @@ import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.VariableRedeclarationException;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Stack;
 
 // wrapper around a Map
 public final class SymbolTable {
 
     private final HashMap<String, Variable> variables;
 
-    private final Stack<Integer> scopes;
+    private int scopes;
 
 
     public SymbolTable() {
-        this.scopes = new Stack<>();
+        this.scopes = 0;
         this.variables = new HashMap<>();
     }
 
 
+    /**
+     * Returns an hashed version of the variable name to avoid naming conflicts
+     * for the same variable name in different scopes
+     *
+     * @param varName the variable name to be hashed
+     * @return the hashed variable name
+     */
+    private String hash(String varName) {
+        return varName + "@" + scopeCount();
+    }
+
+
     public void addVariable(String name, Variable variable) throws VariableRedeclarationException {
-        if (variables.containsKey(name)) throw new VariableRedeclarationException("Variable '" + name + "' is already declared");
-        variables.put(name, variable);
+        String hashed = hash(name);
+        if (variables.containsKey(hashed)) throw new VariableRedeclarationException("Variable '" + name + "' is already declared in the scope");
+        variables.put(hashed, variable);
     }
 
     public Variable getVariable(String varName) {
-        return variables.getOrDefault(varName, null);
+        Variable variable = variables.getOrDefault(hash(varName), null);
+        // search in other scopes in case var is not found in current scope
+        if (variable == null) {
+            for (String key : variables.keySet()) {
+                if (key.split("@")[0].equals(varName)) return variables.get(key);
+            }
+        }
+        return variable;
     }
 
     public Variable getVariableThrow(String varName) throws UndeclaredVariableException {
-        Variable variable = variables.getOrDefault(varName, null);
-        if (variable == null) throw new UndeclaredVariableException("Variable '" + varName + "' hasn't been declared");
+        Variable variable = variables.getOrDefault(hash(varName), null);
+        if (variable == null) {
+            for (String key : variables.keySet()) {
+                if (key.split("@")[0].equals(varName)) return variables.get(key);
+            }
+            throw new UndeclaredVariableException("Variable '" + varName + "' hasn't been declared in the scope");
+        }
         return variable;
     }
 
@@ -47,44 +70,36 @@ public final class SymbolTable {
      * @throws UndeclaredVariableException if variable is undeclared
      */
     public void updateVariable(String varName, Variable variable) throws BadTypeException, UndeclaredVariableException {
-        Variable original = getVariableThrow(varName);
+        String hashed = hash(varName);
+        Variable original = getVariableThrow(hashed);
 
         // since GargioLang is statically typed, you cannot assign a different type from the one the variable was first initialized with
         if (!original.getType().equals(variable.getType())) {
             throw new BadTypeException("Variable types do not match: " + original.getType() + ", " + variable.getType() + ")");
         }
 
-        variables.put(varName, variable);
+        variables.put(hashed, variable);
     }
 
     public void pushScope() {
-        scopes.push(variables.size());
+        scopes ++;
     }
 
     public void popScope() {
-        int scope = scopes.pop();
-        int i = 1; // here 1 is used instead of 0 for optimization
+        this.scopes --;
+
         // remove variables from table that belong to the popped scope
-        for (Iterator<String> iterator = variables.keySet().iterator(); iterator.hasNext(); i++) {
-            iterator.next();
-            if (i > scope) iterator.remove();
-        }
+        variables.keySet().removeIf(key -> Integer.parseInt(key.split("@")[1]) > this.scopes);
     }
 
     public void popScopes(int count) {
-        int scope = 0;
-        for (; count != 0; count--) scope = scopes.pop();
+        this.scopes -= count;
+        variables.keySet().removeIf(key -> Integer.parseInt(key.split("@")[1]) > scopes);
 
-        int i = 1; // here 1 is used instead of 0 for optimization
-        // remove variables from table that belong to the popped scope
-        for (Iterator<String> iterator = variables.keySet().iterator(); iterator.hasNext(); i++) {
-            iterator.next();
-            if (i > scope) iterator.remove();
-        }
     }
 
     public int scopeCount() {
-        return this.scopes.size();
+        return this.scopes;
     }
 
     public String toString() {
