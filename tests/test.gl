@@ -1,5 +1,4 @@
-
 #include libg;
 
-string test = test("foo", "bar");
-print("${test}");
+string property = getProperty("user.name");
+print("${property}");

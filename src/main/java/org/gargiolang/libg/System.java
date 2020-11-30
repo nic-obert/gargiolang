@@ -1,5 +1,7 @@
 package org.gargiolang.libg;
 
+import org.gargiolang.environment.Environment;
+
 import java.util.LinkedList;
 
 public final class System {
@@ -8,8 +10,20 @@ public final class System {
         java.lang.System.out.print((String) args.getFirst());
     }
 
-    public static String test(LinkedList<Object> args){
-        return args.get(0).toString() + args.get(1).toString();
+    public static long currentTime(LinkedList<Object> args){
+        return java.lang.System.currentTimeMillis();
+    }
+
+    public static long currentNanos(LinkedList<Object> args){
+        return java.lang.System.nanoTime();
+    }
+
+    public static String getProperty(LinkedList<Object> args) {
+        return Environment.getInstance().getProperty((String) args.getFirst());
+    }
+
+    public static String getEnv(LinkedList<Object> args){
+        return Environment.getInstance().getEnv((String) args.getFirst());
     }
 
 }

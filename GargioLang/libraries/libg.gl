@@ -1,10 +1,18 @@
 // libg
 
-def null print(String message) {
+def null print(string message) {
     system("print", message);
     return;
 }
 
-def string test(String one, String two){
-    return system("test", one, two);
+def int currentTime(){
+    return system("currentTime");
+}
+
+def string getProperty(string name){
+    return system("getProperty", name);
+}
+
+def string getEnv(string name){
+    return system("getEnv", name);
 }
