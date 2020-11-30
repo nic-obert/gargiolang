@@ -8,4 +8,8 @@ public final class System {
         java.lang.System.out.print((String) args.getFirst());
     }
 
+    public static String test(LinkedList<Object> args){
+        return args.get(0).toString() + args.get(1).toString();
+    }
+
 }

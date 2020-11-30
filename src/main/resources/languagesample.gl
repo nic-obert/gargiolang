@@ -1,9 +1,0 @@
-//String str = "test";
-int i = 12;
-
-print("the string is ${i}");
-
-fun pr = string (string str) -> {
-  print("${str}");
-  return str + "yes";
-}

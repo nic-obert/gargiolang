@@ -1,6 +1,5 @@
 
 #include libg;
-#include math;
 
-print("ciao io sono nic");
-sum(1, 4);
+string test = test("foo", "bar");
+print("${test}");

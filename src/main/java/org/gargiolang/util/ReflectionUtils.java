@@ -11,9 +11,9 @@ public final class ReflectionUtils {
         return Class.forName(path);
     }
 
-    public static void invokeSystemCall(String call, LinkedList<Object> args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static Object invokeSystemCall(String call, LinkedList<Object> args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method method = org.gargiolang.libg.System.class.getDeclaredMethod(call, LinkedList.class);
-        method.invoke(null, args);
+        return method.invoke(null, args);
     }
 
     public static Object instantiateClass(Class<?> cls, Object[] constructor)
