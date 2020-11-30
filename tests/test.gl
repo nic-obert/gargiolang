@@ -1,6 +1,15 @@
 
 #include libg;
-#include math;
 
-print("ciao io sono nic");
-sum(1, 4);
+String name = "nic";
+
+String name2 = "kon";
+
+{
+    print(name);
+    String name3 = "tom";
+    String name4 = "cat";
+}
+
+print(name);
+print(name2);
