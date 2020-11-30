@@ -533,11 +533,29 @@ public enum Keyword {
 
 
                 // invoke the system call
-                ReflectionUtils.invokeSystemCall(funcName, args);
+                Object obj = ReflectionUtils.invokeSystemCall(funcName, args);
+                Variable.Type type = funcNameToken.getVarType(runtime);
 
+                if(type.equals(Variable.Type.NULL)) {
+                    // clear the line
+                    line.clear();
+                } else {
+                    if (line.size() > currentTokenIndex) {
+                        line.subList(currentTokenIndex, line.size()).clear();
+                    }
 
-                // clear the line
-                line.clear();
+                    Token.TokenType t = null;
+
+                    switch (type){
+                        case INT, FLOAT -> t = Token.TokenType.NUM;
+                        case BOOLEAN -> t = Token.TokenType.BOOL;
+                        case STRING -> t = Token.TokenType.STR;
+                    }
+
+                    assert t != null;
+                    line.add(new Token(t, obj));
+                    System.out.println(line);
+                }
 
             }
         }

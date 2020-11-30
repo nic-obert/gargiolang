@@ -48,52 +48,41 @@ public class String extends Type {
         int currentTokenIndex = interpreter.getCurrentTokenIndex();
         Token token = line.get(currentTokenIndex);
 
-        java.lang.String value = token.getValue().toString();
+        //TODO very shitty solution
+        if(token.getValue() != null) {
 
-        if(value.contains("${")) {
-            java.lang.String finalValue = value;
-            for(int i = 0; i < finalValue.length(); i++){
-                char c = finalValue.charAt(i);
-                if(i < finalValue.length() - 1){
-                    char next = finalValue.charAt(i + 1);
+            java.lang.String value = token.getValue().toString();
 
-                    if(c == '$' && next == '{'){
-                        int closing = findNextChar(finalValue, i, '}');
+            if (value.contains("${")) {
+                java.lang.String finalValue = value;
+                for (int i = 0; i < finalValue.length(); i++) {
+                    char c = finalValue.charAt(i);
+                    if (i < finalValue.length() - 1) {
+                        char next = finalValue.charAt(i + 1);
 
-                        if (closing == -1) {
-                            throw new OpenScopeException("No closing brackets");
+                        if (c == '$' && next == '{') {
+                            int closing = findNextChar(finalValue, i, '}');
+
+                            if (closing == -1) {
+                                throw new OpenScopeException("No closing brackets");
+                            }
+
+                            java.lang.String str = finalValue.substring(i + 2, closing);
+                            Variable var = interpreter.getRuntime().getSymbolTable().getVariableThrow(str);
+                            Object val = var.getValue();
+
+                            java.lang.String before = finalValue.substring(0, i);
+                            java.lang.String after = finalValue.substring(closing + 1);
+
+                            finalValue = before + val + after;
                         }
-
-                        java.lang.String str = finalValue.substring(i + 2, closing);
-                        Variable var = interpreter.getRuntime().getSymbolTable().getVariableThrow(str);
-                        Object val = var.getValue();
-
-                        java.lang.String before = finalValue.substring(0, i);
-                        java.lang.String after = finalValue.substring(closing + 1);
-
-                        finalValue = before + val + after;
                     }
                 }
+                token.setValue(finalValue);
             }
-            token.setValue(finalValue);
-            /*
-            int index = value.indexOf("${");
-            int closing = findNextChar(value, index, '}');
-
-            if (closing == -1) {
-                throw new OpenScopeException("No closing brackets");
-            }
-
-            java.lang.String str = value.substring(index + 2, closing);
-            value = value.replace("${", "").replace("}", "");
-            Variable var = interpreter.getRuntime().getSymbolTable().getVariableThrow(str);
-            Object val = var.getValue();
-            value = value.replace(str, java.lang.String.valueOf(val));
-            token.setValue(value);
-
-             */
         }
-            token.setPriority(0);
+
+        token.setPriority(0);
 
     }
 

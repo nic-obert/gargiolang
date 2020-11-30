@@ -4,3 +4,7 @@ def null print(String message) {
     system("print", message);
     return;
 }
+
+def string test(String one, String two){
+    return system("test", one, two);
+}
