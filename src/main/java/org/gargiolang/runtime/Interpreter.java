@@ -1,13 +1,12 @@
 package org.gargiolang.runtime;
 
-import org.gargiolang.lang.*;
 import org.gargiolang.exception.evaluation.EvaluationException;
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
+import org.gargiolang.lang.*;
 import org.gargiolang.lang.operators.ArithmeticOperator;
 import org.gargiolang.lang.operators.AssignmentOperator;
 import org.gargiolang.lang.operators.LogicalOperator;
 import org.gargiolang.lang.operators.Parenthesis;
-import org.gargiolang.runtime.variable.types.String;
 
 import java.util.LinkedList;
 
@@ -69,7 +68,7 @@ public class Interpreter {
 
 
     /**
-     * Sets the current line to the one provided and pdates lineIndex and currentTokenIndex.
+     * Sets the current line to the one provided and updates lineIndex and currentTokenIndex.
      * This could also be referred as setting the interpreter's state.
      *
      * @param line the line to be set as current line
@@ -192,8 +191,6 @@ public class Interpreter {
      * @return returns the evaluated line
      */
     public LinkedList<Token> executeLine() throws EvaluationException, ReflectiveOperationException {
-        // print the line for debugging
-        //System.out.println(line);
 
         while (!line.isEmpty()) {
 
@@ -231,9 +228,6 @@ public class Interpreter {
 
         } // end of line evaluation
 
-        // print resulting line for debugging
-        //System.out.println(line);
-        //System.out.println(runtime.getSymbolTable());
 
         return line;
     }

@@ -65,8 +65,6 @@ public enum ArithmeticOperator {
         int currentTokenIndex = interpreter.getCurrentTokenIndex();
         Token operator = line.get(currentTokenIndex);
 
-        System.out.println("LINE: " + line);
-
         switch ((ArithmeticOperator) operator.getValue()) {
             case ADD -> {
                 Token a = line.get(currentTokenIndex - 1);

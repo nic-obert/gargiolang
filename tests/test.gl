@@ -1,4 +1,11 @@
 #include libg;
 
-println("ciao");
-println("nic");
+int i = 0;
+
+for (; i != 10; i++) {
+    println(f"{i}");
+}
+
+
+println(f"I = {i}");
+
