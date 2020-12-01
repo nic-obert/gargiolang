@@ -1,4 +1,8 @@
 #include libg;
 
-string property = getProperty("user.name");
-print("${property}");
+string who = "joe";
+string name = "nic";
+string greeting = "ciao";
+string str = f"I met {who}, he told me: \n\"{greeting} {name}!\"";
+
+print(str);

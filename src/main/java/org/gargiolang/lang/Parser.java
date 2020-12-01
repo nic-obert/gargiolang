@@ -153,24 +153,32 @@ public class Parser {
                 }
 
                 case STRING -> {
-                    if (c != '"') {
 
-                        if (c == '\\') escape = !escape;
+                    // check for \ escapes
+                    if (c == '\\') {
+                        escape = !escape;
+                        continue;
+                    }
 
-                        else if (escape) {
-                            switch (c)
-                            {
-                                case 'n': c = '\n';
-                                case 't': c = '\t';
-                                case 'r': c = '\r';
+                    if (escape) {
+                        switch (c) {
+                            case 'n' -> c = '\n';
+                            case 't' -> c = '\t';
+                            case 'r' -> c = '\r';
+                            case '"' -> {
+                                token.buildValue('"');
+                                escape = false;
+                                continue;
                             }
-                            escape = false;
                         }
-
+                        escape = false;
+                    }
+                    if (c != '"') {
                         token.buildValue(c);
                         continue;
                     }
 
+                    // if this line is reached it means that c == '"' and it has not been escaped
                     state = State.NULL;
                     line.add(token);
                     token = null;

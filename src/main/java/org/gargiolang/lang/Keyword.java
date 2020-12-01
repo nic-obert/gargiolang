@@ -1,9 +1,7 @@
 package org.gargiolang.lang;
 
-import org.gargiolang.exception.evaluation.BadTypeException;
-import org.gargiolang.exception.evaluation.EvaluationException;
-import org.gargiolang.exception.evaluation.GoBackException;
-import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
+import org.gargiolang.exception.evaluation.*;
+import org.gargiolang.lang.operators.ArithmeticOperator;
 import org.gargiolang.lang.operators.Parenthesis;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.Runtime;
@@ -36,7 +34,9 @@ public enum Keyword {
     WHILE("while", (byte) 10),
     FOR("for", (byte) 10),
 
-    DEF("def", (byte) 10);
+    DEF("def", (byte) 10),
+
+    F("f", (byte) 10); // like python's f-strings f"my name is {name}"
 
     private final String value;
     private final byte priority;
@@ -554,8 +554,87 @@ public enum Keyword {
 
                     assert t != null;
                     line.add(new Token(t, obj));
-                    System.out.println(line);
                 }
+
+            }
+
+            case F -> {
+                /*
+                    - get the string to format
+                    - get variable names for formatting
+                    - convert the f-string to a chained sum of strings
+                 */
+
+                LinkedList<Token> line = interpreter.getLine();
+                int currentTokenIndex = interpreter.getCurrentTokenIndex();
+
+
+                // get the string to format
+                Token fStringToken = line.get(currentTokenIndex + 1);
+                line.remove(currentTokenIndex);
+                // ensure fString is actually a literal string (not a variable of type String)
+                if (!fStringToken.getType().equals(Token.TokenType.STR))
+                    throw new BadTypeException("Can only format Strings, but " + fStringToken + " was provided");
+
+
+                // search for variable names in the string
+
+                String fString = (String) fStringToken.getValue();
+                line.remove(fStringToken);
+
+                char[] charArray = fString.toCharArray();
+                int lastBracket = 0;
+
+                boolean escape = false;
+                for (int i = 0; i != charArray.length; i++) {
+                    char c = charArray[i];
+
+                    if (c == '\\') escape = !escape;
+
+                    else if (escape && c == '{')
+                        continue;
+
+                    if (c == '{') {
+
+                        // get the index of closing bracket
+                        int closingBracket = fString.indexOf("}", i);
+                        // check there is a closing '}'
+                        if (closingBracket == -1)
+                            throw new OpenBracketException("Bracket in f-string is open, but never closed: '" + fString + "'");
+
+                        // get the string before the variable
+                        Token strBefore = new Token(Token.TokenType.STR, fString.substring(lastBracket, i));
+
+                        // add the string before the variable
+                        line.add(currentTokenIndex, strBefore);
+                        currentTokenIndex ++;
+
+                        // insert a + operator
+                        line.add(currentTokenIndex, new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
+                        currentTokenIndex ++;
+
+                        // get the variable in the string
+                        String varName = fString.substring(i + 1, closingBracket);
+                        Token variable = new Token(Token.TokenType.TXT, varName);
+
+                        // insert the variable
+                        line.add(currentTokenIndex, variable);
+                        currentTokenIndex ++;
+
+                        // insert a + operator
+                        line.add(currentTokenIndex, new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
+                        currentTokenIndex ++;
+
+                        // set the iteration index to after the closing bracket
+                        i = closingBracket;
+                        lastBracket = closingBracket + 1;
+
+                    }
+
+                } // end of for loop
+
+                // add the rest of the string
+                line.add(currentTokenIndex, new Token(Token.TokenType.STR, fString.substring(lastBracket)));
 
             }
         }

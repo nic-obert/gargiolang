@@ -144,7 +144,7 @@ public class Token {
     public enum TokenType {
 
         TXT((byte) 0),
-        STR((byte) 3),
+        STR((byte) 0),
         NUM((byte) 0),
         BOOL((byte) 0),
         NULL((byte) 0),

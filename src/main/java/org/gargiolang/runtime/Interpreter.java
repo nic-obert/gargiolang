@@ -225,8 +225,6 @@ public class Interpreter {
 
                 case CALL -> Call.evaluate(this);
 
-                case STR -> String.evaluate(this);
-
                 default -> throw new EvaluationException("Could not evaluate token " + highest);
             }
 
