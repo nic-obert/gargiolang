@@ -5,6 +5,12 @@ def null print(string message) {
     return;
 }
 
+def null println(string message) {
+    system("print", message);
+    system("print", "\n");
+    return;
+}
+
 def int currentTime(){
     return system("currentTime");
 }

@@ -1,8 +1,4 @@
 #include libg;
 
-string who = "joe";
-string name = "nic";
-string greeting = "ciao";
-string str = f"I met {who}, he told me: \n\"{greeting} {name}!\"";
-
-print(str);
+println("ciao");
+println("nic");
