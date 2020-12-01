@@ -1,6 +1,11 @@
 #include libg;
-#include math;
 
-int i = -1;
-int j = abs(i);
-print(f"{j}");
+int i = 0;
+
+for (; i != 10; i++) {
+    println(f"{i}");
+}
+
+
+println(f"I = {i}");
+

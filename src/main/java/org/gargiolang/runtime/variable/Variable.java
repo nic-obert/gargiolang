@@ -226,7 +226,7 @@ public class Variable {
             {
                 case INT -> result = Integer.greaterThan((int) a.getVarValue(runtime), b);
 
-                case FLOAT -> result = Float.lessThan((double) a.getVarValue(runtime), b);
+                case FLOAT -> result = Float.greaterThan((double) a.getVarValue(runtime), b);
 
                 default -> throw new UnimplementedException("Unimplemented operation for type " + a.getVarType(runtime));
             }

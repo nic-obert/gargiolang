@@ -202,7 +202,6 @@ public class Parser {
                     if (parenCount == -1) {
 
                         callDepth --;
-                        if (callDepth == 0) state = State.NULL;
 
                         line.add(new Token(Token.TokenType.CALL, Call.CLOSE));
                         continue;
