@@ -1,4 +1,6 @@
 #include libg;
+#include math;
 
-println("ciao");
-println("nic");
+int i = -1;
+int j = abs(i);
+print(f"{j}");

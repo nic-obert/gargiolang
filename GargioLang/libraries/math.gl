@@ -3,3 +3,13 @@
 def int sum(int a, int b) {
     return a + b;
 }
+
+def int abs(int a){
+    int temp = a;
+
+    if(temp < 0){
+        temp = temp * -1;
+    }
+
+    return temp;
+}

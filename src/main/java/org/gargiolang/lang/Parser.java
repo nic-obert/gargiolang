@@ -137,7 +137,7 @@ public class Parser {
                 }
 
                 case NUMBER -> {
-                    if (Token.isNumber(c) || c == '.') {
+                    if (Token.isNumber(c) || c == '.' || c == '-') {
                         token.buildValue(c);
                         continue;
                     }
@@ -219,6 +219,13 @@ public class Parser {
             }
 
             if (Token.isNumber(c)) {
+                if (token != null) line.add(token);
+                state = State.NUMBER;
+                token = new Token(Token.TokenType.NUM, Character.toString(c));
+                continue;
+            }
+
+            if(c == '-'){
                 if (token != null) line.add(token);
                 state = State.NUMBER;
                 token = new Token(Token.TokenType.NUM, Character.toString(c));
