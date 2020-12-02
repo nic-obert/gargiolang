@@ -2,6 +2,7 @@ package org.gargiolang.parsing.tokens.operators;
 
 import org.gargiolang.exception.evaluation.*;
 import org.gargiolang.parsing.tokens.Token;
+import org.gargiolang.parsing.tokens.TokenType;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.*;
 import org.gargiolang.runtime.variable.Accessibility;
@@ -27,7 +28,7 @@ public class AssignmentOperator {
         line.remove(lValue);
 
         // check if lValue is actually an lvalue
-        if (lValue.getType() != Token.TokenType.TXT)
+        if (lValue.getType() != TokenType.TXT)
             throw new NotLValueException(lValue + " is not an lvalue");
 
         // check if a variable type is specified
@@ -35,7 +36,7 @@ public class AssignmentOperator {
             Token type = line.get(currentTokenIndex - 2);
 
             // check if the type is actually a type
-            if (type.getType() == Token.TokenType.TYPE) {
+            if (type.getType() == TokenType.TYPE) {
 
                 // remove token from line
                 line.remove(type);

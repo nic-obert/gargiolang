@@ -5,12 +5,13 @@ import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UnhandledOperationException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.exception.evaluation.ZeroDivisionException;
+import org.gargiolang.parsing.tokens.TokenType;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 
 public class Float extends Type {
     public static Token add(double a, Token b) throws UnhandledOperationException, UndeclaredVariableException, UnrecognizedTypeException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case INT -> result.setValue(a + (int) b.getVarValue(Runtime.getRuntime()));
@@ -25,7 +26,7 @@ public class Float extends Type {
     }
 
     public static Token subtract(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case FLOAT -> result.setValue(a - (double) b.getVarValue(Runtime.getRuntime()));
@@ -39,7 +40,7 @@ public class Float extends Type {
     }
 
     public static Token multiply(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case INT -> result.setValue(a * (int) b.getVarValue(Runtime.getRuntime()));
@@ -53,7 +54,7 @@ public class Float extends Type {
     }
 
     public static Token divide(double a, Token b) throws UnhandledOperationException, ZeroDivisionException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case FLOAT -> {
@@ -74,7 +75,7 @@ public class Float extends Type {
     }
 
     public static Token mod(double a, Token b) throws UnhandledOperationException, ZeroDivisionException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -96,7 +97,7 @@ public class Float extends Type {
     }
 
     public static Token power(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case INT -> result.setValue(Math.pow(a, (int) b.getVarValue(Runtime.getRuntime())));
@@ -120,7 +121,7 @@ public class Float extends Type {
     }
 
     public static Token greaterThan(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.BOOL, null);
+        Token result = new Token(TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -134,7 +135,7 @@ public class Float extends Type {
     }
 
     public static Token lessThan(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.BOOL, null);
+        Token result = new Token(TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -148,7 +149,7 @@ public class Float extends Type {
     }
 
     public static Token equalsTo(double a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.BOOL, null);
+        Token result = new Token(TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -162,6 +163,6 @@ public class Float extends Type {
     }
 
     public static Token asBool(double a) {
-        return new Token(Token.TokenType.BOOL, a != 0);
+        return new Token(TokenType.BOOL, a != 0);
     }
 }

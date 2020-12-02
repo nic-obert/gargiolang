@@ -3,6 +3,7 @@ package org.gargiolang.parsing.tokens.operators;
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
 import org.gargiolang.exception.evaluation.OpenParenthesisException;
 import org.gargiolang.parsing.tokens.Token;
+import org.gargiolang.parsing.tokens.TokenType;
 import org.gargiolang.runtime.Interpreter;
 
 import java.util.LinkedList;
@@ -20,7 +21,7 @@ public enum Parenthesis {
         for (int parenCount = 0; true; line = interpreter.getLine(lineIndex)) {
 
             for (Token token : line) {
-                if (token.getType().equals(Token.TokenType.PAREN)) {
+                if (token.getType().equals(TokenType.PAREN)) {
 
                     if (token.getValue().equals(Parenthesis.OPEN)) {
                         if (parenCount == 0) {
@@ -52,7 +53,7 @@ public enum Parenthesis {
         for (int counter = currentTokenIndex + 1; true; counter++) {
             Token token = line.get(counter);
 
-            if (token.getType().equals(Token.TokenType.PAREN)) {
+            if (token.getType().equals(TokenType.PAREN)) {
                 if (token.getValue().equals(Parenthesis.OPEN)) {
                     parenCount ++;
                 } else {

@@ -35,7 +35,7 @@ public enum Scope {
         for (int scopeCount = 0; true; line = interpreter.getLine(lineIndex)) {
 
             for (Token token : line) {
-                if (token.getType().equals(Token.TokenType.SCOPE)) {
+                if (token.getType().equals(TokenType.SCOPE)) {
 
                     // if the scope is an open scope
                     if (token.getValue().equals(OPEN)) {

@@ -3,13 +3,10 @@ package org.gargiolang.parsing;
 import org.gargiolang.exception.parsing.InvalidCharacterException;
 import org.gargiolang.exception.parsing.ParsingException;
 import org.gargiolang.exception.parsing.UnexpectedTokenException;
+import org.gargiolang.parsing.tokens.*;
 import org.gargiolang.parsing.tokens.operators.ArithmeticOperator;
 import org.gargiolang.parsing.tokens.operators.LogicalOperator;
 import org.gargiolang.parsing.tokens.operators.Parenthesis;
-import org.gargiolang.parsing.tokens.Call;
-import org.gargiolang.parsing.tokens.Keyword;
-import org.gargiolang.parsing.tokens.Scope;
-import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 
@@ -99,33 +96,33 @@ public class Parser {
 
                     // firstly check if the token is a Keyword
                     if (Keyword.isKeyword((String) token.getValue())) {
-                        line.add(new Token(Token.TokenType.KEYWORD, Keyword.valueOf(((String) token.getValue()).toUpperCase())));
+                        line.add(new Token(TokenType.KEYWORD, Keyword.valueOf(((String) token.getValue()).toUpperCase())));
                     }
 
                     // check if token is a Type
                     else if(Variable.Type.getType(String.valueOf(token.getValue())) != null) {
-                        line.add(new Token(Token.TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
+                        line.add(new Token(TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
                     }
 
                     // check if is a Boolean
                     else if(token.getValue().equals("true")) {
-                        line.add(new Token(Token.TokenType.BOOL, true));
+                        line.add(new Token(TokenType.BOOL, true));
                     }
 
                     else if (token.getValue().equals("false")) {
-                        line.add(new Token(Token.TokenType.BOOL, false));
+                        line.add(new Token(TokenType.BOOL, false));
                     }
 
                     // check if it is a function call
                     else if (c == '(') {
                         // keywords are not functions
-                        if (!(line.size() != 0 && line.getLast().getType().equals(Token.TokenType.KEYWORD))) {
+                        if (!(line.size() != 0 && line.getLast().getType().equals(TokenType.KEYWORD))) {
                             // add the text as function
-                            line.add(new Token(Token.TokenType.FUNC, token.getValue()));
+                            line.add(new Token(TokenType.FUNC, token.getValue()));
                             // increase the call depth (for function calls inside other calls)
                             callDepth ++;
                             // add an opening Call parenthesis
-                            line.add(new Token(Token.TokenType.CALL, Call.OPEN));
+                            line.add(new Token(TokenType.CALL, Call.OPEN));
                             token = null;
                             continue;
                         }
@@ -149,9 +146,9 @@ public class Parser {
                     state = State.NULL;
 
                     if (((String) token.getValue()).contains("."))
-                        line.add(new Token(Token.TokenType.NUM, Double.parseDouble((String) token.getValue())));
+                        line.add(new Token(TokenType.NUM, Double.parseDouble((String) token.getValue())));
                     else
-                        line.add(new Token(Token.TokenType.NUM, Integer.parseInt((String) token.getValue())));
+                        line.add(new Token(TokenType.NUM, Integer.parseInt((String) token.getValue())));
 
                     token = null;
                 }
@@ -207,7 +204,7 @@ public class Parser {
 
                         callDepth --;
 
-                        line.add(new Token(Token.TokenType.CALL, Call.CLOSE));
+                        line.add(new Token(TokenType.CALL, Call.CLOSE));
                         continue;
                     }
                 }
@@ -217,28 +214,28 @@ public class Parser {
             if (c == '"') {
                 if (token != null) line.add(token);
                 state = State.STRING;
-                token = new Token(Token.TokenType.STR, "");
+                token = new Token(TokenType.STR, "");
                 continue;
             }
 
             if (Token.isNumber(c)) {
                 if (token != null) line.add(token);
                 state = State.NUMBER;
-                token = new Token(Token.TokenType.NUM, Character.toString(c));
+                token = new Token(TokenType.NUM, Character.toString(c));
                 continue;
             }
 
             if(c == '-'){
                 if (token != null) line.add(token);
                 state = State.NUMBER;
-                token = new Token(Token.TokenType.NUM, Character.toString(c));
+                token = new Token(TokenType.NUM, Character.toString(c));
                 continue;
             }
 
             if (Token.isText(c)) {
                 if (token != null) line.add(token);
                 state = State.TEXT;
-                token = new Token(Token.TokenType.TXT, Character.toString(c));
+                token = new Token(TokenType.TXT, Character.toString(c));
                 continue;
             }
 
@@ -246,16 +243,16 @@ public class Parser {
                 if (token != null) {
 
                     // check for arithmetic operators composed by multiple characters (++, --) and comments (//)
-                    if (token.getType().equals(Token.TokenType.ARITHMETIC_OPERATOR)) {
+                    if (token.getType().equals(TokenType.ARITHMETIC_OPERATOR)) {
 
                         if (token.getValue().equals(ArithmeticOperator.ADD) && c == '+') {
-                            line.add(new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.INC));
+                            line.add(new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.INC));
                         }
                         else if (token.getValue().equals(ArithmeticOperator.SUB) && c == '-') {
-                            line.add(new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.DEC));
+                            line.add(new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.DEC));
                         }
                         else if(token.getValue().equals(ArithmeticOperator.MUL) && c == '*'){
-                            line.add(new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.POW));
+                            line.add(new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.POW));
                         }
                         // in case of a comment --> let it be handle by the above switch statement
                         else if (token.getValue().equals(ArithmeticOperator.DIV) && c == '/') {
@@ -268,16 +265,16 @@ public class Parser {
                     else
                         line.add(token);
                 }
-                token = new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.fromString(Character.toString(c)));
+                token = new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.fromString(Character.toString(c)));
                 continue;
             }
 
             if(Token.isLogicalOperator(c)){
                 if(token != null) {
 
-                    if (token.getType().equals(Token.TokenType.LOGICAL_OPERATOR)) {
-                        if (token.getValue().equals(LogicalOperator.INCOMPLETE_AND) && c == '&') token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.AND);
-                        else if (token.getValue().equals(LogicalOperator.INCOMPLETE_OR) && c == '|') token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.OR);
+                    if (token.getType().equals(TokenType.LOGICAL_OPERATOR)) {
+                        if (token.getValue().equals(LogicalOperator.INCOMPLETE_AND) && c == '&') token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.AND);
+                        else if (token.getValue().equals(LogicalOperator.INCOMPLETE_OR) && c == '|') token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.OR);
 
                         line.add(token);
                         token = null;
@@ -286,7 +283,7 @@ public class Parser {
 
                     line.add(token);
                 }
-                token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.fromString(Character.toString(c)));
+                token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.fromString(Character.toString(c)));
                 continue;
             }
 
@@ -294,19 +291,19 @@ public class Parser {
                 if (token != null) {
 
                     // means the token is "=="
-                    if (token.getType().equals(Token.TokenType.ASSIGNMENT_OPERATOR)) {
-                        token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.EQ);
+                    if (token.getType().equals(TokenType.ASSIGNMENT_OPERATOR)) {
+                        token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.EQ);
                         line.add(token);
                         token = null;
                         continue;
                     }
                     // <= >= !=
-                    else if (token.getType().equals(Token.TokenType.LOGICAL_OPERATOR)) {
+                    else if (token.getType().equals(TokenType.LOGICAL_OPERATOR)) {
                         switch ((LogicalOperator) token.getValue())
                         {
-                            case GR -> token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.GRE);
-                            case LS -> token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.LSE);
-                            case NOT -> token = new Token(Token.TokenType.LOGICAL_OPERATOR, LogicalOperator.NE);
+                            case GR -> token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.GRE);
+                            case LS -> token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.LSE);
+                            case NOT -> token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.NE);
                             default -> throw new UnexpectedTokenException("Unexpected token: '=' after " + token);
                         }
 
@@ -318,7 +315,7 @@ public class Parser {
                     line.add(token);
                 }
 
-                token = new Token(Token.TokenType.ASSIGNMENT_OPERATOR, '=');
+                token = new Token(TokenType.ASSIGNMENT_OPERATOR, '=');
                 continue;
             }
 
@@ -330,13 +327,13 @@ public class Parser {
 
             if (c == '(') {
                 if (token != null) line.add(token);
-                token = new Token(Token.TokenType.PAREN, Parenthesis.OPEN);
+                token = new Token(TokenType.PAREN, Parenthesis.OPEN);
                 continue;
             }
 
             if (c == ')') {
                 if (token != null) line.add(token);
-                token = new Token(Token.TokenType.PAREN, Parenthesis.CLOSED);
+                token = new Token(TokenType.PAREN, Parenthesis.CLOSED);
                 continue;
             }
 
@@ -352,13 +349,13 @@ public class Parser {
 
             if (c == '{') {
                 if (token != null) line.add(token);
-                token = new Token(Token.TokenType.SCOPE, Scope.OPEN);
+                token = new Token(TokenType.SCOPE, Scope.OPEN);
                 continue;
             }
 
             if (c == '}') {
                 if (token != null) line.add(token);
-                token = new Token(Token.TokenType.SCOPE, Scope.CLOSE);
+                token = new Token(TokenType.SCOPE, Scope.CLOSE);
                 continue;
             }
 

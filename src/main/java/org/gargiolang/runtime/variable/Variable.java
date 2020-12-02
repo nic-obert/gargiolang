@@ -2,6 +2,7 @@ package org.gargiolang.runtime.variable;
 
 import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.exception.evaluation.*;
+import org.gargiolang.parsing.tokens.TokenType;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.types.Boolean;
 import org.gargiolang.runtime.variable.types.Float;
@@ -271,11 +272,11 @@ public class Variable {
         }
 
         public static Token greaterOrEquals(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException {
-            return new Token(Token.TokenType.BOOL, (boolean) a.greaterThan(b).getValue() || (boolean) a.equalsTo(b).getValue());
+            return new Token(TokenType.BOOL, (boolean) a.greaterThan(b).getValue() || (boolean) a.equalsTo(b).getValue());
         }
 
         public static Token lessOrEquals(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException {
-            return new Token(Token.TokenType.BOOL, (boolean) a.lessThan(b).getValue() || (boolean) a.equalsTo(b).getValue());
+            return new Token(TokenType.BOOL, (boolean) a.lessThan(b).getValue() || (boolean) a.equalsTo(b).getValue());
         }
 
         public Token notEqualsTo(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException {
@@ -312,11 +313,11 @@ public class Variable {
         }
 
         public static Token or(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
-            return new Token(Token.TokenType.BOOL, (boolean) a.asBool().getValue() || (boolean) b.asBool().getValue());
+            return new Token(TokenType.BOOL, (boolean) a.asBool().getValue() || (boolean) b.asBool().getValue());
         }
 
         public static Token and(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
-            return new Token(Token.TokenType.BOOL, (boolean) a.asBool().getValue() && (boolean) b.asBool().getValue());
+            return new Token(TokenType.BOOL, (boolean) a.asBool().getValue() && (boolean) b.asBool().getValue());
         }
 
     }

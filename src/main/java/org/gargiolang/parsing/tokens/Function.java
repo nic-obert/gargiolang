@@ -25,7 +25,7 @@ public class Function {
         // get argument list
         LinkedList<Variable> args = new LinkedList<>();
         int argIndex = currentTokenIndex + 2;
-        for (Token token = line.get(argIndex); !token.getType().equals(Token.TokenType.CALL); token = line.get(argIndex)) {
+        for (Token token = line.get(argIndex); !token.getType().equals(TokenType.CALL); token = line.get(argIndex)) {
 
             args.add(new Variable(
                         token.getVarValue(runtime),

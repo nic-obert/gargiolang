@@ -5,12 +5,13 @@ import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UnhandledOperationException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.exception.evaluation.ZeroDivisionException;
+import org.gargiolang.parsing.tokens.TokenType;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 
 public class Integer extends Type {
     public static Token add(int a, Token b) throws UnhandledOperationException, UndeclaredVariableException, UnrecognizedTypeException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -25,7 +26,7 @@ public class Integer extends Type {
     }
 
     public static Token subtract(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -39,7 +40,7 @@ public class Integer extends Type {
     }
 
     public static Token multiply(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -53,7 +54,7 @@ public class Integer extends Type {
     }
 
     public static Token divide(int a, Token b) throws UnhandledOperationException, ZeroDivisionException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -75,7 +76,7 @@ public class Integer extends Type {
     }
 
     public static Token mod(int a, Token b) throws UnhandledOperationException, ZeroDivisionException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -97,7 +98,7 @@ public class Integer extends Type {
     }
 
     public static Token power(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.NUM, null);
+        Token result = new Token(TokenType.NUM, null);
 
         switch (b.getVarType(Runtime.getRuntime()))
         {
@@ -121,7 +122,7 @@ public class Integer extends Type {
     }
 
     public static Token greaterThan(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.BOOL, null);
+        Token result = new Token(TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case INT -> result.setValue(a > (int) b.getVarValue(Runtime.getRuntime()));
@@ -134,7 +135,7 @@ public class Integer extends Type {
     }
 
     public static Token lessThan(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.BOOL, null);
+        Token result = new Token(TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case INT -> result.setValue(a < (int) b.getVarValue(Runtime.getRuntime()));
@@ -147,7 +148,7 @@ public class Integer extends Type {
     }
 
     public static Token equalsTo(int a, Token b) throws UnhandledOperationException, UnrecognizedTypeException, UndeclaredVariableException {
-        Token result = new Token(Token.TokenType.BOOL, null);
+        Token result = new Token(TokenType.BOOL, null);
 
         switch (b.getVarType(Runtime.getRuntime())) {
             case INT -> result.setValue(a == (int) b.getVarValue(Runtime.getRuntime()));
@@ -160,6 +161,6 @@ public class Integer extends Type {
     }
 
     public static Token asBool(int a) {
-        return new Token(Token.TokenType.BOOL, a != 0);
+        return new Token(TokenType.BOOL, a != 0);
     }
 }

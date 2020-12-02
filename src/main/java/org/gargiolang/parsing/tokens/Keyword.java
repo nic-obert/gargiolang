@@ -74,7 +74,7 @@ public enum Keyword {
                  */
 
                 interpreter.getLine().clear();
-                Token token = new Token(Token.TokenType.KEYWORD, Keyword.BREAK);
+                Token token = new Token(TokenType.KEYWORD, Keyword.BREAK);
                 token.setPriority(0);
                 interpreter.getLine().add(token);
             }
@@ -88,7 +88,7 @@ public enum Keyword {
                  */
 
                 interpreter.getLine().clear();
-                Token token = new Token(Token.TokenType.KEYWORD, Keyword.CONTINUE);
+                Token token = new Token(TokenType.KEYWORD, Keyword.CONTINUE);
                 token.setPriority(0);
                 interpreter.getLine().add(token);
             }
@@ -173,7 +173,7 @@ public enum Keyword {
                 // check if the second statement evaluates to a boolean (e.g. i < 10;)
                 interpreter.setLine(secondStatementLine);
                 interpreter.executeLine();
-                if (interpreter.getLine().size() == 0 || !interpreter.getLine().getFirst().getType().equals(Token.TokenType.BOOL))
+                if (interpreter.getLine().size() == 0 || !interpreter.getLine().getFirst().getType().equals(TokenType.BOOL))
                     throw new BadTypeException("Statement does not evaluate to a boolean: " + interpreter.getLine(secondStatementLine));
 
 
@@ -205,7 +205,7 @@ public enum Keyword {
                             Token result = interpreter.getLine().getFirst();
 
                             // if the result is a BREAK or CONTINUE keyword --> act consequently
-                            if (result.getType().equals(Token.TokenType.KEYWORD)) {
+                            if (result.getType().equals(TokenType.KEYWORD)) {
                                 switch ((Keyword) result.getValue()) {
                                     case BREAK -> {
                                         forLooping = false;
@@ -255,8 +255,8 @@ public enum Keyword {
             case GOTO -> {
                 // get the next token in line
                 Token toLineToken = interpreter.getLine().get(interpreter.getCurrentTokenIndex() + 1);
-                // check if the label to go to is of type Token.TokenType.TXT
-                if (toLineToken.getType().equals(Token.TokenType.TXT)) {
+                // check if the label to go to is of type TokenType.TXT
+                if (toLineToken.getType().equals(TokenType.TXT)) {
                     // push the lineIndex from where goto has been called to the gotoStack
                     interpreter.getRuntime().getGotoStack().push(interpreter.getLineIndex());
                     // set the line of execution to the specified labelled line
@@ -298,7 +298,7 @@ public enum Keyword {
                 // check if loop's condition statement evaluates to a boolean
                 interpreter.setLineBetween(parenthesis[0][0], parenthesis[0][1] + 1, parenthesis[1][1]);
                 interpreter.executeLine();
-                if (interpreter.getLine().size() == 0 || !interpreter.getLine().getFirst().getType().equals(Token.TokenType.BOOL))
+                if (interpreter.getLine().size() == 0 || !interpreter.getLine().getFirst().getType().equals(TokenType.BOOL))
                     throw new BadTypeException("Statement does not evaluate to a boolean: " + interpreter.getLine(parenthesis[0][0]).subList(parenthesis[0][1], parenthesis[1][1]));
 
 
@@ -325,7 +325,7 @@ public enum Keyword {
                             Token result = interpreter.getLine().getFirst();
 
                             // if the result is a BREAK or CONTINUE keyword --> act consequently
-                            if (result.getType().equals(Token.TokenType.KEYWORD)) {
+                            if (result.getType().equals(TokenType.KEYWORD)) {
                                 switch ((Keyword) result.getValue()) {
                                     case BREAK -> {
                                         whileLooping = false;
@@ -387,15 +387,15 @@ public enum Keyword {
 
                 // get return type
                 Token returnTypeToken = line.get(currentTokenIndex + 1);
-                if (!returnTypeToken.getType().equals(Token.TokenType.TYPE))
+                if (!returnTypeToken.getType().equals(TokenType.TYPE))
                     throw new UnrecognizedTypeException("Unrecognized return type: " + returnTypeToken);
                 Variable.Type returnType = (Variable.Type) returnTypeToken.getValue();
 
 
                 // get function name
                 Token functionNameToken = line.get(currentTokenIndex + 2);
-                if (!functionNameToken.getType().equals(Token.TokenType.FUNC))
-                    throw new BadTypeException("Token.TokenType.FUNC expected for function names, but " + functionNameToken + " was provided instead");
+                if (!functionNameToken.getType().equals(TokenType.FUNC))
+                    throw new BadTypeException("TokenType.FUNC expected for function names, but " + functionNameToken + " was provided instead");
                 String functionName = (String) functionNameToken.getValue();
 
 
@@ -404,19 +404,19 @@ public enum Keyword {
 
                 int paramIndex = currentTokenIndex + 4;
 
-                while (!line.get(paramIndex).getType().equals(Token.TokenType.CALL)) {
+                while (!line.get(paramIndex).getType().equals(TokenType.CALL)) {
 
                     // get argument type
                     Token paramType = line.get(paramIndex);
-                    if (!paramType.getType().equals(Token.TokenType.TYPE))
+                    if (!paramType.getType().equals(TokenType.TYPE))
                         throw new UnrecognizedTypeException("Unrecognized return type: " + paramType);
 
                     paramIndex ++;
 
                     // get argument name
                     Token paramName = line.get(paramIndex);
-                    if (!paramName.getType().equals(Token.TokenType.TXT))
-                        throw new BadTypeException("Token.TokenType.TXT expected for parameter names, but " + paramName + " was provided instead");
+                    if (!paramName.getType().equals(TokenType.TXT))
+                        throw new BadTypeException("TokenType.TXT expected for parameter names, but " + paramName + " was provided instead");
 
                     paramIndex ++;
 
@@ -493,9 +493,9 @@ public enum Keyword {
                 // initialize return token
                 Token returnToken;
                 if (returnValue == null) {
-                    returnToken = new Token(Token.TokenType.NULL, null);
+                    returnToken = new Token(TokenType.NULL, null);
                 } else {
-                    returnToken = new Token(Token.TokenType.fromVarType(returnValue.getType()), returnValue.getValue());
+                    returnToken = new Token(TokenType.fromVarType(returnValue.getType()), returnValue.getValue());
                 }
 
                 // actually return the token
@@ -544,12 +544,12 @@ public enum Keyword {
                         line.subList(currentTokenIndex, line.size()).clear();
                     }
 
-                    Token.TokenType t = null;
+                    TokenType t = null;
 
                     switch (type){
-                        case INT, FLOAT -> t = Token.TokenType.NUM;
-                        case BOOLEAN -> t = Token.TokenType.BOOL;
-                        case STRING -> t = Token.TokenType.STR;
+                        case INT, FLOAT -> t = TokenType.NUM;
+                        case BOOLEAN -> t = TokenType.BOOL;
+                        case STRING -> t = TokenType.STR;
                     }
 
                     assert t != null;
@@ -573,7 +573,7 @@ public enum Keyword {
                 Token fStringToken = line.get(currentTokenIndex + 1);
                 line.remove(currentTokenIndex);
                 // ensure fString is actually a literal string (not a variable of type String)
-                if (!fStringToken.getType().equals(Token.TokenType.STR))
+                if (!fStringToken.getType().equals(TokenType.STR))
                     throw new BadTypeException("Can only format Strings, but " + fStringToken + " was provided");
 
 
@@ -603,26 +603,26 @@ public enum Keyword {
                             throw new OpenBracketException("Bracket in f-string is open, but never closed: '" + fString + "'");
 
                         // get the string before the variable
-                        Token strBefore = new Token(Token.TokenType.STR, fString.substring(lastBracket, i));
+                        Token strBefore = new Token(TokenType.STR, fString.substring(lastBracket, i));
 
                         // add the string before the variable
                         line.add(currentTokenIndex, strBefore);
                         currentTokenIndex ++;
 
                         // insert a + operator
-                        line.add(currentTokenIndex, new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
+                        line.add(currentTokenIndex, new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
                         currentTokenIndex ++;
 
                         // get the variable in the string
                         String varName = fString.substring(i + 1, closingBracket);
-                        Token variable = new Token(Token.TokenType.TXT, varName);
+                        Token variable = new Token(TokenType.TXT, varName);
 
                         // insert the variable
                         line.add(currentTokenIndex, variable);
                         currentTokenIndex ++;
 
                         // insert a + operator
-                        line.add(currentTokenIndex, new Token(Token.TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
+                        line.add(currentTokenIndex, new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
                         currentTokenIndex ++;
 
                         // set the iteration index to after the closing bracket
@@ -634,7 +634,7 @@ public enum Keyword {
                 } // end of for loop
 
                 // add the rest of the string
-                line.add(currentTokenIndex, new Token(Token.TokenType.STR, fString.substring(lastBracket)));
+                line.add(currentTokenIndex, new Token(TokenType.STR, fString.substring(lastBracket)));
 
             }
         }

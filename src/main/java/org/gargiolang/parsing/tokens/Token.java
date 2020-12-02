@@ -13,6 +13,8 @@ public class Token {
     private final TokenType tokenType;
     private Object value;
     private int priority; // priority should not be final
+    private Token prev;
+    private Token next;
 
 
     public Token(TokenType tokenType, Object value) {
@@ -29,6 +31,14 @@ public class Token {
             case KEYWORD -> this.priority = ((Keyword) this.value).getPriority();
 
             default -> this.priority = tokenType.getPriority();
+        }
+    }
+
+
+    public void buildValue(char c) {
+        // build the token's value based on it's type
+        switch (tokenType) {
+            case NUM, TXT, STR -> value += Character.toString(c);
         }
     }
 
@@ -100,6 +110,7 @@ public class Token {
         return this.getVarType(Runtime.getRuntime()).asBool(this);
     }
 
+
     public TokenType getType() {
         return tokenType;
     }
@@ -141,67 +152,20 @@ public class Token {
     }
 
 
-    public enum TokenType {
-
-        TXT((byte) 0),
-        STR((byte) 0),
-        NUM((byte) 0),
-        BOOL((byte) 0),
-        NULL((byte) 0),
-
-        TYPE((byte) 0),
-
-        SCOPE((byte) 1),
-
-        ASSIGNMENT_OPERATOR((byte) 1),
-
-        FUNC((byte) 2),
-        CALL((byte) 10),
-
-        PAREN((byte) 10), // highest priority
-
-        LOGICAL_OPERATOR((byte) 0), // priority depends on the operator
-        ARITHMETIC_OPERATOR((byte) 0), // priority depends on the operator
-        KEYWORD((byte) 0); // priority depends on the keyword
-
-
-
-        private final byte priority;
-        TokenType(byte i) {
-            this.priority = i;
-        }
-
-        public int getPriority() {
-            return priority;
-        }
-
-
-        /**
-         * Converts a variable type to a token type
-         *
-         * @param type the variable type
-         * @return the matching token type
-         * @throws BadTypeException if the provided type has no conversion
-         */
-        public static TokenType fromVarType(Variable.Type type) throws BadTypeException {
-            switch (type)
-            {
-                case STRING: return STR;
-                case INT, FLOAT: return NUM;
-                case BOOLEAN: return BOOL;
-            }
-
-            throw new BadTypeException("No conversion from variable type '" + type + "' to Token type");
-        }
-
+    public Token getPrev() {
+        return prev;
     }
 
+    public Token getNext() {
+        return next;
+    }
 
-    public void buildValue(char c) {
-        // build the token's value based on it's type
-        switch (tokenType) {
-            case NUM, TXT, STR -> value += Character.toString(c);
-        }
+    public void setNext(Token next) {
+        this.next = next;
+    }
+
+    public void setPrev(Token prev) {
+        this.prev = prev;
     }
 
 

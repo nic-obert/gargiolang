@@ -19,7 +19,7 @@ public enum Call {
         int i = currentTokenIndex + 1;
         for (Token token = line.get(i); true; token = line.get(i)) {
 
-            if (token.getType().equals(Token.TokenType.CALL)) {
+            if (token.getType().equals(TokenType.CALL)) {
                 if (token.getValue().equals(OPEN)) depth ++;
                 else {
                     depth --;

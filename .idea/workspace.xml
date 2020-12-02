@@ -13,26 +13,19 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="removed debug lines">
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="a bit of project refactoring and cleaning">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/TokenType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/tokens/Call.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/tokens/Function.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/tokens/Keyword.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/tokens/Scope.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/tokens/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/ArithmeticOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/ArithmeticOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/AssignmentOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/AssignmentOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/LogicalOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/LogicalOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/Parenthesis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/lang/operators/Parenthesis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Interpreter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/function/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/function/Call.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/Variable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Boolean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Boolean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Float.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/Integer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/String.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/variable/types/String.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GargioLang/libraries/libg.gl" beforeDir="false" afterPath="$PROJECT_DIR$/GargioLang/libraries/libg.gl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Call.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Function.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Keyword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Scope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/TokenLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/TokenLine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/operators/AssignmentOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/operators/AssignmentOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/operators/Parenthesis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/parsing/tokens/operators/Parenthesis.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,8 +36,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -411,7 +404,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606841661099</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="a bit of project refactoring and cleaning">
+      <created>1606896706430</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1606896706430</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -430,7 +430,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="rethought the ArithmeticOperator class" />
     <MESSAGE value="implemented the #define preprocessor" />
     <MESSAGE value="simplified Preprocessor" />
     <MESSAGE value="further simplified Preprocessor" />
@@ -455,7 +454,8 @@
     <MESSAGE value="fixed/implemented f-strings and escape characters in strings" />
     <MESSAGE value="implemented println() in libg" />
     <MESSAGE value="removed debug lines" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed debug lines" />
+    <MESSAGE value="a bit of project refactoring and cleaning" />
+    <option name="LAST_COMMIT_MESSAGE" value="a bit of project refactoring and cleaning" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="99" key="#Project_Structure" timestamp="1605446641123">
@@ -562,10 +562,10 @@
       <screen x="0" y="0" width="1366" height="742" />
     </state>
     <state x="407" y="84" width="528" height="605" key="VCS.ChangeListViewerDialog/0.0.1366.742@0.0.1366.742" timestamp="1605609093856" />
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1606841676164">
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2" timestamp="1606896712255">
       <screen x="0" y="0" width="1366" height="742" />
     </state>
-    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1606841676164" />
+    <state x="393" y="179" width="806" height="527" key="Vcs.Push.Dialog.v2/0.0.1366.742@0.0.1366.742" timestamp="1606896712255" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.1.1920.1050@0.0.1920.1050" timestamp="1605380710639" />
     <state width="683" height="371" key="XDebugger.FullValuePopup" timestamp="1606559490431">
       <screen x="0" y="0" width="1366" height="742" />
