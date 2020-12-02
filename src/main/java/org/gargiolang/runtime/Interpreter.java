@@ -2,11 +2,11 @@ package org.gargiolang.runtime;
 
 import org.gargiolang.exception.evaluation.EvaluationException;
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
-import org.gargiolang.lang.*;
-import org.gargiolang.lang.operators.ArithmeticOperator;
-import org.gargiolang.lang.operators.AssignmentOperator;
-import org.gargiolang.lang.operators.LogicalOperator;
-import org.gargiolang.lang.operators.Parenthesis;
+import org.gargiolang.parsing.tokens.operators.ArithmeticOperator;
+import org.gargiolang.parsing.tokens.operators.AssignmentOperator;
+import org.gargiolang.parsing.tokens.operators.LogicalOperator;
+import org.gargiolang.parsing.tokens.operators.Parenthesis;
+import org.gargiolang.parsing.tokens.*;
 
 import java.util.LinkedList;
 

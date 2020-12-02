@@ -12,7 +12,7 @@ public final class ReflectionUtils {
     }
 
     public static Object invokeSystemCall(String call, LinkedList<Object> args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method = org.gargiolang.libg.System.class.getDeclaredMethod(call, LinkedList.class);
+        Method method = org.gargiolang.runtime.lib.System.class.getDeclaredMethod(call, LinkedList.class);
         return method.invoke(null, args);
     }
 

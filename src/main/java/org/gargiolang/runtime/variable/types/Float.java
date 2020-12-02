@@ -1,6 +1,6 @@
 package org.gargiolang.runtime.variable.types;
 
-import org.gargiolang.lang.Token;
+import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UnhandledOperationException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;

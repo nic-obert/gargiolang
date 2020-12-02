@@ -1,8 +1,8 @@
-package org.gargiolang.lang;
+package org.gargiolang.parsing.tokens;
 
 import org.gargiolang.exception.evaluation.*;
-import org.gargiolang.lang.operators.ArithmeticOperator;
-import org.gargiolang.lang.operators.Parenthesis;
+import org.gargiolang.parsing.tokens.operators.ArithmeticOperator;
+import org.gargiolang.parsing.tokens.operators.Parenthesis;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.function.Call;

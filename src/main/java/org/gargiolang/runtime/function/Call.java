@@ -1,6 +1,6 @@
 package org.gargiolang.runtime.function;
 
-import org.gargiolang.lang.Token;
+import org.gargiolang.parsing.tokens.Token;
 
 import java.util.LinkedList;
 

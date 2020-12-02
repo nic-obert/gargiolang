@@ -1,8 +1,8 @@
-package org.gargiolang.lang.operators;
+package org.gargiolang.parsing.tokens.operators;
 
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
 import org.gargiolang.exception.evaluation.OpenParenthesisException;
-import org.gargiolang.lang.Token;
+import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.runtime.Interpreter;
 
 import java.util.LinkedList;

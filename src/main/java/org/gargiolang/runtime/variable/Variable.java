@@ -1,6 +1,6 @@
 package org.gargiolang.runtime.variable;
 
-import org.gargiolang.lang.Token;
+import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.exception.evaluation.*;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.types.Boolean;

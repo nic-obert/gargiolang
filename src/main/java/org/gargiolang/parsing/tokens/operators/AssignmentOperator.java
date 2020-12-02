@@ -1,7 +1,7 @@
-package org.gargiolang.lang.operators;
+package org.gargiolang.parsing.tokens.operators;
 
 import org.gargiolang.exception.evaluation.*;
-import org.gargiolang.lang.Token;
+import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.*;
 import org.gargiolang.runtime.variable.Accessibility;

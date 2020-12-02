@@ -1,4 +1,4 @@
-package org.gargiolang.lang;
+package org.gargiolang.parsing.tokens;
 
 import org.gargiolang.exception.evaluation.*;
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;

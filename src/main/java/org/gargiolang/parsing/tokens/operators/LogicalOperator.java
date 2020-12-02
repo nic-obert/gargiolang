@@ -1,8 +1,8 @@
-package org.gargiolang.lang.operators;
+package org.gargiolang.parsing.tokens.operators;
 
 import org.gargiolang.exception.evaluation.EvaluationException;
 import org.gargiolang.exception.parsing.UnrecognizedOperatorException;
-import org.gargiolang.lang.Token;
+import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.variable.Variable;
 

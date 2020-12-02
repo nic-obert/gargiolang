@@ -1,4 +1,4 @@
-package org.gargiolang.libg;
+package org.gargiolang.runtime.lib;
 
 import org.gargiolang.environment.Environment;
 
