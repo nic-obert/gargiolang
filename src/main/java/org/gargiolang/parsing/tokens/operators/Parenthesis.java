@@ -3,74 +3,79 @@ package org.gargiolang.parsing.tokens.operators;
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
 import org.gargiolang.exception.evaluation.OpenParenthesisException;
 import org.gargiolang.parsing.tokens.Token;
+import org.gargiolang.parsing.tokens.TokenBlock;
+import org.gargiolang.parsing.tokens.TokenLine;
 import org.gargiolang.parsing.tokens.TokenType;
 import org.gargiolang.runtime.Interpreter;
-
-import java.util.LinkedList;
 
 public enum Parenthesis {
 
     OPEN, CLOSED;
 
 
-    public static int[][] findNextParenthesis(Interpreter interpreter) throws IndexOutOfBoundsException, OpenParenthesisException {
-        int[][] parenthesis = new int[2][];
+    public static TokenBlock findNextParenthesis(Interpreter interpreter) throws IndexOutOfBoundsException, OpenParenthesisException {
+
+        int firstLine = 0;
+        Token firstToken = null;
+
         int lineIndex = interpreter.getLineIndex();
 
-        LinkedList<Token> line = interpreter.getLine();
+        TokenLine line = interpreter.getLine();
         for (int parenCount = 0; true; line = interpreter.getLine(lineIndex)) {
 
-            for (Token token : line) {
+            Token lastToken = line.getLast().getNext();
+            for (Token token = line.getFirst(); token != lastToken; token = token.getNext()) {
                 if (token.getType().equals(TokenType.PAREN)) {
 
                     if (token.getValue().equals(Parenthesis.OPEN)) {
                         if (parenCount == 0) {
-                            parenthesis[0] = new int[]{lineIndex, interpreter.getLine(lineIndex).indexOf(token)};
+                            firstLine = lineIndex;
+                            firstToken = token;
                         }
                         parenCount ++;
                     } else {
                         parenCount --;
                         if (parenCount == 0) {
-                            parenthesis[1] = new int[]{lineIndex, interpreter.getLine(lineIndex).indexOf(token)};
-                            return parenthesis;
+                            return new TokenBlock(firstLine, firstToken, lineIndex, token);
                         }
                     }
                 }
             }
 
             lineIndex ++;
-            if (lineIndex == interpreter.getTokens().size()) throw new OpenParenthesisException("Parenthesis is open, but never closed");
+            if (lineIndex == interpreter.getTokens().size())
+                throw new OpenParenthesisException("Parenthesis is open, but never closed");
         }
     }
 
 
     public static void evaluate(Interpreter interpreter) {
-        LinkedList<Token> line = interpreter.getLine();
-        int currentTokenIndex = interpreter.getCurrentTokenIndex();
+        TokenLine line = interpreter.getLine();
+        Token token = interpreter.getCurrentToken();
+
+        // remove opening parenthesis token
+        line.remove(token);
 
         // number of opening parenthesis encountered
         int parenCount = 1;
-        for (int counter = currentTokenIndex + 1; true; counter++) {
-            Token token = line.get(counter);
+        for (token = token.getNext(); true; token = token.getNext()) {
 
-            if (token.getType().equals(TokenType.PAREN)) {
-                if (token.getValue().equals(Parenthesis.OPEN)) {
+            if (token.getType() == TokenType.PAREN) {
+                if (token.getValue() == Parenthesis.OPEN) {
                     parenCount ++;
                 } else {
                     parenCount --;
                     // check if reached matching closing parenthesis
                     if (parenCount == 0) {
                         // remove closing parenthesis token
-                        line.remove(counter);
+                        line.remove(token);
                         break;
                     }
                 }
             }
-            if (token.getPriority() != 0) token.incrementPriority();
+            if (token.getPriority() != 0)
+                token.incrementPriority();
         }
-
-        // remove opening parenthesis token
-        line.remove(currentTokenIndex);
     }
 
 }

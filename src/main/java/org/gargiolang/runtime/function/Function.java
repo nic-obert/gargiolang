@@ -2,6 +2,7 @@ package org.gargiolang.runtime.function;
 
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
 import org.gargiolang.exception.evaluation.*;
+import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.SymbolTable;
@@ -14,11 +15,11 @@ public class Function {
     private final int lineIndex;
     private final LinkedList<Parameter> params;
     private final Variable.Type returnType;
-    private final int startingIndex;
+    private final Token startingToken;
 
-    public Function(int lineIndex, int startingIndex, LinkedList<Parameter> params, Variable.Type returnType) {
+    public Function(int lineIndex, Token startingToken, LinkedList<Parameter> params, Variable.Type returnType) {
         this.lineIndex = lineIndex;
-        this.startingIndex = startingIndex;
+        this.startingToken = startingToken;
         this.params = params;
         this.returnType = returnType;
     }
@@ -38,7 +39,7 @@ public class Function {
 
         // create new Call --> store info about the current interpreter state
         Call call = new Call(
-                interpreter.getCurrentTokenIndex(),
+                interpreter.getCurrentToken(),
                 interpreter.getLineIndex(),
                 runtime.getSymbolTable().scopeCount(),
                 this,
@@ -60,13 +61,13 @@ public class Function {
         // ensure argument count matches parameter count
         if (args.size() != params.size())
             throw new InvalidArgumentsException("Argument count (" + args.size() + ") does not match parameter count (" + params.size() + ")");
-
+        // TODO: 06/12/20 optimize linked list traversal (use iterators instead of indices for increased performance)
         for (int i = 0; i != params.size(); i++) {
             Parameter param = params.get(i);
             Variable arg = args.get(i);
 
             // check if types match
-            if (!arg.getType().equals(param.getType()))
+            if (arg.getType() != param.getType())
                 throw new BadTypeException("Parameter '" + param.getName() + "' requires argument of type '" + param.getType() + "', but type '" + arg.getType() + "' was provided instead");
 
             // initialize parameter
@@ -75,7 +76,7 @@ public class Function {
 
 
         // set line execution to the function's code block (not including the Scope)
-        interpreter.setLineFrom(lineIndex, startingIndex + 1);
+        interpreter.setLineFrom(lineIndex, startingToken.getNext());
 
     }
 
@@ -90,7 +91,7 @@ public class Function {
 
         params.forEach(param -> stringBuilder.append(param.getType()).append(" ").append(param.getName()).append(", "));
 
-        return stringBuilder.append(") at (").append(lineIndex).append(", ").append(startingIndex).append(")>").toString();
+        return stringBuilder.append(") at ").append(lineIndex).append(">").toString();
     }
 
 }

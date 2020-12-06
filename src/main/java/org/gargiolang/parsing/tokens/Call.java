@@ -2,25 +2,27 @@ package org.gargiolang.parsing.tokens;
 
 import org.gargiolang.runtime.Interpreter;
 
-import java.util.LinkedList;
-
 public enum Call {
 
     OPEN, CLOSE;
 
+    /**
+     * Increases the priority of tokens between Call tokens
+     *
+     * @param interpreter the interpreter
+     */
     public static void evaluate(Interpreter interpreter) {
 
-        LinkedList<Token> line = interpreter.getLine();
-        int currentTokenIndex = interpreter.getCurrentTokenIndex();
-
-        line.get(currentTokenIndex).setPriority(0);
+        Token currentToken =  interpreter.getCurrentToken();
+        currentToken.setPriority(0);
 
         int depth = 1;
-        int i = currentTokenIndex + 1;
-        for (Token token = line.get(i); true; token = line.get(i)) {
 
-            if (token.getType().equals(TokenType.CALL)) {
-                if (token.getValue().equals(OPEN)) depth ++;
+        for (Token token = currentToken.getNext(); true; token = token.getNext()) {
+
+            if (token.getType() == TokenType.CALL) {
+                if (token.getValue() == OPEN)
+                    depth ++;
                 else {
                     depth --;
                     if (depth == 0) {
@@ -30,8 +32,8 @@ public enum Call {
                 }
             }
 
-            if (token.getPriority() != 0) token.incrementPriority();
-            i ++;
+            if (token.getPriority() != 0)
+                token.incrementPriority();
         }
 
     }

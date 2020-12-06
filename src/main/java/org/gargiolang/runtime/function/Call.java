@@ -1,19 +1,18 @@
 package org.gargiolang.runtime.function;
 
 import org.gargiolang.parsing.tokens.Token;
-
-import java.util.LinkedList;
+import org.gargiolang.parsing.tokens.TokenLine;
 
 public class Call {
 
     private final int calledFromLine;
-    private final int calledFromIndex;
+    private final Token calledFromToken;
     private final int scopeCount;
     private final Function function;
-    private final LinkedList<Token> lineState;
+    private final TokenLine lineState;
 
-    public Call(int calledFromIndex, int calledFromLine, int scopeCount, Function function, LinkedList<Token> lineState) {
-        this.calledFromIndex = calledFromIndex;
+    public Call(Token calledFromToken, int calledFromLine, int scopeCount, Function function, TokenLine lineState) {
+        this.calledFromToken = calledFromToken;
         this.calledFromLine = calledFromLine;
         this.scopeCount = scopeCount;
         this.function = function;
@@ -24,8 +23,8 @@ public class Call {
         return function;
     }
 
-    public int getCalledFromIndex() {
-        return calledFromIndex;
+    public Token getCalledFromToken() {
+        return calledFromToken;
     }
 
     public int getCalledFromLine() {
@@ -36,7 +35,7 @@ public class Call {
         return scopeCount;
     }
 
-    public LinkedList<Token> getLineState() {
+    public TokenLine getLineState() {
         return lineState;
     }
 }

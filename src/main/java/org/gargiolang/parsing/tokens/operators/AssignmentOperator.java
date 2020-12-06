@@ -2,28 +2,27 @@ package org.gargiolang.parsing.tokens.operators;
 
 import org.gargiolang.exception.evaluation.*;
 import org.gargiolang.parsing.tokens.Token;
+import org.gargiolang.parsing.tokens.TokenLine;
 import org.gargiolang.parsing.tokens.TokenType;
+import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.Runtime;
-import org.gargiolang.runtime.*;
 import org.gargiolang.runtime.variable.Accessibility;
 import org.gargiolang.runtime.variable.SymbolTable;
 import org.gargiolang.runtime.variable.Variable;
-
-import java.util.LinkedList;
 
 public class AssignmentOperator {
 
     public static void evaluate(Interpreter interpreter) throws NotLValueException, VariableRedeclarationException, UnrecognizedTypeException, UndeclaredVariableException, BadTypeException {
         Runtime runtime = Runtime.getRuntime();
         SymbolTable table = runtime.getSymbolTable();
-        int currentTokenIndex = interpreter.getCurrentTokenIndex();
-        LinkedList<Token> line = interpreter.getLine();
+        Token operator = interpreter.getCurrentToken();
+        TokenLine line = interpreter.getLine();
 
-        Token lValue = line.get(currentTokenIndex - 1);
-        Token rValue = line.get(currentTokenIndex + 1);
+        Token lValue = operator.getPrev();
+        Token rValue = operator.getNext();
 
         // remove tokens from line
-        line.remove(currentTokenIndex);
+        line.remove(operator);
         line.remove(rValue);
         line.remove(lValue);
 
@@ -31,9 +30,9 @@ public class AssignmentOperator {
         if (lValue.getType() != TokenType.TXT)
             throw new NotLValueException(lValue + " is not an lvalue");
 
-        // check if a variable type is specified
-        if (currentTokenIndex - 2 >= 0) {
-            Token type = line.get(currentTokenIndex - 2);
+        // check if a variable type is specified --> this is a variable declaration and it should be added to the SymbolTable
+        if (lValue.hasPrev()) {
+            Token type = lValue.getPrev();
 
             // check if the type is actually a type
             if (type.getType() == TokenType.TYPE) {
@@ -51,7 +50,7 @@ public class AssignmentOperator {
             }
         }
 
-        // whereas if a variable type is not specified
+        // whereas, if a variable type is not specified, the variable should already have been declared --> update the SymbolTable
         Variable variable = new Variable(
                 rValue.getVarValue(runtime),
                 rValue.getVarType(runtime),

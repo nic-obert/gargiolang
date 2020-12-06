@@ -6,18 +6,22 @@ import org.gargiolang.parsing.tokens.operators.LogicalOperator;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 
-import java.util.LinkedList;
-
 public class Token {
+
+    private static int classId;
 
     private final TokenType tokenType;
     private Object value;
     private int priority; // priority should not be final
+    private final int id;
+
+    // for TokenLine doubly-linked list
     private Token prev;
     private Token next;
 
 
     public Token(TokenType tokenType, Object value) {
+        this.id = Token.getId();
         this.tokenType = tokenType;
         this.value = value;
 
@@ -32,6 +36,21 @@ public class Token {
 
             default -> this.priority = tokenType.getPriority();
         }
+    }
+
+    /**
+     * To be used when copying a token
+     */
+    private Token(TokenType tokenType, Object value, int priority, int id) {
+        this.tokenType = tokenType;
+        this.value = value;
+        this.priority = priority;
+        this.id = id;
+    }
+
+
+    public static int getId() {
+        return classId ++;
     }
 
 
@@ -70,13 +89,15 @@ public class Token {
 
     public void increment() throws UnhandledOperationException, UndeclaredVariableException, UnrecognizedTypeException, UnimplementedException {
         // check if token is a variable
-        if (!this.getType().equals(TokenType.TXT)) throw new UnhandledOperationException("Can only increment a variable, but " + this + " was provided");
+        if (this.getType() != TokenType.TXT)
+            throw new UnhandledOperationException("Can only increment a variable, but " + this + " was provided");
         this.getVarType(Runtime.getRuntime()).increment(this);
     }
 
     public void decrement() throws UnhandledOperationException, UndeclaredVariableException, UnrecognizedTypeException, UnimplementedException {
         // check if token is a variable
-        if (!this.getType().equals(TokenType.TXT)) throw new UnhandledOperationException("Can only decrement a variable, but " + this + " was provided");
+        if (this.getType() != TokenType.TXT)
+            throw new UnhandledOperationException("Can only decrement a variable, but " + this + " was provided");
         this.getVarType(Runtime.getRuntime()).decrement(this);
     }
 
@@ -106,7 +127,8 @@ public class Token {
      * @return the boolean representation of the token's value
      */
     public Token asBool() throws UnrecognizedTypeException, UndeclaredVariableException, UnimplementedException {
-        if (this.getType().equals(TokenType.BOOL)) return this;
+        if (this.getType() == TokenType.BOOL)
+            return this;
         return this.getVarType(Runtime.getRuntime()).asBool(this);
     }
 
@@ -116,9 +138,9 @@ public class Token {
     }
 
     // return the type of the token's value, not the token's
-    public Variable.Type getVarType(Runtime runtime) throws UnrecognizedTypeException {
-        if (this.getType().equals(TokenType.TXT)) {
-            return runtime.getSymbolTable().getVariable((String) this.value).getType();
+    public Variable.Type getVarType(Runtime runtime) throws UnrecognizedTypeException, UndeclaredVariableException {
+        if (this.getType() == TokenType.TXT) {
+            return runtime.getSymbolTable().getVariableThrow((String) this.value).getType();
         }
         return Variable.Type.extractVarType(this);
     }
@@ -130,7 +152,8 @@ public class Token {
 
     // if token is a variable --> return its value, otherwise return token's value
     public Object getVarValue(Runtime runtime) throws UndeclaredVariableException {
-        if (this.getType().equals(TokenType.TXT)) return runtime.getSymbolTable().getVariableThrow((String) this.value).getValue();
+        if (this.getType() == TokenType.TXT)
+            return runtime.getSymbolTable().getVariableThrow((String) this.value).getValue();
         else return getValue();
     }
 
@@ -168,6 +191,14 @@ public class Token {
         this.prev = prev;
     }
 
+    public boolean hasPrev() {
+        return prev != null;
+    }
+
+    public boolean hasNext() {
+        return next != null;
+    }
+
 
     public static boolean isText(char c) {
         // see the ASCII table
@@ -187,30 +218,24 @@ public class Token {
         return LogicalOperator.isLogicalOperator(c);
     }
 
-    // returns the index of the token with the highest priority in a linked list of tokens
-    public static int getHighestPriority(LinkedList<Token> line) {
-        // TODO implement a linked list from scratch with builtin optimizations for token indexing
-        int highestIndex = 0;
-        int tokenIndex = 0;
-        Token highestToken = line.getFirst();
 
-        // if the first token of the line is a scope --> evaluate it right away
-        if (highestToken.getType().equals(TokenType.SCOPE)) return 0;
-
-        for (Token token : line) {
-            if (token.getPriority() > highestToken.getPriority()) {
-                highestToken = token;
-                highestIndex = tokenIndex;
-
-                // line evaluation should not go beyond the current scope
-                if (token.getType().equals(TokenType.SCOPE)) break;
-            }
-            tokenIndex ++;
-        }
-
-        return highestIndex;
+    public Token copy() {
+        return new Token(tokenType, value, priority, id);
     }
 
+
+    /**
+     * To be used when comparing tokens that could possibly not occupy the same memory address (being the same token, but having different memory addresses)
+     *
+     * @param other other token to compare
+     * @return whether the tokens are the same or not
+     */
+    public boolean is(Token other) {
+        // TODO: 05/12/20 implement a better way to check if tokens are the same (when copying the line two copies of the same token are made, but with different memory address, thus not being exactly the same object)
+        if (other == null)
+            return false;
+        return this.id == other.id;
+    }
 
     @Override
     public String toString() {

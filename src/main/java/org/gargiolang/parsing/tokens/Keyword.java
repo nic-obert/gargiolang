@@ -61,9 +61,9 @@ public enum Keyword {
 
 
     public static void evaluate(Interpreter interpreter) throws EvaluationException, ReflectiveOperationException {
-        Keyword keyword = (Keyword) interpreter.getLine().get(interpreter.getCurrentTokenIndex()).getValue();
+        Token currentToken = interpreter.getCurrentToken();
 
-        switch (keyword)
+        switch ((Keyword) currentToken.getValue())
         {
             case BREAK -> {
                 /*
@@ -76,7 +76,7 @@ public enum Keyword {
                 interpreter.getLine().clear();
                 Token token = new Token(TokenType.KEYWORD, Keyword.BREAK);
                 token.setPriority(0);
-                interpreter.getLine().add(token);
+                interpreter.getLine().append(token);
             }
 
             case CONTINUE -> {
@@ -90,12 +90,12 @@ public enum Keyword {
                 interpreter.getLine().clear();
                 Token token = new Token(TokenType.KEYWORD, Keyword.CONTINUE);
                 token.setPriority(0);
-                interpreter.getLine().add(token);
+                interpreter.getLine().append(token);
             }
 
             case IF -> {
-                LinkedList<Token> line = interpreter.getLine();
-                Token condition = line.get(interpreter.getCurrentTokenIndex() + 1);
+                TokenLine line = interpreter.getLine();
+                Token condition = currentToken.getNext();
 
                 // check if condition is actually a boolean
                 if (!condition.getVarType(interpreter.getRuntime()).equals(Variable.Type.BOOLEAN))
@@ -103,21 +103,21 @@ public enum Keyword {
 
                 // remove if keyword and condition
                 line.remove(condition);
-                line.remove(interpreter.getCurrentTokenIndex());
+                line.remove(currentToken);
 
                 // get the position of the next matching scopes
-                int[][] scopes = Scope.findNextScope(interpreter);
+                TokenBlock ifBlock = Scope.findNextScope(interpreter);
 
                 // check if the boolean condition is true
                 if (condition.getVarValue(interpreter.getRuntime()).equals(true)) {
-                    interpreter.setLineFrom(scopes[0][0], scopes[0][1]);
-                    interpreter.setCurrentTokenIndex(0);
+                    interpreter.setLineFrom(ifBlock.getFirstLine(), ifBlock.getFirstToken());
+                    interpreter.setCurrentToken(line.getFirst());
                     // tell the interpreter not to search for the highest priority token next time
-                    interpreter.blockCurrentTokenIndex();
+                    interpreter.blockCurrentToken();
                 }
                 // whereas if the boolean condition is false
                 else {
-                    interpreter.setLineFrom(scopes[1][0], scopes[1][1] + 1);
+                    interpreter.setLineFrom(ifBlock.getLastLine(), ifBlock.getLastToken().getNext());
                     // check if there is an else --> remove it
                     if (interpreter.getLine().getFirst().getValue().equals(ELSE)) {
                         interpreter.getLine().removeFirst();
@@ -150,31 +150,26 @@ public enum Keyword {
                 interpreter.getRuntime().getSymbolTable().pushScope();
 
                 // get the position of parenthesis
-                int[][] parenthesis = Parenthesis.findNextParenthesis(interpreter);
+                TokenBlock parenthesis = Parenthesis.findNextParenthesis(interpreter);
 
                 // get the position of the for loop's block
-                int[][] forBlock = Scope.findNextScope(interpreter);
-                /*
-                    forBlock[][]'s structure:
-                        [0][0] --> line of the opening scope
-                        [0][1] --> index of the opening scope in its line
-                        [1][0] --> line of the closing scope
-                        [1][1] --> index of the closing scope in its line
-                 */
+                TokenBlock forBlock = Scope.findNextScope(interpreter);
 
-                // store statement positions for ease of use
-                int secondStatementLine = parenthesis[0][0] + 1;
-                int thirdStatementLine = parenthesis[0][0] + 2;
+                // store the reference to each statement for ease of use
+                TokenLine condition = interpreter.getLine(parenthesis.getFirstLine() + 1);
+
+                TokenLine action = interpreter.getLine(parenthesis.getLastLine());
+                action = action.subList(action.getFirst(), parenthesis.getLastToken().getPrev());
 
                 // execute the first statement (e.g. int i = 0;)
-                interpreter.setLineFrom(parenthesis[0][0], parenthesis[0][1] + 1);
+                interpreter.setLineFrom(parenthesis.getFirstLine(), parenthesis.getFirstToken().getNext());
                 interpreter.executeLine();
 
-                // check if the second statement evaluates to a boolean (e.g. i < 10;)
-                interpreter.setLine(secondStatementLine);
+                // check if the condition statement evaluates to a boolean (e.g. i < 10;)
+                interpreter.setLine(condition.copy());
                 interpreter.executeLine();
-                if (interpreter.getLine().size() == 0 || !interpreter.getLine().getFirst().getType().equals(TokenType.BOOL))
-                    throw new BadTypeException("Statement does not evaluate to a boolean: " + interpreter.getLine(secondStatementLine));
+                if (interpreter.getLine().isEmpty() || interpreter.getLine().getFirst().getType() != TokenType.BOOL)
+                    throw new BadTypeException("Statement does not evaluate to a boolean: " + condition);
 
 
                 /*
@@ -186,13 +181,14 @@ public enum Keyword {
                 while (forLooping) {
 
                     // check the second boolean statement (the loop's condition e.g. i < 10;)
-                    interpreter.setLine(secondStatementLine);
-                    if (interpreter.executeLine().getFirst().getVarValue(interpreter.getRuntime()).equals(false)) break;
+                    interpreter.setLine(condition.copy());
+                    if (!(boolean) interpreter.executeLine().getFirst().asBool().getValue())
+                        break;
 
                     // execute the code block
 
                     // set the line execution to the beginning of the for loop
-                    interpreter.setLineFrom(forBlock[0][0], forBlock[0][1]);
+                    interpreter.setLineFrom(forBlock.getFirstLine(), forBlock.getFirstToken());
                     boolean executingBlock = true;
                     while (executingBlock) {
 
@@ -200,12 +196,12 @@ public enum Keyword {
                         interpreter.executeLine();
 
                         // check first if line is not empty
-                        if (interpreter.getLine().size() != 0) {
+                        if (!interpreter.getLine().isEmpty()) {
                             // get the result of line execution
                             Token result = interpreter.getLine().getFirst();
 
                             // if the result is a BREAK or CONTINUE keyword --> act consequently
-                            if (result.getType().equals(TokenType.KEYWORD)) {
+                            if (result.getType() == TokenType.KEYWORD) {
                                 switch ((Keyword) result.getValue()) {
                                     case BREAK -> {
                                         forLooping = false;
@@ -217,11 +213,11 @@ public enum Keyword {
                         }
 
                         // if the next line is the last line of the loop --> include only until the closing scope
-                        if (interpreter.getLineIndex() == forBlock[1][0] - 1) {
-                            interpreter.setLineUntil(forBlock[1][0], forBlock[1][1] + 1);
+                        if (interpreter.getLineIndex() == forBlock.getLastLine() - 1) {
+                            interpreter.setLineUntil(forBlock.getLastLine(), forBlock.getLastToken());
                         }
                         // if the current line is the last line of the loop --> set executingBlock to false to break the loop
-                        else if (interpreter.getLineIndex() == forBlock[1][0]) {
+                        else if (interpreter.getLineIndex() == forBlock.getLastLine()) {
                             executingBlock = false;
                         }
                         // otherwise just jump to the next line
@@ -232,7 +228,7 @@ public enum Keyword {
                     } // ---------------------------- end of code block
 
                     // execute third statement (e.g. i++;)
-                    interpreter.setLineUntil(thirdStatementLine, parenthesis[1][1]);
+                    interpreter.setLine(action.copy());
                     interpreter.executeLine();
 
                 } // ----------------------------------  end of for loop
@@ -242,21 +238,21 @@ public enum Keyword {
                 interpreter.getRuntime().getSymbolTable().popScopes(interpreter.getRuntime().getSymbolTable().scopeCount() - scopeCount);
 
                 // set the line execution to after the for loop
-                interpreter.setLineFrom(forBlock[1][0], forBlock[1][1] + 1);
+                interpreter.setLineFrom(forBlock.getLastLine(), forBlock.getLastToken().getNext());
 
             }
 
             case ELSE -> {
                 // jump to the end of the scope (do not execute this block of code)
-                int[][] scopes = Scope.findNextScope(interpreter);
-                interpreter.setLineFrom(scopes[1][0], scopes[1][1] + 1);
+                TokenBlock scopes = Scope.findNextScope(interpreter);
+                interpreter.setLineFrom(scopes.getLastLine(), scopes.getLastToken().getNext());
             }
 
             case GOTO -> {
                 // get the next token in line
-                Token toLineToken = interpreter.getLine().get(interpreter.getCurrentTokenIndex() + 1);
+                Token toLineToken = currentToken.getNext();
                 // check if the label to go to is of type TokenType.TXT
-                if (toLineToken.getType().equals(TokenType.TXT)) {
+                if (toLineToken.getType() == TokenType.TXT) {
                     // push the lineIndex from where goto has been called to the gotoStack
                     interpreter.getRuntime().getGotoStack().push(interpreter.getLineIndex());
                     // set the line of execution to the specified labelled line
@@ -268,7 +264,7 @@ public enum Keyword {
 
                 // finally remove the goto keyword and the label
                 interpreter.getLine().remove(toLineToken);
-                interpreter.getLine().remove(interpreter.getCurrentTokenIndex());
+                interpreter.getLine().remove(currentToken);
             }
 
             case WHILE -> {
@@ -290,29 +286,31 @@ public enum Keyword {
                 interpreter.getRuntime().getSymbolTable().pushScope();
 
                 // get the loop's condition statement
-                int[][] parenthesis = Parenthesis.findNextParenthesis(interpreter);
+                TokenBlock parenthesis = Parenthesis.findNextParenthesis(interpreter);
+                TokenLine condition = interpreter.getLine(parenthesis.getFirstLine()).subList(parenthesis.getFirstToken().getNext(), parenthesis.getLastToken().getPrev());
 
                 // get the code block
-                int[][] whileBlock = Scope.findNextScope(interpreter);
+                TokenBlock whileBlock = Scope.findNextScope(interpreter);
 
                 // check if loop's condition statement evaluates to a boolean
-                interpreter.setLineBetween(parenthesis[0][0], parenthesis[0][1] + 1, parenthesis[1][1]);
+                interpreter.setLine(condition.copy());
                 interpreter.executeLine();
-                if (interpreter.getLine().size() == 0 || !interpreter.getLine().getFirst().getType().equals(TokenType.BOOL))
-                    throw new BadTypeException("Statement does not evaluate to a boolean: " + interpreter.getLine(parenthesis[0][0]).subList(parenthesis[0][1], parenthesis[1][1]));
+                if (interpreter.getLine().isEmpty() || interpreter.getLine().getFirst().getType() != TokenType.BOOL)
+                    throw new BadTypeException("Statement does not evaluate to a boolean: " + interpreter.getLine(parenthesis.getFirstLine()).subList(parenthesis.getFirstToken().getNext(), parenthesis.getLastToken()));
 
 
                 boolean whileLooping = true;
                 while (whileLooping) {
 
                     // check the loop's condition
-                    interpreter.setLineBetween(parenthesis[0][0], parenthesis[0][1] + 1, parenthesis[1][1]);
-                    if (interpreter.executeLine().getFirst().getValue().equals(false)) break;
+                    interpreter.setLine(condition.copy());
+                    if (!(boolean)interpreter.executeLine().getFirst().asBool().getValue())
+                        break;
 
                     // execute the code block
 
                     // set the line execution to the beginning of the code block
-                    interpreter.setLineFrom(whileBlock[0][0], whileBlock[0][1]);
+                    interpreter.setLineFrom(whileBlock.getFirstLine(), whileBlock.getFirstToken());
                     boolean executingBlock = true;
                     while (executingBlock) {
 
@@ -320,12 +318,12 @@ public enum Keyword {
                         interpreter.executeLine();
 
                         // check first if the line is not empty
-                        if (interpreter.getLine().size() != 0) {
+                        if (!interpreter.getLine().isEmpty()) {
                             // get the result of line execution
                             Token result = interpreter.getLine().getFirst();
 
                             // if the result is a BREAK or CONTINUE keyword --> act consequently
-                            if (result.getType().equals(TokenType.KEYWORD)) {
+                            if (result.getType() == TokenType.KEYWORD) {
                                 switch ((Keyword) result.getValue()) {
                                     case BREAK -> {
                                         whileLooping = false;
@@ -337,11 +335,11 @@ public enum Keyword {
                         }
 
                         // if the next line is the last line of the loop --> include only until the closing scope
-                        if (interpreter.getLineIndex() == whileBlock[1][0] - 1) {
-                            interpreter.setLineUntil(whileBlock[1][0], whileBlock[1][1] + 1);
+                        if (interpreter.getLineIndex() == whileBlock.getLastLine() - 1) {
+                            interpreter.setLineUntil(whileBlock.getLastLine(), whileBlock.getLastToken());
                         }
                         // if the current line is the last line of the loop --> set executingBlock to false to break the loop
-                        else if (interpreter.getLineIndex() == whileBlock[1][0]) {
+                        else if (interpreter.getLineIndex() == whileBlock.getLastLine()) {
                             executingBlock = false;
                         }
                         // otherwise just jump to the next line
@@ -357,7 +355,7 @@ public enum Keyword {
                 interpreter.getRuntime().getSymbolTable().popScopes(interpreter.getRuntime().getSymbolTable().scopeCount() - scopeCount);
 
                 // set line execution to after the while loop
-                interpreter.setLineFrom(whileBlock[1][0], whileBlock[1][1] + 1);
+                interpreter.setLineFrom(whileBlock.getLastLine(), whileBlock.getLastToken().getNext());
             }
 
             case GOBACK -> {
@@ -367,7 +365,7 @@ public enum Keyword {
                 interpreter.setLineIndex(gotoStack.pop() - 1);
 
                 // finally remove the keyword
-                interpreter.getLine().remove(interpreter.getCurrentTokenIndex());
+                interpreter.getLine().remove(currentToken);
             }
 
             case DEF -> {
@@ -381,19 +379,15 @@ public enum Keyword {
                  */
 
 
-                LinkedList<Token> line = interpreter.getLine();
-                int currentTokenIndex = interpreter.getCurrentTokenIndex();
-
-
                 // get return type
-                Token returnTypeToken = line.get(currentTokenIndex + 1);
+                Token returnTypeToken = currentToken.getNext();
                 if (!returnTypeToken.getType().equals(TokenType.TYPE))
                     throw new UnrecognizedTypeException("Unrecognized return type: " + returnTypeToken);
                 Variable.Type returnType = (Variable.Type) returnTypeToken.getValue();
 
 
                 // get function name
-                Token functionNameToken = line.get(currentTokenIndex + 2);
+                Token functionNameToken = returnTypeToken.getNext();
                 if (!functionNameToken.getType().equals(TokenType.FUNC))
                     throw new BadTypeException("TokenType.FUNC expected for function names, but " + functionNameToken + " was provided instead");
                 String functionName = (String) functionNameToken.getValue();
@@ -402,36 +396,34 @@ public enum Keyword {
                 // get parameter list
                 LinkedList<Parameter> params = new LinkedList<>();
 
-                int paramIndex = currentTokenIndex + 4;
 
-                while (!line.get(paramIndex).getType().equals(TokenType.CALL)) {
+                for (Token paramToken = functionNameToken.getNext().getNext(); !paramToken.getType().equals(TokenType.CALL); ) {
 
                     // get argument type
-                    Token paramType = line.get(paramIndex);
-                    if (!paramType.getType().equals(TokenType.TYPE))
-                        throw new UnrecognizedTypeException("Unrecognized return type: " + paramType);
+                    if (!paramToken.getType().equals(TokenType.TYPE))
+                        throw new UnrecognizedTypeException("Unrecognized return type: " + paramToken);
+                    Variable.Type paramType = (Variable.Type) paramToken.getValue();
 
-                    paramIndex ++;
+                    paramToken = paramToken.getNext();
 
                     // get argument name
-                    Token paramName = line.get(paramIndex);
-                    if (!paramName.getType().equals(TokenType.TXT))
-                        throw new BadTypeException("TokenType.TXT expected for parameter names, but " + paramName + " was provided instead");
+                    if (!paramToken.getType().equals(TokenType.TXT))
+                        throw new BadTypeException("TokenType.TXT expected for parameter names, but " + paramToken + " was provided instead");
+                    String paramName = (String) paramToken.getValue();
 
-                    paramIndex ++;
+                    paramToken = paramToken.getNext();
 
-                    params.add(new Parameter((String) paramName.getValue(), (Variable.Type) paramType.getValue()));
+                    params.add(new Parameter(paramName, paramType));
                 }
 
 
                 // get function code block
-                int[][] codeBlock = Scope.findNextScope(interpreter);
-
+                TokenBlock tokenBlock = Scope.findNextScope(interpreter);
 
                 // create the function
                 Function function = new Function(
-                        codeBlock[0][0],
-                        codeBlock[0][1],
+                        tokenBlock.getFirstLine(),
+                        tokenBlock.getFirstToken(),
                         params,
                         returnType
                 );
@@ -442,7 +434,7 @@ public enum Keyword {
 
 
                 // set the line execution to after the function's code block
-                interpreter.setLineFrom(codeBlock[1][0], codeBlock[1][1] + 1);
+                interpreter.setLineFrom(tokenBlock.getLastLine(), tokenBlock.getLastToken().getNext());
 
             }
 
@@ -468,7 +460,7 @@ public enum Keyword {
                 // get the return value (if any)
                 Variable returnValue = null;
                 if (!function.getReturnType().equals(Variable.Type.NULL)) {
-                    Token returnToken = interpreter.getLine().get(interpreter.getCurrentTokenIndex() + 1);
+                    Token returnToken = currentToken.getNext();
                     Variable.Type returnType = returnToken.getVarType(runtime);
                     // check if return types match
                     if (!returnType.equals(function.getReturnType()))
@@ -487,7 +479,7 @@ public enum Keyword {
 
 
                 // restore the previous interpreter's state
-                interpreter.setLine(call.getLineState(), call.getCalledFromLine(), call.getCalledFromIndex());
+                interpreter.setLine(call.getLineState(), call.getCalledFromLine(), call.getCalledFromToken());
 
 
                 // initialize return token
@@ -499,7 +491,7 @@ public enum Keyword {
                 }
 
                 // actually return the token
-                interpreter.getLine().set(interpreter.getCurrentTokenIndex(), returnToken);
+                interpreter.getLine().replace(currentToken, returnToken);
 
             }
 
@@ -511,15 +503,14 @@ public enum Keyword {
                     - clear the line
                  */
 
-                LinkedList<Token> line = interpreter.getLine();
-                int currentTokenIndex = interpreter.getCurrentTokenIndex();
+                TokenLine line = interpreter.getLine();
                 Runtime runtime = interpreter.getRuntime();
 
 
                 // get function name to call
-                Token funcNameToken = line.get(currentTokenIndex + 1);
+                Token funcNameToken = currentToken.getNext();
                 // ensure argument is a string
-                if (!funcNameToken.getVarType(runtime).equals(Variable.Type.STRING))
+                if (funcNameToken.getVarType(runtime) != Variable.Type.STRING)
                     throw new BadTypeException("Type String is required, but " + funcNameToken + " was provided");
                 String funcName = (String) funcNameToken.getVarValue(runtime);
 
@@ -527,7 +518,7 @@ public enum Keyword {
                 // get function arguments
                 LinkedList<Object> args = new LinkedList<>();
                 // every token in the line is considered to be an argument
-                for (Token token : line.subList(currentTokenIndex + 2, line.size())) {
+                for (Token token = funcNameToken.getNext(); token != null; token = token.getNext()) {
                     args.add(token.getVarValue(runtime));
                 }
 
@@ -536,24 +527,25 @@ public enum Keyword {
                 Object obj = ReflectionUtils.invokeSystemCall(funcName, args);
                 Variable.Type type = funcNameToken.getVarType(runtime);
 
-                if(type.equals(Variable.Type.NULL)) {
+                if(type == Variable.Type.NULL) {
                     // clear the line
                     line.clear();
                 } else {
-                    if (line.size() > currentTokenIndex) {
-                        line.subList(currentTokenIndex, line.size()).clear();
+                    // TODO: 03/12/20 what is this supposed to do?
+                    if (line.size() > line.indexOf(currentToken)) {
+                        line.removeFrom(currentToken);
                     }
 
-                    TokenType t = null;
+                    TokenType tokenType = null;
 
                     switch (type){
-                        case INT, FLOAT -> t = TokenType.NUM;
-                        case BOOLEAN -> t = TokenType.BOOL;
-                        case STRING -> t = TokenType.STR;
+                        case INT, FLOAT -> tokenType = TokenType.NUM;
+                        case BOOLEAN -> tokenType = TokenType.BOOL;
+                        case STRING -> tokenType = TokenType.STR;
                     }
 
-                    assert t != null;
-                    line.add(new Token(t, obj));
+                    assert tokenType != null;
+                    line.append(new Token(tokenType, obj));
                 }
 
             }
@@ -565,22 +557,22 @@ public enum Keyword {
                     - convert the f-string to a chained sum of strings
                  */
 
-                LinkedList<Token> line = interpreter.getLine();
-                int currentTokenIndex = interpreter.getCurrentTokenIndex();
+                TokenLine line = interpreter.getLine();
 
 
                 // get the string to format
-                Token fStringToken = line.get(currentTokenIndex + 1);
-                line.remove(currentTokenIndex);
-                // ensure fString is actually a literal string (not a variable of type String)
-                if (!fStringToken.getType().equals(TokenType.STR))
+                Token fStringToken = currentToken.getNext();
+                // ensure fString is actually a literal string (not a variable of type String or any other token)
+                if (fStringToken.getType() != TokenType.STR)
                     throw new BadTypeException("Can only format Strings, but " + fStringToken + " was provided");
 
 
                 // search for variable names in the string
 
                 String fString = (String) fStringToken.getValue();
-                line.remove(fStringToken);
+                // currentToken reference is changed --> from here it doesn't point to the current token that is being evaluated (namely "f")
+                line.remove(currentToken);
+                currentToken = fStringToken;
 
                 char[] charArray = fString.toCharArray();
                 int lastBracket = 0;
@@ -606,24 +598,21 @@ public enum Keyword {
                         Token strBefore = new Token(TokenType.STR, fString.substring(lastBracket, i));
 
                         // add the string before the variable
-                        line.add(currentTokenIndex, strBefore);
-                        currentTokenIndex ++;
+                        line.insertAfter(currentToken, strBefore);
 
                         // insert a + operator
-                        line.add(currentTokenIndex, new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
-                        currentTokenIndex ++;
+                        line.insertAfter(strBefore, new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
 
                         // get the variable in the string
                         String varName = fString.substring(i + 1, closingBracket);
                         Token variable = new Token(TokenType.TXT, varName);
 
                         // insert the variable
-                        line.add(currentTokenIndex, variable);
-                        currentTokenIndex ++;
+                        line.insertAfter(strBefore.getNext(), variable);
 
                         // insert a + operator
-                        line.add(currentTokenIndex, new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
-                        currentTokenIndex ++;
+                        line.insertAfter(variable, new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.ADD));
+                        currentToken = variable.getNext();
 
                         // set the iteration index to after the closing bracket
                         i = closingBracket;
@@ -634,8 +623,10 @@ public enum Keyword {
                 } // end of for loop
 
                 // add the rest of the string
-                line.add(currentTokenIndex, new Token(TokenType.STR, fString.substring(lastBracket)));
+                line.insertAfter(currentToken, new Token(TokenType.STR, fString.substring(lastBracket)));
 
+                // remove the old string
+                line.remove(fStringToken);
             }
         }
 

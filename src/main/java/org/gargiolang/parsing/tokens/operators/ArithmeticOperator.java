@@ -3,9 +3,9 @@ package org.gargiolang.parsing.tokens.operators;
 import org.gargiolang.exception.evaluation.*;
 import org.gargiolang.exception.parsing.UnrecognizedOperatorException;
 import org.gargiolang.parsing.tokens.Token;
+import org.gargiolang.parsing.tokens.TokenLine;
 import org.gargiolang.runtime.Interpreter;
 
-import java.util.LinkedList;
 import java.util.Map;
 
 public enum ArithmeticOperator {
@@ -61,71 +61,70 @@ public enum ArithmeticOperator {
 
     public static void evaluate(Interpreter interpreter) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException, ZeroDivisionException {
 
-        LinkedList<Token> line = interpreter.getLine();
-        int currentTokenIndex = interpreter.getCurrentTokenIndex();
-        Token operator = line.get(currentTokenIndex);
+        TokenLine line = interpreter.getLine();
+        Token operator = interpreter.getCurrentToken();
 
         switch ((ArithmeticOperator) operator.getValue()) {
             case ADD -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.add(b));
+                line.replace(operator, a.add(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case SUB -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.subtract(b));
+                line.replace(operator, a.subtract(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case MUL -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.multiply(b));
+                line.replace(operator, a.multiply(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case DIV -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.divide(b));
+                line.replace(operator, a.divide(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case MOD -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.mod(b));
+                line.replace(operator, a.mod(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case POW -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.power(b));
+                line.replace(operator, a.power(b));
 
                 line.remove(a);
                 line.remove(b);
             }
             case INC -> {
-                line.get(currentTokenIndex - 1).increment();
+                operator.getPrev().increment();
                 line.remove(operator);
             }
             case DEC -> {
-                line.get(currentTokenIndex - 1).decrement();
+                operator.getPrev().decrement();
                 line.remove(operator);
             }
         }

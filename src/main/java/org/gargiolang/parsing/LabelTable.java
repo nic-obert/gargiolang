@@ -1,4 +1,4 @@
-package org.gargiolang.preprocessing;
+package org.gargiolang.parsing;
 
 import org.gargiolang.exception.evaluation.UndefinedLabelException;
 import org.gargiolang.exception.parsing.LabelRedefinitionException;

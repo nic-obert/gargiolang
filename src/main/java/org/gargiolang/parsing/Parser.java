@@ -20,7 +20,7 @@ public class Parser {
     private int lineNumber;
 
     // a 2d linked list of lines of tokens
-    private final LinkedList<LinkedList<Token>> tokens;
+    private final LinkedList<TokenLine> tokens;
 
     public Parser(LinkedList<String> statements, Runtime runtime) {
         this.statements = statements;
@@ -29,27 +29,28 @@ public class Parser {
     }
 
 
-    public LinkedList<LinkedList<Token>> getTokens() {
+    public LinkedList<TokenLine> getTokens() {
         return tokens;
     }
 
 
-    public LinkedList<LinkedList<Token>> parseTokens() throws ParsingException {
+    public LinkedList<TokenLine> parseTokens() throws ParsingException {
         for(String statement : statements) {
             lineNumber++;
-            if (statement == null) continue;
+            if (statement == null)
+                continue;
 
             // check if line is labelled
             if (statement.stripLeading().startsWith("@")) {
                 String label = statement.substring(statement.indexOf('@')+1).strip();
-                runtime.getLabelTable().putLabel(label, statements.indexOf(statement));
+                runtime.getLabelTable().putLabel(label, tokens.size());
                 // do not parse labelled line
                 continue;
             }
 
-            LinkedList<Token> line = parseStatement(statement + (char) 0);
+            TokenLine line = parseStatement(statement + (char) 0);
             // ignore empty statements
-            if (line.size() != 0)
+            if (!line.isEmpty())
                 tokens.add(line);
         }
 
@@ -57,9 +58,9 @@ public class Parser {
     }
 
 
-    private LinkedList<Token> parseStatement(String statement) throws ParsingException {
+    private TokenLine parseStatement(String statement) throws ParsingException {
         // list of tokens representing the tokenized statement
-        LinkedList<Token> line = new LinkedList<>();
+        TokenLine line = new TokenLine();
 
         // the current state of the tokenizer
         State state = State.NULL;
@@ -96,33 +97,33 @@ public class Parser {
 
                     // firstly check if the token is a Keyword
                     if (Keyword.isKeyword((String) token.getValue())) {
-                        line.add(new Token(TokenType.KEYWORD, Keyword.valueOf(((String) token.getValue()).toUpperCase())));
+                        line.append(new Token(TokenType.KEYWORD, Keyword.valueOf(((String) token.getValue()).toUpperCase())));
                     }
 
                     // check if token is a Type
                     else if(Variable.Type.getType(String.valueOf(token.getValue())) != null) {
-                        line.add(new Token(TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
+                        line.append(new Token(TokenType.TYPE, Variable.Type.getType(String.valueOf(token.getValue()))));
                     }
 
                     // check if is a Boolean
                     else if(token.getValue().equals("true")) {
-                        line.add(new Token(TokenType.BOOL, true));
+                        line.append(new Token(TokenType.BOOL, true));
                     }
 
                     else if (token.getValue().equals("false")) {
-                        line.add(new Token(TokenType.BOOL, false));
+                        line.append(new Token(TokenType.BOOL, false));
                     }
 
                     // check if it is a function call
                     else if (c == '(') {
                         // keywords are not functions
-                        if (!(line.size() != 0 && line.getLast().getType().equals(TokenType.KEYWORD))) {
+                        if (!(!line.isEmpty() && line.getLast().getType() == TokenType.KEYWORD)) {
                             // add the text as function
-                            line.add(new Token(TokenType.FUNC, token.getValue()));
+                            line.append(new Token(TokenType.FUNC, token.getValue()));
                             // increase the call depth (for function calls inside other calls)
                             callDepth ++;
                             // add an opening Call parenthesis
-                            line.add(new Token(TokenType.CALL, Call.OPEN));
+                            line.append(new Token(TokenType.CALL, Call.OPEN));
                             token = null;
                             continue;
                         }
@@ -130,7 +131,7 @@ public class Parser {
 
                     // if token is not a keyword, add it as normal text
                     else {
-                        line.add(token);
+                        line.append(token);
                     }
 
                     // set the current token to null
@@ -146,9 +147,9 @@ public class Parser {
                     state = State.NULL;
 
                     if (((String) token.getValue()).contains("."))
-                        line.add(new Token(TokenType.NUM, Double.parseDouble((String) token.getValue())));
+                        line.append(new Token(TokenType.NUM, Double.parseDouble((String) token.getValue())));
                     else
-                        line.add(new Token(TokenType.NUM, Integer.parseInt((String) token.getValue())));
+                        line.append(new Token(TokenType.NUM, Integer.parseInt((String) token.getValue())));
 
                     token = null;
                 }
@@ -181,7 +182,7 @@ public class Parser {
 
                     // if this line is reached it means that c == '"' and it has not been escaped
                     state = State.NULL;
-                    line.add(token);
+                    line.append(token);
                     token = null;
                     continue;
                 }
@@ -196,7 +197,8 @@ public class Parser {
 
             // checks for function calls
             if (callDepth != 0) {
-                if (c == '(') parenCount ++;
+                if (c == '(')
+                    parenCount ++;
                 else if (c == ')') {
                     parenCount --;
                     // when the closing parenthesis is met
@@ -204,7 +206,7 @@ public class Parser {
 
                         callDepth --;
 
-                        line.add(new Token(TokenType.CALL, Call.CLOSE));
+                        line.append(new Token(TokenType.CALL, Call.CLOSE));
                         continue;
                     }
                 }
@@ -212,28 +214,24 @@ public class Parser {
 
 
             if (c == '"') {
-                if (token != null) line.add(token);
+                if (token != null)
+                    line.append(token);
                 state = State.STRING;
                 token = new Token(TokenType.STR, "");
                 continue;
             }
 
             if (Token.isNumber(c)) {
-                if (token != null) line.add(token);
-                state = State.NUMBER;
-                token = new Token(TokenType.NUM, Character.toString(c));
-                continue;
-            }
-
-            if(c == '-'){
-                if (token != null) line.add(token);
+                if (token != null)
+                    line.append(token);
                 state = State.NUMBER;
                 token = new Token(TokenType.NUM, Character.toString(c));
                 continue;
             }
 
             if (Token.isText(c)) {
-                if (token != null) line.add(token);
+                if (token != null)
+                    line.append(token);
                 state = State.TEXT;
                 token = new Token(TokenType.TXT, Character.toString(c));
                 continue;
@@ -243,19 +241,19 @@ public class Parser {
                 if (token != null) {
 
                     // check for arithmetic operators composed by multiple characters (++, --) and comments (//)
-                    if (token.getType().equals(TokenType.ARITHMETIC_OPERATOR)) {
+                    if (token.getType() == TokenType.ARITHMETIC_OPERATOR) {
 
-                        if (token.getValue().equals(ArithmeticOperator.ADD) && c == '+') {
-                            line.add(new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.INC));
+                        if (token.getValue() == ArithmeticOperator.ADD && c == '+') {
+                            line.append(new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.INC));
                         }
-                        else if (token.getValue().equals(ArithmeticOperator.SUB) && c == '-') {
-                            line.add(new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.DEC));
+                        else if (token.getValue() == ArithmeticOperator.SUB && c == '-') {
+                            line.append(new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.DEC));
                         }
-                        else if(token.getValue().equals(ArithmeticOperator.MUL) && c == '*'){
-                            line.add(new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.POW));
+                        else if(token.getValue() == ArithmeticOperator.MUL && c == '*'){
+                            line.append(new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.POW));
                         }
                         // in case of a comment --> let it be handle by the above switch statement
-                        else if (token.getValue().equals(ArithmeticOperator.DIV) && c == '/') {
+                        else if (token.getValue() == ArithmeticOperator.DIV && c == '/') {
                             state = State.COMMENT;
                         }
 
@@ -263,25 +261,35 @@ public class Parser {
                         continue;
                     }
                     else
-                        line.add(token);
+                        line.append(token);
                 }
                 token = new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.fromString(Character.toString(c)));
+                continue;
+            }
+
+            if(c == '-'){
+                if (token != null)
+                    line.append(token);
+                state = State.NUMBER;
+                token = new Token(TokenType.NUM, "-");
                 continue;
             }
 
             if(Token.isLogicalOperator(c)){
                 if(token != null) {
 
-                    if (token.getType().equals(TokenType.LOGICAL_OPERATOR)) {
-                        if (token.getValue().equals(LogicalOperator.INCOMPLETE_AND) && c == '&') token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.AND);
-                        else if (token.getValue().equals(LogicalOperator.INCOMPLETE_OR) && c == '|') token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.OR);
+                    if (token.getType() == TokenType.LOGICAL_OPERATOR) {
+                        if (token.getValue() == LogicalOperator.INCOMPLETE_AND && c == '&')
+                            token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.AND);
+                        else if (token.getValue() == LogicalOperator.INCOMPLETE_OR && c == '|')
+                            token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.OR);
 
-                        line.add(token);
+                        line.append(token);
                         token = null;
                         continue;
                     }
 
-                    line.add(token);
+                    line.append(token);
                 }
                 token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.fromString(Character.toString(c)));
                 continue;
@@ -291,14 +299,14 @@ public class Parser {
                 if (token != null) {
 
                     // means the token is "=="
-                    if (token.getType().equals(TokenType.ASSIGNMENT_OPERATOR)) {
+                    if (token.getType() == TokenType.ASSIGNMENT_OPERATOR) {
                         token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.EQ);
-                        line.add(token);
+                        line.append(token);
                         token = null;
                         continue;
                     }
                     // <= >= !=
-                    else if (token.getType().equals(TokenType.LOGICAL_OPERATOR)) {
+                    else if (token.getType() == TokenType.LOGICAL_OPERATOR) {
                         switch ((LogicalOperator) token.getValue())
                         {
                             case GR -> token = new Token(TokenType.LOGICAL_OPERATOR, LogicalOperator.GRE);
@@ -307,12 +315,12 @@ public class Parser {
                             default -> throw new UnexpectedTokenException("Unexpected token: '=' after " + token);
                         }
 
-                        line.add(token);
+                        line.append(token);
                         token = null;
                         continue;
                     }
 
-                    line.add(token);
+                    line.append(token);
                 }
 
                 token = new Token(TokenType.ASSIGNMENT_OPERATOR, '=');
@@ -320,25 +328,29 @@ public class Parser {
             }
 
             if (c == ' ' || c == '\n') {
-                if (token != null) line.add(token);
+                if (token != null)
+                    line.append(token);
                 token = null;
                 continue;
             }
 
             if (c == '(') {
-                if (token != null) line.add(token);
+                if (token != null)
+                    line.append(token);
                 token = new Token(TokenType.PAREN, Parenthesis.OPEN);
                 continue;
             }
 
             if (c == ')') {
-                if (token != null) line.add(token);
+                if (token != null)
+                    line.append(token);
                 token = new Token(TokenType.PAREN, Parenthesis.CLOSED);
                 continue;
             }
 
             if (c == ',') {
-                if (token != null) line.add(token);
+                if (token != null)
+                    line.append(token);
                 continue;
             }
 
@@ -348,30 +360,35 @@ public class Parser {
             }
 
             if (c == '{') {
-                if (token != null) line.add(token);
+                if (token != null)
+                    line.append(token);
                 token = new Token(TokenType.SCOPE, Scope.OPEN);
                 continue;
             }
 
             if (c == '}') {
-                if (token != null) line.add(token);
+                if (token != null)
+                    line.append(token);
                 token = new Token(TokenType.SCOPE, Scope.CLOSE);
                 continue;
             }
 
-            if(c == '#') continue;
+            if(c == '#')
+                continue;
 
             // null termination character
-            if (c == 0) break;
+            if (c == 0)
+                break;
 
-            if (c == ';') break;
+            if (c == ';')
+                break;
 
 
             throw new InvalidCharacterException("Unable to parse character \"" + c + "\" (" + (byte)c + ") at position " + position + " on line " + lineNumber);
         }
 
         if (token != null) {
-            line.add(token);
+            line.append(token);
         }
 
         return line;

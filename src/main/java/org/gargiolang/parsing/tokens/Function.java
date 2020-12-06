@@ -13,30 +13,30 @@ public class Function {
 
     public static void evaluate(Interpreter interpreter) throws UndefinedFunctionException, VariableRedeclarationException, InvalidArgumentsException, UndeclaredVariableException, BadTypeException, UnrecognizedTypeException, IndexOutOfBoundsException {
 
-        LinkedList<Token> line = interpreter.getLine();
-        int currentTokenIndex = interpreter.getCurrentTokenIndex();
+        TokenLine line = interpreter.getLine();
+        Token currentToken = interpreter.getCurrentToken();
         Runtime runtime = interpreter.getRuntime();
 
 
         // get function name
-        String funcName = (String) line.get(currentTokenIndex).getValue();
+        String funcName = (String) currentToken.getValue();
 
 
         // get argument list
         LinkedList<Variable> args = new LinkedList<>();
-        int argIndex = currentTokenIndex + 2;
-        for (Token token = line.get(argIndex); !token.getType().equals(TokenType.CALL); token = line.get(argIndex)) {
+        Token arg = currentToken.getNext().getNext();
+        for ( ; arg.getType() != TokenType.CALL; arg = arg.getNext()) {
 
             args.add(new Variable(
-                        token.getVarValue(runtime),
-                        token.getVarType(runtime),
+                        arg.getVarValue(runtime),
+                        arg.getVarType(runtime),
                         Accessibility.PUBLIC));
-            line.remove(token);
+            line.remove(arg);
         }
 
         // remove evaluated tokens
-        line.remove(argIndex);
-        line.remove(currentTokenIndex + 1);
+        line.remove(arg);
+        line.remove(currentToken.getNext());
 
 
         // get the function to call

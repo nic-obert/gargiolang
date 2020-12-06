@@ -3,10 +3,10 @@ package org.gargiolang.parsing.tokens.operators;
 import org.gargiolang.exception.evaluation.EvaluationException;
 import org.gargiolang.exception.parsing.UnrecognizedOperatorException;
 import org.gargiolang.parsing.tokens.Token;
+import org.gargiolang.parsing.tokens.TokenLine;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.variable.Variable;
 
-import java.util.LinkedList;
 import java.util.Map;
 
 public enum LogicalOperator {
@@ -68,95 +68,94 @@ public enum LogicalOperator {
 
     public static void evaluate(Interpreter interpreter) throws EvaluationException {
 
-        LinkedList<Token> line = interpreter.getLine();
-        int currentTokenIndex = interpreter.getCurrentTokenIndex();
-        Token operator = line.get(currentTokenIndex);
+        TokenLine line = interpreter.getLine();
+        Token operator = interpreter.getCurrentToken();
 
 
         switch ((LogicalOperator) operator.getValue()) {
             case GR -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.greaterThan(b));
+                line.replace(operator, a.greaterThan(b));
 
                 line.remove(a);
                 line.remove(b);
             }
 
             case LS -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.lessThan(b));
+                line.replace(operator, a.lessThan(b));
 
                 line.remove(a);
                 line.remove(b);
             }
 
             case EQ -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.equalsTo(b));
+                line.replace(operator, a.equalsTo(b));
 
                 line.remove(a);
                 line.remove(b);
             }
 
             case OR -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, Variable.Type.or(a, b));
+                line.replace(operator, Variable.Type.or(a, b));
 
                 line.remove(a);
                 line.remove(b);
             }
 
             case AND -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, Variable.Type.and(a, b));
+                line.replace(operator, Variable.Type.and(a, b));
 
                 line.remove(a);
                 line.remove(b);
             }
 
             case GRE -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, Variable.Type.greaterOrEquals(a, b));
+                line.replace(operator, Variable.Type.greaterOrEquals(a, b));
 
                 line.remove(a);
                 line.remove(b);
             }
 
             case LSE -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, Variable.Type.lessOrEquals(a, b));
+                line.replace(operator, Variable.Type.lessOrEquals(a, b));
 
                 line.remove(a);
                 line.remove(b);
             }
 
             case NOT -> {
-                Token a = line.get(currentTokenIndex + 1);
+                Token a = operator.getNext();
 
-                line.set(currentTokenIndex, a.not());
+                line.replace(operator, a.not());
 
                 line.remove(a);
             }
 
             case NE -> {
-                Token a = line.get(currentTokenIndex - 1);
-                Token b = line.get(currentTokenIndex + 1);
+                Token a = operator.getPrev();
+                Token b = operator.getNext();
 
-                line.set(currentTokenIndex, a.notEqualsTo(b));
+                line.replace(operator, a.notEqualsTo(b));
 
                 line.remove(a);
                 line.remove(b);

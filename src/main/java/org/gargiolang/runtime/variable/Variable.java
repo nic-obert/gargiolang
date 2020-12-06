@@ -1,7 +1,7 @@
 package org.gargiolang.runtime.variable;
 
-import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.exception.evaluation.*;
+import org.gargiolang.parsing.tokens.Token;
 import org.gargiolang.parsing.tokens.TokenType;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.types.Boolean;
@@ -55,12 +55,14 @@ public class Variable {
         FLOAT,
         STRING,
         BOOLEAN,
-        NULL,
-        DEF;
+        NULL;
 
-
-        public static Type getType(java.lang.String str){
-            for(Type t : Type.values()) if(t.toString().equalsIgnoreCase(str)) return t;
+        public static Type getType(java.lang.String str) {
+            str = str.toUpperCase();
+            for(Type type : Type.values()) {
+                if (type.toString().equals(str))
+                    return type;
+            }
             return null;
         }
 
@@ -106,7 +108,6 @@ public class Variable {
 
 
         public Token subtract(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException {
-            // TODO implement this using method overloading, reflection or this kind of stuff. I don't know if it's doable in java, but in C++ you can.
 
             Runtime runtime = Runtime.getRuntime();
             Token result;
@@ -125,7 +126,6 @@ public class Variable {
 
 
         public Token multiply(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException {
-            // TODO implement this using method overloading, reflection or this kind of stuff. I don't know if it's doable in java, but in C++ you can.
 
             Runtime runtime = Runtime.getRuntime();
             Token result;
@@ -146,7 +146,6 @@ public class Variable {
 
 
         public Token divide(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException, ZeroDivisionException {
-            // TODO implement this using method overloading, reflection or this kind of stuff. I don't know if it's doable in java, but in C++ you can.
 
             Runtime runtime = Runtime.getRuntime();
             Token result;
@@ -164,7 +163,6 @@ public class Variable {
         }
 
         public Token mod(Token a, Token b) throws UnrecognizedTypeException, UndeclaredVariableException, UnhandledOperationException, UnimplementedException, ZeroDivisionException {
-            // TODO implement this using method overloading, reflection or this kind of stuff. I don't know if it's doable in java, but in C++ you can.
 
             Runtime runtime = Runtime.getRuntime();
             Token result;

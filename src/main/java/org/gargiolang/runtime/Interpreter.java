@@ -13,18 +13,18 @@ import java.util.LinkedList;
 public class Interpreter {
 
     private final Runtime runtime;
-    private final LinkedList<LinkedList<Token>> tokens;
+    private final LinkedList<TokenLine> tokens;
 
     // line that is currently being executed
     private int lineIndex = 0;
-    private LinkedList<Token> line;
+    private TokenLine line;
     // token that is currently being evaluated
-    private int currentTokenIndex;
+    private Token currentToken;
 
-    private boolean blockCurrentTokenIndex = false;
+    private boolean blockCurrentToken = false;
 
 
-    public Interpreter(Runtime runtime, LinkedList<LinkedList<Token>> tokens) {
+    public Interpreter(Runtime runtime, LinkedList<TokenLine> tokens) {
         this.runtime = runtime;
         this.tokens = tokens;
     }
@@ -33,116 +33,91 @@ public class Interpreter {
     /**
      * The interpreter will not search for the highest priority token in the next iteration
      */
-    public void blockCurrentTokenIndex() {
-        this.blockCurrentTokenIndex = true;
+    public void blockCurrentToken() {
+        this.blockCurrentToken = true;
     }
 
 
-    public LinkedList<LinkedList<Token>> getTokens() {
+    public LinkedList<TokenLine> getTokens() {
         return tokens;
     }
 
 
-    public LinkedList<Token> getLine() {
+    public Token getCurrentToken() {
+        return currentToken;
+    }
+
+
+    /**
+     * Warning: does not check if token is actually in the line
+     *
+     * @param token the token to set as current token
+     */
+    public void setCurrentToken(Token token) {
+        this.currentToken = token;
+    }
+
+
+    public TokenLine getLine() {
         return line;
     }
 
-    public LinkedList<Token> getLine(int lineIndex) throws IndexOutOfBoundsException {
-        if (lineIndex == tokens.size() || currentTokenIndex < 0) throw new IndexOutOfBoundsException("Line index out of bounds: Index: " + lineIndex + ", Size: " + tokens.size());
+    public TokenLine getLine(int lineIndex) throws IndexOutOfBoundsException {
+        if (lineIndex == tokens.size() || lineIndex < 0)
+            throw new IndexOutOfBoundsException("Line index out of bounds: Index: " + lineIndex + ", Size: " + tokens.size());
         return tokens.get(lineIndex);
     }
 
-    /**
-     * Returns the specified line sublist of tokens
-     *
-     * @param lineIndex index of the line to get
-     * @param fromToken token from which to start the line
-     * @return specified sublist of tokens
-     * @throws IndexOutOfBoundsException if specified lineIndex or fromToken are out of bounds
-     */
-    public LinkedList<Token> getLineFrom(int lineIndex, int fromToken) throws IndexOutOfBoundsException {
-        if (fromToken == this.getLine(lineIndex).size() || fromToken < 0)
-            throw new IndexOutOfBoundsException("Token index out of bounds: Index: " + fromToken + ", Size: " + this.getLine(lineIndex).size());
-        return new LinkedList<>(this.getLine(lineIndex).subList(fromToken, this.getLine(lineIndex).size()));
+
+    public TokenLine getLineFrom(int lineIndex, Token fromToken) throws IndexOutOfBoundsException {
+        TokenLine tempLine = this.getLine(lineIndex);
+        return tempLine.subList(fromToken, tempLine.getLast());
     }
 
 
     /**
-     * Sets the current line to the one provided and updates lineIndex and currentTokenIndex.
-     * This could also be referred as setting the interpreter's state.
+     * Warning: dangerous method
      *
      * @param line the line to be set as current line
-     * @param lineIndex the index of the line inside the token list
-     * @param currentTokenIndex the token that is currently being executed
-     * @throws IndexOutOfBoundsException if the lineIndex is out of bounds with respect to the token list
      */
-    public void setLine(LinkedList<Token> line, int lineIndex, int currentTokenIndex) throws IndexOutOfBoundsException {
+    public void setLine(TokenLine line) {
         this.line = line;
-        this.setLineIndex(lineIndex);
-        this.setCurrentTokenIndex(currentTokenIndex);
     }
 
+    public void setLine(TokenLine line, int lineIndex, Token token) throws IndexOutOfBoundsException {
+        this.line = line;
+        this.setLineIndex(lineIndex);
+        this.currentToken = token;
+    }
 
     public void setLine(int lineIndex) throws IndexOutOfBoundsException {
         this.setLineIndex(lineIndex);
-
-        this.line = (LinkedList<Token>) tokens.get(lineIndex).clone();
-    }
-
-    /**
-     * Set the current line to be executed to the one specified.
-     *
-     * @param lineIndex the index of the line to execute to
-     * @param fromToken the position from which to start the execution of the line
-     * @throws IndexOutOfBoundsException if the specified lineIndex is out of bounds
-     */
-    public void setLineFrom(int lineIndex, int fromToken) throws IndexOutOfBoundsException {
-        this.setLineIndex(lineIndex);
-        this.line = new LinkedList<>(this.getLine(lineIndex).subList(fromToken, this.getLine(lineIndex).size()));
+        this.line = tokens.get(lineIndex).copy();
     }
 
 
-    /**
-     * Set the current line to be executed to the one specified
-     *
-     * @param lineIndex the index of the line to execute
-     * @param fromToken the position from which to start the execution of the line
-     * @param untilToken the position up to which to execute the line
-     * @throws IndexOutOfBoundsException if the specified lineIndex is out of bounds
-     */
-    public void setLineBetween(int lineIndex, int fromToken, int untilToken) throws IndexOutOfBoundsException {
+    public void setLineFrom(int lineIndex, Token fromToken) throws IndexOutOfBoundsException {
         this.setLineIndex(lineIndex);
-        this.line = new LinkedList<>(this.getLine(lineIndex).subList(fromToken, untilToken));
+        this.line = this.getLine(lineIndex);
+        this.line = this.line.subList(fromToken, this.line.getLast()).copy();
     }
 
 
-    /**
-     * Set the current line to be executed to the one specified.
-     *
-     * @param lineIndex the index of the line to jump to
-     * @param untilToken the position where the line should stop
-     * @throws IndexOutOfBoundsException if the specified lineIndex is out of bounds
-     */
-    public void setLineUntil(int lineIndex, int untilToken) throws IndexOutOfBoundsException {
+    public void setLineBetween(int lineIndex, Token fromToken, Token untilToken) throws IndexOutOfBoundsException {
         this.setLineIndex(lineIndex);
-        this.line = new LinkedList<>(tokens.get(lineIndex).subList(0, untilToken));
+        this.line = this.getLine(lineIndex).subList(fromToken, untilToken).copy();
+    }
+
+
+    public void setLineUntil(int lineIndex, Token untilToken) throws IndexOutOfBoundsException {
+        this.setLineIndex(lineIndex);
+        this.line = tokens.get(lineIndex);
+        this.line = this.line.subList(this.line.getFirst(), untilToken).copy();
     }
 
 
     public int getLineIndex() {
         return lineIndex;
-    }
-
-
-    public int getCurrentTokenIndex() {
-        return currentTokenIndex;
-    }
-
-
-    public void setCurrentTokenIndex(int currentTokenIndex) throws IndexOutOfBoundsException {
-        if (currentTokenIndex == line.size() || currentTokenIndex < 0)
-            throw new IndexOutOfBoundsException("Given index out of bounds: Index: " + currentTokenIndex + ", Size: " + line.size());
-        this.currentTokenIndex = currentTokenIndex;
     }
 
 
@@ -154,7 +129,7 @@ public class Interpreter {
      */
     public void setLineIndex(int lineIndex) throws IndexOutOfBoundsException {
         // check is given lineIndex exceeds the number of lines
-        if (lineIndex > tokens.size() || currentTokenIndex < 0)
+        if (lineIndex > tokens.size() || lineIndex < 0)
             throw new IndexOutOfBoundsException("Line index out of bounds: Index: " + lineIndex + ", Size: " + tokens.size());
         this.lineIndex = lineIndex;
     }
@@ -173,9 +148,9 @@ public class Interpreter {
     public void execute() throws EvaluationException, ReflectiveOperationException {
         int eof = tokens.size();
 
-        for (; lineIndex < eof; lineIndex ++) {
+        for ( ; this.lineIndex != eof; this.lineIndex ++) {
             // here a copy of the line is needed, not its reference (for goto, function calls, loops and repeating code)
-            this.line = (LinkedList<Token>) tokens.get(lineIndex).clone();
+            this.line = tokens.get(lineIndex).copy();
 
             this.executeLine();
 
@@ -190,21 +165,20 @@ public class Interpreter {
      * @throws EvaluationException if an error occurs during the line execution
      * @return returns the evaluated line
      */
-    public LinkedList<Token> executeLine() throws EvaluationException, ReflectiveOperationException {
+    public TokenLine executeLine() throws EvaluationException, ReflectiveOperationException {
 
         while (!line.isEmpty()) {
 
-            if (blockCurrentTokenIndex) blockCurrentTokenIndex = false;
-            else currentTokenIndex = Token.getHighestPriority(line);
+            if (blockCurrentToken) blockCurrentToken = false;
+            else currentToken = line.highestPriority();
 
-            Token highest = line.get(currentTokenIndex);
 
             // if no more token to evaluate --> break out of the loop
-            if (highest.getPriority() == 0) {
+            if (currentToken.getPriority() == 0) {
                 break;
             }
 
-            switch (highest.getType())
+            switch (currentToken.getType())
             {
                 case LOGICAL_OPERATOR -> LogicalOperator.evaluate(this);
 
@@ -222,7 +196,7 @@ public class Interpreter {
 
                 case CALL -> Call.evaluate(this);
 
-                default -> throw new EvaluationException("Could not evaluate token " + highest);
+                default -> throw new EvaluationException("Could not evaluate token " + currentToken);
             }
 
 
