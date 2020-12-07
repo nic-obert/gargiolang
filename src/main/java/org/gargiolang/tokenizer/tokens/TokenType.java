@@ -1,4 +1,4 @@
-package org.gargiolang.parsing.tokens;
+package org.gargiolang.tokenizer.tokens;
 
 import org.gargiolang.exception.evaluation.BadTypeException;
 import org.gargiolang.runtime.variable.Variable;
@@ -18,13 +18,13 @@ public enum TokenType {
     ASSIGNMENT_OPERATOR((byte) 1),
 
     FUNC((byte) 2),
-    CALL((byte) 10),
 
     PAREN((byte) 10), // highest priority
 
-    LOGICAL_OPERATOR((byte) 0), // priority depends on the operator
-    ARITHMETIC_OPERATOR((byte) 0), // priority depends on the operator
-    KEYWORD((byte) 0); // priority depends on the keyword
+    LOGICAL_OPERATOR((byte) -1), // priority depends on the operator
+    ARITHMETIC_OPERATOR((byte) -1), // priority depends on the operator
+    CALL((byte) -1), // priority depends on whether it is open or closed
+    KEYWORD((byte) -1); // priority depends on the keyword
 
 
 

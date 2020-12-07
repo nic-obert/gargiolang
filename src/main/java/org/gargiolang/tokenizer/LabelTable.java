@@ -1,7 +1,7 @@
-package org.gargiolang.parsing;
+package org.gargiolang.tokenizer;
 
 import org.gargiolang.exception.evaluation.UndefinedLabelException;
-import org.gargiolang.exception.parsing.LabelRedefinitionException;
+import org.gargiolang.exception.tokenization.LabelRedefinitionException;
 
 import java.util.HashMap;
 

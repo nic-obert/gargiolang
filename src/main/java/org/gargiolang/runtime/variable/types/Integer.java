@@ -1,15 +1,16 @@
 package org.gargiolang.runtime.variable.types;
 
-import org.gargiolang.parsing.tokens.Token;
+import org.gargiolang.tokenizer.tokens.Token;
 import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UnhandledOperationException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.exception.evaluation.ZeroDivisionException;
-import org.gargiolang.parsing.tokens.TokenType;
+import org.gargiolang.tokenizer.tokens.TokenType;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 
 public class Integer extends Type {
+
     public static Token add(int a, Token b) throws UnhandledOperationException, UndeclaredVariableException, UnrecognizedTypeException {
         Token result = new Token(TokenType.NUM, null);
 

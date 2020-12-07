@@ -2,7 +2,7 @@ package org.gargiolang.runtime.function;
 
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
 import org.gargiolang.exception.evaluation.*;
-import org.gargiolang.parsing.tokens.Token;
+import org.gargiolang.tokenizer.tokens.Token;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.SymbolTable;

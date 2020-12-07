@@ -1,10 +1,11 @@
-package org.gargiolang.parsing.tokens.operators;
+package org.gargiolang.tokenizer.tokens.operators;
 
 import org.gargiolang.exception.evaluation.*;
-import org.gargiolang.exception.parsing.UnrecognizedOperatorException;
-import org.gargiolang.parsing.tokens.Token;
-import org.gargiolang.parsing.tokens.TokenLine;
+import org.gargiolang.exception.tokenization.UnrecognizedOperatorException;
 import org.gargiolang.runtime.Interpreter;
+import org.gargiolang.tokenizer.tokens.Token;
+import org.gargiolang.tokenizer.tokens.TokenLine;
+import org.gargiolang.tokenizer.tokens.TokenType;
 
 import java.util.Map;
 
@@ -12,6 +13,7 @@ public enum ArithmeticOperator {
 
     ADD("+"),
     SUB("-"),
+    INV("-"), // invert --> e.g. -a, -1 (unary operator)
     MUL("*"),
     DIV("/"),
     MOD("%"),
@@ -19,11 +21,15 @@ public enum ArithmeticOperator {
     INC("++"),
     DEC("--");
 
+    /** Token used for performance reasons --> multiplying by -1 can be fairly common */
+    public static Token minusOne = new Token(TokenType.NUM, -1);
+
     private final String repr;
 
     private final static Map<ArithmeticOperator, Byte> priorities = Map.of(
             ADD, (byte) 3,
             SUB, (byte) 3,
+            INV, (byte) 4, // same priority as multiplication since it is actually a multiplication by -1
             MUL, (byte) 4,
             DIV, (byte) 4,
             MOD, (byte) 3,
@@ -78,6 +84,7 @@ public enum ArithmeticOperator {
                 Token a = operator.getPrev();
                 Token b = operator.getNext();
 
+                // multiply token by -1
                 line.replace(operator, a.subtract(b));
 
                 line.remove(a);
@@ -125,6 +132,11 @@ public enum ArithmeticOperator {
             }
             case DEC -> {
                 operator.getPrev().decrement();
+                line.remove(operator);
+            }
+            case INV -> {
+                Token a = operator.getNext();
+                line.replace(a, a.multiply(minusOne));
                 line.remove(operator);
             }
         }

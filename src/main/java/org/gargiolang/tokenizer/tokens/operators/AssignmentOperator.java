@@ -1,9 +1,9 @@
-package org.gargiolang.parsing.tokens.operators;
+package org.gargiolang.tokenizer.tokens.operators;
 
 import org.gargiolang.exception.evaluation.*;
-import org.gargiolang.parsing.tokens.Token;
-import org.gargiolang.parsing.tokens.TokenLine;
-import org.gargiolang.parsing.tokens.TokenType;
+import org.gargiolang.tokenizer.tokens.Token;
+import org.gargiolang.tokenizer.tokens.TokenLine;
+import org.gargiolang.tokenizer.tokens.TokenType;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Accessibility;

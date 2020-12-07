@@ -1,11 +1,11 @@
 package org.gargiolang.runtime;
 
-import org.gargiolang.parsing.tokens.TokenLine;
-import org.gargiolang.parsing.LabelTable;
+import org.gargiolang.tokenizer.tokens.TokenLine;
+import org.gargiolang.tokenizer.LabelTable;
 import org.gargiolang.preprocessing.Preprocessor;
 import org.gargiolang.preprocessing.dependencies.Dependency;
 import org.gargiolang.environment.Environment;
-import org.gargiolang.parsing.Parser;
+import org.gargiolang.tokenizer.Lexer;
 import org.gargiolang.exception.GargioniException;
 import org.gargiolang.runtime.function.CallStack;
 import org.gargiolang.runtime.function.FunctionTable;
@@ -77,7 +77,7 @@ public final class Runtime {
 
         Preprocessor.process(statements);
 
-        LinkedList<TokenLine> tokens = new Parser(statements, this).parseTokens();
+        LinkedList<TokenLine> tokens = new Lexer(statements, this).tokenize();
 
         System.out.println(tokens);
 

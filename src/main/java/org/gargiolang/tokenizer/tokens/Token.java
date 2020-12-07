@@ -1,8 +1,8 @@
-package org.gargiolang.parsing.tokens;
+package org.gargiolang.tokenizer.tokens;
 
 import org.gargiolang.exception.evaluation.*;
-import org.gargiolang.parsing.tokens.operators.ArithmeticOperator;
-import org.gargiolang.parsing.tokens.operators.LogicalOperator;
+import org.gargiolang.tokenizer.tokens.operators.ArithmeticOperator;
+import org.gargiolang.tokenizer.tokens.operators.LogicalOperator;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 
@@ -33,6 +33,8 @@ public class Token {
             case LOGICAL_OPERATOR -> this.priority = ((LogicalOperator) this.value).getPriority();
 
             case KEYWORD -> this.priority = ((Keyword) this.value).getPriority();
+
+            case CALL -> this.priority = ((Call) this.value).getPriority();
 
             default -> this.priority = tokenType.getPriority();
         }

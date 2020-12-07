@@ -1,7 +1,7 @@
 package org.gargiolang.runtime.function;
 
-import org.gargiolang.parsing.tokens.Token;
-import org.gargiolang.parsing.tokens.TokenLine;
+import org.gargiolang.tokenizer.tokens.Token;
+import org.gargiolang.tokenizer.tokens.TokenLine;
 
 public class Call {
 

@@ -6,7 +6,10 @@ import org.gargiolang.exception.evaluation.VariableRedeclarationException;
 
 import java.util.HashMap;
 
-// wrapper around a Map
+// TODO: 07/12/20 implement optimized data structure from scratch
+/**
+ * Wrapper around a Map
+ */
 public final class SymbolTable {
 
     private final HashMap<String, Variable> variables;
@@ -34,29 +37,35 @@ public final class SymbolTable {
 
     public void addVariable(String name, Variable variable) throws VariableRedeclarationException {
         String hashed = hash(name);
-        if (variables.containsKey(hashed)) throw new VariableRedeclarationException("Variable '" + name + "' is already declared in the scope");
+        if (variables.containsKey(hashed)) // look only in the current scope, do not use getVariable()
+            throw new VariableRedeclarationException("Variable '" + name + "' is already declared in the scope: " + hashed.split("@")[1]);
         variables.put(hashed, variable);
     }
+
 
     public Variable getVariable(String varName) {
         Variable variable = variables.getOrDefault(hash(varName), null);
         // search in other scopes in case var is not found in current scope
         if (variable == null) {
             for (String key : variables.keySet()) {
-                if (key.split("@")[0].equals(varName)) return variables.get(key);
+                if (key.split("@")[0].equals(varName))
+                    return variables.get(key);
             }
         }
         return variable;
     }
 
+    /**
+     * Wrapper around getVariable(String varName)
+     *
+     * @param varName variable name to get
+     * @return variable to get
+     * @throws UndeclaredVariableException if the variable is not declared in scope
+     */
     public Variable getVariableThrow(String varName) throws UndeclaredVariableException {
-        Variable variable = variables.getOrDefault(hash(varName), null);
-        if (variable == null) {
-            for (String key : variables.keySet()) {
-                if (key.split("@")[0].equals(varName)) return variables.get(key);
-            }
+        Variable variable = getVariable(varName);
+        if (variable == null)
             throw new UndeclaredVariableException("Variable '" + varName + "' hasn't been declared in the scope");
-        }
         return variable;
     }
 
@@ -70,15 +79,14 @@ public final class SymbolTable {
      * @throws UndeclaredVariableException if variable is undeclared
      */
     public void updateVariable(String varName, Variable variable) throws BadTypeException, UndeclaredVariableException {
-        String hashed = hash(varName);
-        Variable original = getVariableThrow(hashed);
+        Variable original = getVariableThrow(varName);
 
         // since GargioLang is statically typed, you cannot assign a different type from the one the variable was first initialized with
-        if (!original.getType().equals(variable.getType())) {
+        if (original.getType() != variable.getType()) {
             throw new BadTypeException("Variable types do not match: " + original.getType() + ", " + variable.getType() + ")");
         }
 
-        variables.put(hashed, variable);
+        variables.put(hash(varName), variable);
     }
 
     public void pushScope() {

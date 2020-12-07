@@ -1,4 +1,4 @@
-package org.gargiolang.parsing.tokens;
+package org.gargiolang.tokenizer.tokens;
 
 import org.gargiolang.runtime.Interpreter;
 
@@ -14,7 +14,7 @@ public enum Call {
     public static void evaluate(Interpreter interpreter) {
 
         Token currentToken =  interpreter.getCurrentToken();
-        currentToken.setPriority(0);
+        currentToken.setPriority(-1);
 
         int depth = 1;
 
@@ -26,16 +26,21 @@ public enum Call {
                 else {
                     depth --;
                     if (depth == 0) {
-                        token.setPriority(0);
+                        token.setPriority(-1);
                         return;
                     }
                 }
             }
 
-            if (token.getPriority() != 0)
+            if (token.getPriority() > 1) // greater or equal to 0, but faster execution
                 token.incrementPriority();
         }
 
     }
 
+    public int getPriority() {
+        if (this == OPEN)
+            return 10;
+        return 0; // closing function call is just a placeholder and it shall not be evaluated
+    }
 }

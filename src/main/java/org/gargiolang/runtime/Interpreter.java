@@ -2,11 +2,11 @@ package org.gargiolang.runtime;
 
 import org.gargiolang.exception.evaluation.EvaluationException;
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
-import org.gargiolang.parsing.tokens.operators.ArithmeticOperator;
-import org.gargiolang.parsing.tokens.operators.AssignmentOperator;
-import org.gargiolang.parsing.tokens.operators.LogicalOperator;
-import org.gargiolang.parsing.tokens.operators.Parenthesis;
-import org.gargiolang.parsing.tokens.*;
+import org.gargiolang.tokenizer.tokens.operators.ArithmeticOperator;
+import org.gargiolang.tokenizer.tokens.operators.AssignmentOperator;
+import org.gargiolang.tokenizer.tokens.operators.LogicalOperator;
+import org.gargiolang.tokenizer.tokens.operators.Parenthesis;
+import org.gargiolang.tokenizer.tokens.*;
 
 import java.util.LinkedList;
 
@@ -174,7 +174,7 @@ public class Interpreter {
 
 
             // if no more token to evaluate --> break out of the loop
-            if (currentToken.getPriority() == 0) {
+            if (currentToken.getPriority() < 1) { // priority less or equal to 0, but faster than the double comparison
                 break;
             }
 

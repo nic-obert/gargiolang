@@ -1,4 +1,4 @@
-package org.gargiolang.parsing.tokens;
+package org.gargiolang.tokenizer.tokens;
 
 import java.util.function.Consumer;
 

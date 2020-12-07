@@ -1,18 +1,18 @@
-package org.gargiolang.parsing;
+package org.gargiolang.tokenizer;
 
-import org.gargiolang.exception.parsing.InvalidCharacterException;
-import org.gargiolang.exception.parsing.ParsingException;
-import org.gargiolang.exception.parsing.UnexpectedTokenException;
-import org.gargiolang.parsing.tokens.*;
-import org.gargiolang.parsing.tokens.operators.ArithmeticOperator;
-import org.gargiolang.parsing.tokens.operators.LogicalOperator;
-import org.gargiolang.parsing.tokens.operators.Parenthesis;
+import org.gargiolang.exception.tokenization.InvalidCharacterException;
+import org.gargiolang.exception.tokenization.TokenizationException;
+import org.gargiolang.exception.tokenization.UnexpectedTokenException;
+import org.gargiolang.tokenizer.tokens.*;
+import org.gargiolang.tokenizer.tokens.operators.ArithmeticOperator;
+import org.gargiolang.tokenizer.tokens.operators.LogicalOperator;
+import org.gargiolang.tokenizer.tokens.operators.Parenthesis;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 
 import java.util.LinkedList;
 
-public class Parser {
+public class Lexer {
 
     private final Runtime runtime;
 
@@ -22,7 +22,7 @@ public class Parser {
     // a 2d linked list of lines of tokens
     private final LinkedList<TokenLine> tokens;
 
-    public Parser(LinkedList<String> statements, Runtime runtime) {
+    public Lexer(LinkedList<String> statements, Runtime runtime) {
         this.statements = statements;
         this.tokens = new LinkedList<>();
         this.runtime = runtime;
@@ -34,7 +34,7 @@ public class Parser {
     }
 
 
-    public LinkedList<TokenLine> parseTokens() throws ParsingException {
+    public LinkedList<TokenLine> tokenize() throws TokenizationException {
         for(String statement : statements) {
             lineNumber++;
             if (statement == null)
@@ -48,7 +48,7 @@ public class Parser {
                 continue;
             }
 
-            TokenLine line = parseStatement(statement + (char) 0);
+            TokenLine line = tokenizeStatement(statement + (char) 0);
             // ignore empty statements
             if (!line.isEmpty())
                 tokens.add(line);
@@ -58,7 +58,7 @@ public class Parser {
     }
 
 
-    private TokenLine parseStatement(String statement) throws ParsingException {
+    private TokenLine tokenizeStatement(String statement) throws TokenizationException {
         // list of tokens representing the tokenized statement
         TokenLine line = new TokenLine();
 
@@ -139,7 +139,7 @@ public class Parser {
                 }
 
                 case NUMBER -> {
-                    if (Token.isNumber(c) || c == '.' || c == '-') {
+                    if (Token.isNumber(c) || c == '.') {
                         token.buildValue(c);
                         continue;
                     }
@@ -263,19 +263,25 @@ public class Parser {
                     else
                         line.append(token);
                 }
-                token = new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.fromString(Character.toString(c)));
+
+                // check if token is a binary or unary '-'
+                if (c == '-') {
+                    // binary operator
+                    if (!line.isEmpty() && line.getLast().getPriority() == 0) {
+                        token = new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.SUB);
+                    }
+                    // unary operator
+                    else {
+                        token = new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.INV);
+                    }
+                }
+                else {
+                    token = new Token(TokenType.ARITHMETIC_OPERATOR, ArithmeticOperator.fromString(Character.toString(c)));
+                }
                 continue;
             }
 
-            if(c == '-'){
-                if (token != null)
-                    line.append(token);
-                state = State.NUMBER;
-                token = new Token(TokenType.NUM, "-");
-                continue;
-            }
-
-            if(Token.isLogicalOperator(c)){
+            if(Token.isLogicalOperator(c)) {
                 if(token != null) {
 
                     if (token.getType() == TokenType.LOGICAL_OPERATOR) {

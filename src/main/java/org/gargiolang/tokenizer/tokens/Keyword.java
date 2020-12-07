@@ -1,8 +1,8 @@
-package org.gargiolang.parsing.tokens;
+package org.gargiolang.tokenizer.tokens;
 
 import org.gargiolang.exception.evaluation.*;
-import org.gargiolang.parsing.tokens.operators.ArithmeticOperator;
-import org.gargiolang.parsing.tokens.operators.Parenthesis;
+import org.gargiolang.tokenizer.tokens.operators.ArithmeticOperator;
+import org.gargiolang.tokenizer.tokens.operators.Parenthesis;
 import org.gargiolang.runtime.Interpreter;
 import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.function.Call;
@@ -28,15 +28,16 @@ public enum Keyword {
 
     SYSTEM("system", (byte) 2),  // kind of the C system() function, but a keyword
 
+    F("f", (byte) 9), // like python's f-strings f"my name is {name}"
+
     IF("if", (byte) 9),
     ELSE("else", (byte) 9),
 
     WHILE("while", (byte) 10),
     FOR("for", (byte) 10),
 
-    DEF("def", (byte) 10),
+    DEF("def", (byte) 10);
 
-    F("f", (byte) 10); // like python's f-strings f"my name is {name}"
 
     private final String value;
     private final byte priority;

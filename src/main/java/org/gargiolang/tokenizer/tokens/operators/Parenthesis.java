@@ -1,11 +1,11 @@
-package org.gargiolang.parsing.tokens.operators;
+package org.gargiolang.tokenizer.tokens.operators;
 
 import org.gargiolang.exception.evaluation.IndexOutOfBoundsException;
 import org.gargiolang.exception.evaluation.OpenParenthesisException;
-import org.gargiolang.parsing.tokens.Token;
-import org.gargiolang.parsing.tokens.TokenBlock;
-import org.gargiolang.parsing.tokens.TokenLine;
-import org.gargiolang.parsing.tokens.TokenType;
+import org.gargiolang.tokenizer.tokens.Token;
+import org.gargiolang.tokenizer.tokens.TokenBlock;
+import org.gargiolang.tokenizer.tokens.TokenLine;
+import org.gargiolang.tokenizer.tokens.TokenType;
 import org.gargiolang.runtime.Interpreter;
 
 public enum Parenthesis {
