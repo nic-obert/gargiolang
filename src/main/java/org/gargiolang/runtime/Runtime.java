@@ -33,7 +33,7 @@ public final class Runtime {
 
     private final SymbolTable symbolTable;
 
-    private LinkedList<String> statements;
+    private final LinkedList<String> statements;
 
     private final List<Dependency> loadedDependencies = new ArrayList<>();
 
@@ -85,6 +85,9 @@ public final class Runtime {
         interpreter.execute();
     }
 
+
+    // getters
+
     public SymbolTable getSymbolTable() {
         return symbolTable;
     }
@@ -111,5 +114,9 @@ public final class Runtime {
 
     public CallStack getCallStack() {
         return callStack;
+    }
+
+    public LinkedList<String> getStatements() {
+        return statements;
     }
 }

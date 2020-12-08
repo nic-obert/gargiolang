@@ -15,12 +15,14 @@ public class LabelTable {
 
     public int getLabel(String label) throws UndefinedLabelException {
         Integer line = labels.get(label);
-        if (line == null) throw new UndefinedLabelException("Label is not defined: '" + label + "'");
+        if (line == null)
+            throw new UndefinedLabelException("Label is not defined: '" + label + "'");
         return labels.get(label);
     }
 
     public void putLabel(String label, int line) throws LabelRedefinitionException {
-        if (labels.containsKey(label)) throw new LabelRedefinitionException("Label '" + label + "' is already defined");
+        if (labels.containsKey(label))
+            throw new LabelRedefinitionException("Label '" + label + "' is already defined");
         labels.put(label, line);
     }
 

@@ -1,2 +1,0 @@
-entry point: @main;
-entry point is a label called "main"
