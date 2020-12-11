@@ -13,25 +13,22 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented unary '-' operator">
-      <change afterPath="$PROJECT_DIR$/Grammar.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/assembler/Assembler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Expression.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Operation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Parser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/NoEntryPointException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/ParsingException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/RequirementsNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/TokenConversionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/UnexpectedTokenTypeException.java" afterDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="starting to work on the compiler">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxTree.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/printer/Node.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/printer/SyntaxNodeQueue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/printer/TreePrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/BadExpressionException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/ExpectedExpressionException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/GargioLang.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/Compiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/notes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/SyntaxNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/SyntaxNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/SyntaxTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/SyntaxTree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/runtime/Runtime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/tokenizer/LabelTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/tokenizer/LabelTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Expression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/SyntaxNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/SyntaxTree.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/RequirementsNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +68,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -96,7 +94,7 @@
       <recent name="org.gargiolang.runtime.variable.types" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Gargiolang compiler">
     <configuration name="GargioLang" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.gargiolang.GargioLang" />
       <module name="gargiolang" />
@@ -105,19 +103,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+    <configuration name="Gargiolang compiler" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="org.gargiolang.GargioLang" />
+      <module name="gargiolang" />
+      <option name="PROGRAM_PARAMETERS" value="tests/test.gl -c" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.GargioLang" />
+      <item itemvalue="Application.Gargiolang compiler" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -149,7 +146,8 @@
       <workItem from="1606463926385" duration="43627000" />
       <workItem from="1606725451045" duration="3831000" />
       <workItem from="1606750992220" duration="320000" />
-      <workItem from="1606928615920" duration="91597000" />
+      <workItem from="1606928615920" duration="113675000" />
+      <workItem from="1607683757242" duration="280000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -431,7 +429,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607339355602</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="starting to work on the compiler">
+      <created>1607461051501</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1607461051957</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -450,7 +455,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adding Environment.java" />
     <MESSAGE value="implemented passing variables as command line arguments via -var var1=val1,var2=val2" />
     <MESSAGE value="implemented goto keyword" />
     <MESSAGE value="cleaned Interpreter.java by handling the token evaluation in their own class" />
@@ -475,7 +479,8 @@
     <MESSAGE value="moved TokenType enum to its own file" />
     <MESSAGE value="implemented TokenLine data structure" />
     <MESSAGE value="implemented unary '-' operator" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented unary '-' operator" />
+    <MESSAGE value="starting to work on the compiler" />
+    <option name="LAST_COMMIT_MESSAGE" value="starting to work on the compiler" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -487,5 +492,11 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.gargiolang.compilation.structures.SyntaxTree" memberName="root" />
+        <PinnedItemInfo parentTag="org.gargiolang.compilation.structures.SyntaxNode" memberName="type" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

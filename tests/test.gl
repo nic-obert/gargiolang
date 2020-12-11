@@ -1,7 +1,4 @@
 
-#include libg;
+@main;
 
-int i = 1;
-i = 1-1;
-
-println(f"{i}");
+1+2-4;

@@ -1,9 +1,8 @@
 package org.gargiolang.compilation.parser;
 
-import org.gargiolang.compilation.structures.SyntaxTree;
+import org.gargiolang.compilation.structures.trees.SyntaxTree;
 import org.gargiolang.exception.evaluation.UndefinedLabelException;
-import org.gargiolang.exception.parsing.NoEntryPointException;
-import org.gargiolang.exception.parsing.TokenConversionException;
+import org.gargiolang.exception.parsing.*;
 import org.gargiolang.tokenizer.LabelTable;
 import org.gargiolang.tokenizer.tokens.TokenLine;
 
@@ -11,7 +10,7 @@ import java.util.LinkedList;
 
 public class Parser {
 
-    public static SyntaxTree parse(LinkedList<TokenLine> tokens, LabelTable labelTable) throws NoEntryPointException, TokenConversionException {
+    public static SyntaxTree parse(LinkedList<TokenLine> tokens, LabelTable labelTable) throws ParsingException {
 
         // get the entry point to the program
         int entryPoint;
@@ -24,8 +23,16 @@ public class Parser {
 
         SyntaxTree syntaxTree = new SyntaxTree();
 
-        TokenLine line = tokens.get(entryPoint + 1);
+        TokenLine line = tokens.get(entryPoint);
         SyntaxTree tree = SyntaxTree.fromTokenLine(line);
+
+
+        System.out.println(tree);
+        System.out.println("\n\n");
+
+        tree.parse();
+
+        System.out.println(tree);
 
 
 

@@ -1,7 +1,7 @@
 package org.gargiolang.compilation.parser;
 
-import org.gargiolang.compilation.structures.SyntaxNode;
-import org.gargiolang.compilation.structures.SyntaxTree;
+import org.gargiolang.compilation.structures.trees.SyntaxNode;
+import org.gargiolang.compilation.structures.trees.SyntaxTree;
 import org.gargiolang.exception.parsing.TokenConversionException;
 import org.gargiolang.tokenizer.tokens.Token;
 import org.gargiolang.tokenizer.tokens.TokenLine;
@@ -10,13 +10,38 @@ import org.gargiolang.tokenizer.tokens.operators.LogicalOperator;
 
 public enum Expression {
 
-    NUMERIC,
-    IDENTIFIER,
-    VARIABLE,
-    EVALUABLE,
-    BOOLEAN,
-    NULL,
+    // kind of a hierarchical tree
+                                        NULL(new Expression[0]),
+
+                                        EVALUABLE(new Expression[0]),
+
+                IDENTIFIER(new Expression[]{EVALUABLE}),     NUMERIC(new Expression[]{EVALUABLE}),
+
+                            VARIABLE(new Expression[]{IDENTIFIER, NUMERIC}),
+
+    BOOLEAN(new Expression[]{}),
+
+
     ;
+
+    private Expression[] parents;
+
+    Expression(Expression[] parents) {
+        this.parents = parents;
+    }
+
+
+    public boolean is(Expression other) {
+        if (other == this)
+            return true;
+
+        for (Expression parent : parents) {
+            if (parent.is(other))
+                return true;
+        }
+
+        return false;
+    }
 
 
     public static SyntaxTree toSyntaxTree(TokenLine line) throws TokenConversionException {
@@ -27,6 +52,7 @@ public enum Expression {
         for (Token token = line.getFirst().getNext(); token != null; token = token.getNext()) {
             // TODO: 08/12/20 here do parenthesis evaluation and modify priorities
             node.setRight(toSyntaxNode(token));
+            node.getRight().setLeft(node);
             node = node.getRight();
         }
 
@@ -40,10 +66,10 @@ public enum Expression {
         {
             case ARITHMETIC_OPERATOR -> {
                 switch ((ArithmeticOperator) token.getValue()) {
-                    case ADD -> syntaxNode = new SyntaxNode(null, token.getPriority(), EVALUABLE, null, Operation.SUM);
+                    case ADD -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.SUM);
                     case SUB -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.SUBTRACTION);
                     case INV -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.INVERSE);
-                    case MUL -> syntaxNode = new SyntaxNode(null, token.getPriority(), EVALUABLE, null, Operation.MULTIPLICATION);
+                    case MUL -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.MULTIPLICATION);
                     case DIV -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.DIVISION);
                     case MOD -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.MODULUS);
                     case POW -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.POWER);
