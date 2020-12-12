@@ -1,10 +1,14 @@
 package org.gargiolang.compilation.structures.trees;
 
+import org.gargiolang.compilation.Compiler;
 import org.gargiolang.compilation.parser.Expression;
 import org.gargiolang.compilation.parser.Operation;
+import org.gargiolang.compilation.structures.symboltable.Symbol;
 import org.gargiolang.compilation.structures.trees.printer.TreePrinter;
 import org.gargiolang.exception.parsing.BadExpressionException;
+import org.gargiolang.exception.parsing.BadTypeException;
 import org.gargiolang.exception.parsing.ExpectedExpressionException;
+import org.gargiolang.exception.parsing.ParsingException;
 
 
 /**
@@ -14,9 +18,9 @@ public class SyntaxNode {
 
     private SyntaxNode parent;
     private int priority;
-    private final Expression type;      // what the expression evaluates to
-    private Object value;               // either a SyntaxNode[] or a literal value
-    private final Operation operation;
+    private Expression type;      // what the expression evaluates to
+    private Object value;         // either a SyntaxNode[] or a literal value (in case of operation == Operation.LITERAL)
+    private Operation operation;
 
     // used when converting from TokenLine to SyntaxTree
     private SyntaxNode left;
@@ -32,17 +36,38 @@ public class SyntaxNode {
     }
 
 
-    public void parseRequirements() throws ExpectedExpressionException, BadExpressionException {
+    public void parseRequirements() throws ParsingException {
 
         priority = 0;
 
         switch (operation)
         {
-            case SUM, SUBTRACTION, MULTIPLICATION, DIVISION, POWER, MODULUS -> {
+            case SUM, SUBTRACTION, MULTIPLICATION -> {
+                binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
+
+                // update expression type based on type of operands
+                if (right.getType() == Expression.FLOAT || left.getType() == Expression.FLOAT)
+                    type = Expression.FLOAT;
+                else
+                    type = Expression.INTEGER;
+
+                binaryParse();
+            }
+            case DIVISION -> {
+                binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
+
+                if (right.getType() == Expression.INTEGER && left.getType() == Expression.INTEGER)
+                    type = Expression.INTEGER;
+                else
+                    type = Expression.FLOAT;
+
+                binaryParse();
+            }
+            case POWER, MODULUS -> {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
                 binaryParse();
             }
-            case EQUALSTO, NOTEQUALSTO, AND, LESSTHAN, LESSOREQUAL, GREATERTHAN, GREATEROREQUAL, OR -> {
+            case EQUALS_TO, NOT_EQUALS_TO, AND, LESS_THAN, LESS_OR_EQUAL, GREATER_THAN, GREATER_OR_EQUAL, OR -> {
                 binaryCheck(Expression.BOOLEAN, Expression.BOOLEAN);
                 binaryParse();
             }
@@ -54,7 +79,43 @@ public class SyntaxNode {
                 unaryCheck(right, Expression.BOOLEAN);
                 unaryParse(right);
             }
+            case DECREMENT, INCREMENT -> {
+                unaryCheck(left, Expression.NUMERIC);
+                unaryParse(left);
+            }
+            case ASSIGNMENT -> {
+                binaryCheck(Expression.IDENTIFIER, Expression.EVALUABLE);
+
+                // check the SymbolTable for type of variable to assign value to
+                // assuming left.getValue() returns a string because of binaryCheck()
+                Expression varType = Compiler.symbolTable().getSymbol((String) left.getValue()).type;
+                if (varType != right.getType())
+                    throw new BadTypeException("Cannot assign value of type " + right.getType() + " to variable '" + left + "' of type " + varType);
+
+                binaryParse();
+            }
+            case DECLARATION_INT -> declare(Expression.INTEGER);
+            case DECLARATION_BOOL -> declare(Expression.BOOLEAN);
+            case DECLARATION_FLOAT -> declare(Expression.FLOAT);
+
+
         }
+    }
+
+
+    private void declare(Expression symbolType) throws ExpectedExpressionException, BadExpressionException {
+        unaryCheck(right, Expression.IDENTIFIER);
+
+        // declare symbol in the SymbolTable
+        Compiler.symbolTable().declare((String) right.getValue(), new Symbol(symbolType));
+
+        // transform into an identifier
+        operation = Operation.LITERAL;
+        value = right.getValue(); // value becomes the reference to the declared variable
+
+        right = right.getRight();
+        if (right != null)
+            right.setLeft(this);
     }
 
 

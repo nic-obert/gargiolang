@@ -2,7 +2,11 @@ package org.gargiolang.compilation.parser;
 
 import org.gargiolang.compilation.structures.trees.SyntaxNode;
 import org.gargiolang.compilation.structures.trees.SyntaxTree;
+import org.gargiolang.exception.evaluation.UndeclaredVariableException;
+import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.exception.parsing.TokenConversionException;
+import org.gargiolang.runtime.Runtime;
+import org.gargiolang.runtime.variable.Variable;
 import org.gargiolang.tokenizer.tokens.Token;
 import org.gargiolang.tokenizer.tokens.TokenLine;
 import org.gargiolang.tokenizer.tokens.operators.ArithmeticOperator;
@@ -10,21 +14,22 @@ import org.gargiolang.tokenizer.tokens.operators.LogicalOperator;
 
 public enum Expression {
 
-    // kind of a hierarchical tree
-                                        NULL(new Expression[0]),
 
-                                        EVALUABLE(new Expression[0]),
+    NULL(new Expression[0]),
 
-                IDENTIFIER(new Expression[]{EVALUABLE}),     NUMERIC(new Expression[]{EVALUABLE}),
+    EVALUABLE(new Expression[0]),
 
-                            VARIABLE(new Expression[]{IDENTIFIER, NUMERIC}),
+    IDENTIFIER(new Expression[]{EVALUABLE}),
+
+    NUMERIC(new Expression[]{EVALUABLE}),
+    INTEGER(new Expression[]{NUMERIC}),
+    FLOAT(new Expression[]{EVALUABLE}),
 
     BOOLEAN(new Expression[]{}),
 
-
     ;
 
-    private Expression[] parents;
+    private final Expression[] parents;
 
     Expression(Expression[] parents) {
         this.parents = parents;
@@ -44,7 +49,7 @@ public enum Expression {
     }
 
 
-    public static SyntaxTree toSyntaxTree(TokenLine line) throws TokenConversionException {
+    public static SyntaxTree toSyntaxTree(TokenLine line) throws TokenConversionException, UnrecognizedTypeException, UndeclaredVariableException {
         SyntaxTree tree = new SyntaxTree();
         SyntaxNode node = toSyntaxNode(line.getFirst());
         tree.setRoot(node);
@@ -59,43 +64,61 @@ public enum Expression {
         return tree;
     }
 
-    private static SyntaxNode toSyntaxNode(Token token) throws TokenConversionException {
+    private static SyntaxNode toSyntaxNode(Token token) throws TokenConversionException, UnrecognizedTypeException, UndeclaredVariableException {
         SyntaxNode syntaxNode = null;
 
         switch (token.getType())
         {
             case ARITHMETIC_OPERATOR -> {
                 switch ((ArithmeticOperator) token.getValue()) {
-                    case ADD -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.SUM);
-                    case SUB -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.SUBTRACTION);
-                    case INV -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.INVERSE);
-                    case MUL -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.MULTIPLICATION);
-                    case DIV -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.DIVISION);
-                    case MOD -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.MODULUS);
-                    case POW -> syntaxNode = new SyntaxNode(null, token.getPriority(), NUMERIC, null, Operation.POWER);
-                    case INC -> syntaxNode = new SyntaxNode(null, token.getPriority(), VARIABLE, null, Operation.INCREMENT);
-                    case DEC -> syntaxNode = new SyntaxNode(null, token.getPriority(), VARIABLE, null, Operation.DECREMENT);
+                    case ADD -> syntaxNode = new SyntaxNode(null, 5, NUMERIC, null, Operation.SUM);
+                    case SUB -> syntaxNode = new SyntaxNode(null, 5, NUMERIC, null, Operation.SUBTRACTION);
+                    case MUL -> syntaxNode = new SyntaxNode(null, 6, NUMERIC, null, Operation.MULTIPLICATION);
+                    case DIV -> syntaxNode = new SyntaxNode(null, 6, NUMERIC, null, Operation.DIVISION);
+                    case MOD -> syntaxNode = new SyntaxNode(null, 6, NUMERIC, null, Operation.MODULUS);
+                    case POW -> syntaxNode = new SyntaxNode(null, 7, NUMERIC, null, Operation.POWER);
+                    case INV -> syntaxNode = new SyntaxNode(null, 8, NUMERIC, null, Operation.INVERSE);
+                    case INC -> syntaxNode = new SyntaxNode(null, 10, IDENTIFIER, null, Operation.INCREMENT);
+                    case DEC -> syntaxNode = new SyntaxNode(null, 10, IDENTIFIER, null, Operation.DECREMENT);
                 }
             }
             case LOGICAL_OPERATOR -> {
                 switch ((LogicalOperator) token.getValue())
                 {
-                    case GR -> syntaxNode = new SyntaxNode(null, token.getPriority(), BOOLEAN, null, Operation.GREATERTHAN);
-                    case LS -> syntaxNode = new SyntaxNode(null, token.getPriority(), BOOLEAN, null, Operation.LESSTHAN);
-                    case GRE -> syntaxNode = new SyntaxNode(null, token.getPriority(), BOOLEAN, null, Operation.GREATEROREQUAL);
-                    case LSE -> syntaxNode = new SyntaxNode(null, token.getPriority(), BOOLEAN, null, Operation.LESSOREQUAL);
-                    case EQ -> syntaxNode = new SyntaxNode(null, token.getPriority(), BOOLEAN, null, Operation.EQUALSTO);
-                    case AND -> syntaxNode = new SyntaxNode(null, token.getPriority(), BOOLEAN, null, Operation.AND);
-                    case OR -> syntaxNode = new SyntaxNode(null, token.getPriority(), BOOLEAN, null, Operation.OR);
-                    case NOT -> syntaxNode = new SyntaxNode(null, token.getPriority(), BOOLEAN, null, Operation.NOT);
-                    case NE -> syntaxNode = new SyntaxNode(null, token.getPriority(), BOOLEAN, null, Operation.NOTEQUALSTO);
+                    case AND -> syntaxNode = new SyntaxNode(null, 2, BOOLEAN, null, Operation.AND);
+                    case OR -> syntaxNode = new SyntaxNode(null, 2, BOOLEAN, null, Operation.OR);
+                    case EQ -> syntaxNode = new SyntaxNode(null, 3, BOOLEAN, null, Operation.EQUALS_TO);
+                    case NE -> syntaxNode = new SyntaxNode(null, 3, BOOLEAN, null, Operation.NOT_EQUALS_TO);
+                    case GR -> syntaxNode = new SyntaxNode(null, 4, BOOLEAN, null, Operation.GREATER_THAN);
+                    case LS -> syntaxNode = new SyntaxNode(null, 4, BOOLEAN, null, Operation.LESS_THAN);
+                    case GRE -> syntaxNode = new SyntaxNode(null, 4, BOOLEAN, null, Operation.GREATER_OR_EQUAL);
+                    case LSE -> syntaxNode = new SyntaxNode(null, 4, BOOLEAN, null, Operation.LESS_OR_EQUAL);
+                    case NOT -> syntaxNode = new SyntaxNode(null, 8, BOOLEAN, null, Operation.NOT);
                 }
             }
-            case ASSIGNMENT_OPERATOR -> syntaxNode = new SyntaxNode(null, token.getPriority(), NULL, null, Operation.ASSIGNMENT);
+            case ASSIGNMENT_OPERATOR -> syntaxNode = new SyntaxNode(null, 1, IDENTIFIER, null, Operation.ASSIGNMENT);
 
-            case NUM -> syntaxNode = new SyntaxNode(null, 0, NUMERIC, token.getValue(), Operation.LITERAL);
+            case NUM -> {
+                switch (Variable.Type.extractVarType(token))
+                {
+                    case INT -> syntaxNode = new SyntaxNode(null, 0, INTEGER, token.getValue(), Operation.LITERAL);
+                    case FLOAT -> syntaxNode = new SyntaxNode(null, 0, FLOAT, token.getValue(), Operation.LITERAL);
+                }
+            }
 
             case BOOL -> syntaxNode = new SyntaxNode(null, 0, BOOLEAN, token.getValue(), Operation.LITERAL);
+
+            case TYPE -> {
+                switch ((Variable.Type) token.getValue())
+                {
+                    case INT -> syntaxNode = new SyntaxNode(null, 2, IDENTIFIER, null, Operation.DECLARATION_INT);
+                    case BOOLEAN -> syntaxNode = new SyntaxNode(null, 2, IDENTIFIER, null, Operation.DECLARATION_BOOL);
+                    case FLOAT -> syntaxNode = new SyntaxNode(null, 2, IDENTIFIER, null, Operation.DECLARATION_FLOAT);
+                }
+            }
+
+            // value of an identifier is a pointer
+            case TXT -> syntaxNode = new SyntaxNode(null, 0, IDENTIFIER, token.getValue(), Operation.LITERAL);
         }
 
         if (syntaxNode == null)

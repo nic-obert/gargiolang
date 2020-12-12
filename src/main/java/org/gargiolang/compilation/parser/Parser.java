@@ -1,7 +1,10 @@
 package org.gargiolang.compilation.parser;
 
+import org.gargiolang.compilation.structures.symboltable.SymbolTable;
 import org.gargiolang.compilation.structures.trees.SyntaxTree;
+import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UndefinedLabelException;
+import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.exception.parsing.*;
 import org.gargiolang.tokenizer.LabelTable;
 import org.gargiolang.tokenizer.tokens.TokenLine;
@@ -10,7 +13,7 @@ import java.util.LinkedList;
 
 public class Parser {
 
-    public static SyntaxTree parse(LinkedList<TokenLine> tokens, LabelTable labelTable) throws ParsingException {
+    public static SyntaxTree parse(LinkedList<TokenLine> tokens, LabelTable labelTable, SymbolTable symbolTable) throws ParsingException, UnrecognizedTypeException, UndeclaredVariableException {
 
         // get the entry point to the program
         int entryPoint;

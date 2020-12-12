@@ -17,14 +17,22 @@ public enum Operation {
     NOT,
     AND,
     OR,
-    EQUALSTO,
-    NOTEQUALSTO,
-    GREATERTHAN,
-    LESSTHAN,
-    LESSOREQUAL,
-    GREATEROREQUAL,
+    EQUALS_TO,
+    NOT_EQUALS_TO,
+    GREATER_THAN,
+    LESS_THAN,
+    LESS_OR_EQUAL,
+    GREATER_OR_EQUAL,
+
+    DEREFERENCE,    // *a
+    ADDRESS_OF,     // &a
 
     ASSIGNMENT,
+
+    // declarations
+    DECLARATION_INT,
+    DECLARATION_BOOL,
+    DECLARATION_FLOAT,
     ;
 
 }
