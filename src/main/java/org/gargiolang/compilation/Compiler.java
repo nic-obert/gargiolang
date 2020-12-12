@@ -22,7 +22,7 @@ public class Compiler {
 
 
 
-        SyntaxTree syntaxTree = Parser.parse(tokens, labelTable, symbolTable);
+        SyntaxTree syntaxTree = Parser.parse(tokens, labelTable);
 
     }
 

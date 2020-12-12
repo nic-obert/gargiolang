@@ -13,16 +13,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented variable assignment in SyntaxTree">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/SymbolRedeclarationException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/UndeclaredSymbolException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/ZeroDivisionException.java" afterDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="compiler optimizations for literal values">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Expression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/Compiler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Operation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Operation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/symboltable/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/symboltable/SymbolTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -153,7 +149,7 @@
       <workItem from="1606725451045" duration="3831000" />
       <workItem from="1606750992220" duration="320000" />
       <workItem from="1606928615920" duration="113675000" />
-      <workItem from="1607683757242" duration="18199000" />
+      <workItem from="1607683757242" duration="21753000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -456,7 +452,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607784945346</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="compiler optimizations for literal values">
+      <created>1607789206679</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1607789206679</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -475,8 +478,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="cleaned Interpreter.java by handling the token evaluation in their own class" />
-    <MESSAGE value="implemented scopes and reimplemented assignment operator" />
     <MESSAGE value="implemented goback keyword (opposite of goto)" />
     <MESSAGE value="implemented if statement" />
     <MESSAGE value="reimplemented arithmetic operations and implemented arithmetic operators overloading (for ints, floats, strings etc..)" />
@@ -500,7 +501,9 @@
     <MESSAGE value="starting to work on the compiler" />
     <MESSAGE value="created TreePrinter" />
     <MESSAGE value="implemented variable assignment in SyntaxTree" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented variable assignment in SyntaxTree" />
+    <MESSAGE value="compiler optimizations" />
+    <MESSAGE value="compiler optimizations for literal values" />
+    <option name="LAST_COMMIT_MESSAGE" value="compiler optimizations for literal values" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

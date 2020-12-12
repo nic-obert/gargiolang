@@ -30,6 +30,7 @@ public enum Operation {
     // pointer operations
     DEREFERENCE,    // *a
     ADDRESS_OF,     // &a
+    INDEX,          // a[i]
 
     // assignment operations (maybe add += and -=)
     ASSIGNMENT,

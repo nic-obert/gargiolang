@@ -1,4 +1,4 @@
 
 @main;
 
-boolean i = !false;
+boolean i = true == false || false == !true;
