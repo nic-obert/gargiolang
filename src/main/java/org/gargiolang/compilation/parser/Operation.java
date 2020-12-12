@@ -2,18 +2,21 @@ package org.gargiolang.compilation.parser;
 
 public enum Operation {
 
+    // just a literal value, not actually an operation
     LITERAL,
 
+    // arithmetic operations
     SUM,
     SUBTRACTION,
     MULTIPLICATION,
     DIVISION,
     POWER,
-    INVERSE,
+    INVERSE,        // -a, -1, -sum(4,2)
     MODULUS,
     INCREMENT,
     DECREMENT,
 
+    // logical operations
     NOT,
     AND,
     OR,
@@ -24,9 +27,11 @@ public enum Operation {
     LESS_OR_EQUAL,
     GREATER_OR_EQUAL,
 
+    // pointer operations
     DEREFERENCE,    // *a
     ADDRESS_OF,     // &a
 
+    // assignment operations (maybe add += and -=)
     ASSIGNMENT,
 
     // declarations

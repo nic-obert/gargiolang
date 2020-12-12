@@ -13,15 +13,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="created TreePrinter">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/symboltable/Symbol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/symboltable/SymbolTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/BadTypeException.java" afterDir="false" />
+    <list default="true" id="52050eae-1e7d-46ad-a89f-1e5e8eeaf98b" name="Default Changelist" comment="implemented variable assignment in SyntaxTree">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/SymbolRedeclarationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/UndeclaredSymbolException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/exception/parsing/ZeroDivisionException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/Compiler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Expression.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Operation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Operation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/symboltable/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/symboltable/SymbolTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/gargiolang/compilation/structures/trees/SyntaxTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.gl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.gl" afterDir="false" />
@@ -154,7 +153,7 @@
       <workItem from="1606725451045" duration="3831000" />
       <workItem from="1606750992220" duration="320000" />
       <workItem from="1606928615920" duration="113675000" />
-      <workItem from="1607683757242" duration="13665000" />
+      <workItem from="1607683757242" duration="18199000" />
     </task>
     <task id="LOCAL-00001" summary="language setup">
       <created>1605380655360</created>
@@ -450,7 +449,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607684088362</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="implemented variable assignment in SyntaxTree">
+      <created>1607784945346</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1607784945346</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -469,7 +475,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implemented goto keyword" />
     <MESSAGE value="cleaned Interpreter.java by handling the token evaluation in their own class" />
     <MESSAGE value="implemented scopes and reimplemented assignment operator" />
     <MESSAGE value="implemented goback keyword (opposite of goto)" />
@@ -494,7 +499,8 @@
     <MESSAGE value="implemented unary '-' operator" />
     <MESSAGE value="starting to work on the compiler" />
     <MESSAGE value="created TreePrinter" />
-    <option name="LAST_COMMIT_MESSAGE" value="created TreePrinter" />
+    <MESSAGE value="implemented variable assignment in SyntaxTree" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented variable assignment in SyntaxTree" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

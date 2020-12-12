@@ -5,10 +5,7 @@ import org.gargiolang.compilation.parser.Expression;
 import org.gargiolang.compilation.parser.Operation;
 import org.gargiolang.compilation.structures.symboltable.Symbol;
 import org.gargiolang.compilation.structures.trees.printer.TreePrinter;
-import org.gargiolang.exception.parsing.BadExpressionException;
-import org.gargiolang.exception.parsing.BadTypeException;
-import org.gargiolang.exception.parsing.ExpectedExpressionException;
-import org.gargiolang.exception.parsing.ParsingException;
+import org.gargiolang.exception.parsing.*;
 
 
 /**
@@ -42,56 +39,218 @@ public class SyntaxNode {
 
         switch (operation)
         {
-            case SUM, SUBTRACTION, MULTIPLICATION -> {
+            case SUM -> {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
-                // update expression type based on type of operands
-                if (right.getType() == Expression.FLOAT || left.getType() == Expression.FLOAT)
-                    type = Expression.FLOAT;
-                else
-                    type = Expression.INTEGER;
+                // OPTIMIZATION: if both operands are literal values --> execute the operation right away
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
+                    && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                {
+                    // differentiate operation based on data types (FLOAT or INTEGER)
+                    if (left.getType() == Expression.FLOAT) {
+                        type = Expression.FLOAT;
+                        switch (right.getType()) {
+                            case INTEGER -> value = (double) left.getValue() + (int) right.getValue();
+                            case FLOAT -> value = (double) left.getValue() + (double) right.getValue();
+                        }
+                    } else if (right.getType() == Expression.FLOAT) {
+                        type = Expression.FLOAT;
+                        switch (left.getType())
+                        {
+                            case INTEGER -> value = (int) left.getValue() + (double) right.getValue();
+                            case FLOAT -> value = (double) left.getValue() + (double) right.getValue();
+                        }
+                    } else {
+                        type = Expression.INTEGER;
+                        value = (int) right.getValue() + (int) left.getValue();
+                    }
+                }
+                // if optimization is not applicable --> proceed as normal
+                else {
+                    value = new SyntaxNode[]{left, right};
+                    // update expression type based on type of operands
+                    if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
+                        type = Expression.FLOAT;
+                    else
+                        type = Expression.INTEGER;
+                }
+
+                binaryParse();
+            }
+            case SUBTRACTION -> {
+                binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
+
+                // OPTIMIZATION: if both operands are literal values --> execute the operation right away
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                {
+                    // differentiate operation based on data types (FLOAT or INTEGER)
+                    if (left.getType() == Expression.FLOAT) {
+                        type = Expression.FLOAT;
+                        switch (right.getType()) {
+                            case INTEGER -> value = (double) left.getValue() - (int) right.getValue();
+                            case FLOAT -> value = (double) left.getValue() - (double) right.getValue();
+                        }
+                    } else if (right.getType() == Expression.FLOAT) {
+                        type = Expression.FLOAT;
+                        switch (left.getType())
+                        {
+                            case INTEGER -> value = (int) left.getValue() - (double) right.getValue();
+                            case FLOAT -> value = (double) left.getValue() - (double) right.getValue();
+                        }
+                    } else {
+                        type = Expression.INTEGER;
+                        value = (int) right.getValue() - (int) left.getValue();
+                    }
+                }
+                // if optimization is not applicable --> proceed as normal
+                else {
+                    value = new SyntaxNode[]{left, right};
+                    // update expression type based on type of operands
+                    if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
+                        type = Expression.FLOAT;
+                    else
+                        type = Expression.INTEGER;
+                }
+
+                binaryParse();
+            }
+            case MULTIPLICATION -> {
+                binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
+
+                // OPTIMIZATION: if both operands are literal values --> execute the operation right away
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                {
+                    // differentiate operation based on data types (FLOAT or INTEGER)
+                    if (left.getType() == Expression.FLOAT) {
+                        type = Expression.FLOAT;
+                        switch (right.getType()) {
+                            case INTEGER -> value = (double) left.getValue() * (int) right.getValue();
+                            case FLOAT -> value = (double) left.getValue() * (double) right.getValue();
+                        }
+                    } else if (right.getType() == Expression.FLOAT) {
+                        type = Expression.FLOAT;
+                        switch (left.getType())
+                        {
+                            case INTEGER -> value = (int) left.getValue() * (double) right.getValue();
+                            case FLOAT -> value = (double) left.getValue() * (double) right.getValue();
+                        }
+                    } else {
+                        type = Expression.INTEGER;
+                        value = (int) right.getValue() * (int) left.getValue();
+                    }
+                }
+                // if optimization is not applicable --> proceed as normal
+                else {
+                    value = new SyntaxNode[]{left, right};
+                    // update expression type based on type of operands
+                    if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
+                        type = Expression.FLOAT;
+                    else
+                        type = Expression.INTEGER;
+                }
 
                 binaryParse();
             }
             case DIVISION -> {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
-                if (right.getType() == Expression.INTEGER && left.getType() == Expression.INTEGER)
-                    type = Expression.INTEGER;
-                else
-                    type = Expression.FLOAT;
+                // OPTIMIZATION: if both operands are literal values --> execute the operation right away
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                {
+                    // check for division by zero
+                    if (right.getValue().equals(0))
+                        throw new ZeroDivisionException("Cannot divide by zero");
+                    // differentiate operation based on data types (FLOAT or INTEGER)
+                    if (left.getType() == Expression.FLOAT) {
+                        type = Expression.FLOAT;
+                        switch (right.getType()) {
+                            case INTEGER -> value = (double) left.getValue() / (int) right.getValue();
+                            case FLOAT -> value = (double) left.getValue() / (double) right.getValue();
+                        }
+                    } else if (right.getType() == Expression.FLOAT) {
+                        type = Expression.FLOAT;
+                        switch (left.getType())
+                        {
+                            case INTEGER -> value = (int) left.getValue() / (double) right.getValue();
+                            case FLOAT -> value = (double) left.getValue() / (double) right.getValue();
+                        }
+                    } else {
+                        type = Expression.INTEGER;
+                        value = (int) right.getValue() / (int) left.getValue();
+                    }
+                }
+                // if optimization is not applicable --> proceed as normal
+                else {
+                    value = new SyntaxNode[]{left, right};
+                    // update expression type based on type of operands
+                    if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
+                        type = Expression.FLOAT;
+                    else
+                        type = Expression.INTEGER;
+                }
 
                 binaryParse();
             }
+            // TODO: 12/12/20 implement power and modulus literal optimizations
             case POWER, MODULUS -> {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
+                value = new SyntaxNode[]{left, right};
                 binaryParse();
             }
+            // TODO: 12/12/20 implement logical operator literal optimizations
             case EQUALS_TO, NOT_EQUALS_TO, AND, LESS_THAN, LESS_OR_EQUAL, GREATER_THAN, GREATER_OR_EQUAL, OR -> {
                 binaryCheck(Expression.BOOLEAN, Expression.BOOLEAN);
+                value = new SyntaxNode[]{left, right};
                 binaryParse();
             }
             case INVERSE -> {
                 unaryCheck(right, Expression.NUMERIC);
+
+                // OPTIMIZATION: if operand is literal --> execute operation right away
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL) {
+                    operation = Operation.LITERAL;
+                    type = right.getType();
+                    switch (type)
+                    {
+                        case INTEGER -> value = (int) right.getValue() * -1;
+                        case FLOAT -> value = (double) right.getValue() * -1;
+                    }
+                }
+                // if optimization is not applicable
+                else {
+                    value = new SyntaxNode[]{right};
+                }
+
                 unaryParse(right);
             }
             case NOT -> {
                 unaryCheck(right, Expression.BOOLEAN);
+
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL) {
+                    operation = Operation.LITERAL;
+                    value = !((boolean) right.getValue());
+                } else {
+                    value = new SyntaxNode[]{right};
+                }
+
                 unaryParse(right);
             }
             case DECREMENT, INCREMENT -> {
                 unaryCheck(left, Expression.NUMERIC);
+                value = new SyntaxNode[]{left};
                 unaryParse(left);
             }
             case ASSIGNMENT -> {
                 binaryCheck(Expression.IDENTIFIER, Expression.EVALUABLE);
 
                 // check the SymbolTable for type of variable to assign value to
-                // assuming left.getValue() returns a string because of binaryCheck()
-                Expression varType = Compiler.symbolTable().getSymbol((String) left.getValue()).type;
-                if (varType != right.getType())
-                    throw new BadTypeException("Cannot assign value of type " + right.getType() + " to variable '" + left + "' of type " + varType);
+                if (left.getSymbolType() != right.getSymbolType())
+                    throw new BadTypeException("Cannot assign value of type " + right.getType() + " to variable '" + left + "' of type " + left.getSymbolType());
 
+                value = new SyntaxNode[]{left, right};
                 binaryParse();
             }
             case DECLARATION_INT -> declare(Expression.INTEGER);
@@ -103,7 +262,7 @@ public class SyntaxNode {
     }
 
 
-    private void declare(Expression symbolType) throws ExpectedExpressionException, BadExpressionException {
+    private void declare(Expression symbolType) throws ExpectedExpressionException, BadExpressionException, SymbolRedeclarationException {
         unaryCheck(right, Expression.IDENTIFIER);
 
         // declare symbol in the SymbolTable
@@ -113,6 +272,7 @@ public class SyntaxNode {
         operation = Operation.LITERAL;
         value = right.getValue(); // value becomes the reference to the declared variable
 
+        // remove SyntaxNode from linked list
         right = right.getRight();
         if (right != null)
             right.setLeft(this);
@@ -151,7 +311,6 @@ public class SyntaxNode {
 
 
     private void unaryParse(SyntaxNode node) {
-        value = new SyntaxNode[]{node};
 
         node.setParent(this);
 
@@ -167,7 +326,6 @@ public class SyntaxNode {
     }
 
     private void binaryParse() {
-        value = new SyntaxNode[]{left, right};
 
         left.setParent(this);
         right.setParent(this);
@@ -189,6 +347,12 @@ public class SyntaxNode {
     }
 
     public Expression getType() {
+        return type;
+    }
+
+    public Expression getSymbolType() throws UndeclaredSymbolException {
+        if (type == Expression.IDENTIFIER)
+            return Compiler.symbolTable().getSymbol((String) value).type;
         return type;
     }
 

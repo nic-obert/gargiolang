@@ -1,11 +1,11 @@
 package org.gargiolang.compilation.parser;
 
+
 import org.gargiolang.compilation.structures.trees.SyntaxNode;
 import org.gargiolang.compilation.structures.trees.SyntaxTree;
 import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.exception.parsing.TokenConversionException;
-import org.gargiolang.runtime.Runtime;
 import org.gargiolang.runtime.variable.Variable;
 import org.gargiolang.tokenizer.tokens.Token;
 import org.gargiolang.tokenizer.tokens.TokenLine;
@@ -25,7 +25,7 @@ public enum Expression {
     INTEGER(new Expression[]{NUMERIC}),
     FLOAT(new Expression[]{EVALUABLE}),
 
-    BOOLEAN(new Expression[]{}),
+    BOOLEAN(new Expression[]{EVALUABLE}),
 
     ;
 
@@ -106,6 +106,7 @@ public enum Expression {
                 }
             }
 
+            // literal boolean (true, false)
             case BOOL -> syntaxNode = new SyntaxNode(null, 0, BOOLEAN, token.getValue(), Operation.LITERAL);
 
             case TYPE -> {

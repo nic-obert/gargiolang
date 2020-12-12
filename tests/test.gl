@@ -1,4 +1,4 @@
 
 @main;
 
-float i = 2.3 + 2;
+boolean i = !false;

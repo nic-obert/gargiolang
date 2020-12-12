@@ -27,7 +27,6 @@ public class SyntaxTree {
 
 
     public void parse() throws ParsingException {
-        SyntaxNode highest;
         while (true) {
 
             // return to the beginning of the line
@@ -38,9 +37,7 @@ public class SyntaxTree {
             if (root.getRight() == null)
                 break;
 
-            highest = SyntaxNode.highestPriority(root);
-
-            root = highest;
+            root = SyntaxNode.highestPriority(root);
             root.parseRequirements();
         }
 
