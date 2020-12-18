@@ -1,4 +1,5 @@
 
 @main;
 
-boolean i = true == false || false == !true;
+int a = 3;
+a = a -1;

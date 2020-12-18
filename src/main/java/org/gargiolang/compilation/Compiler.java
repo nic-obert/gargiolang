@@ -3,6 +3,7 @@ package org.gargiolang.compilation;
 import org.gargiolang.compilation.parser.Parser;
 import org.gargiolang.compilation.structures.symboltable.SymbolTable;
 import org.gargiolang.compilation.structures.trees.SyntaxTree;
+import org.gargiolang.compilation.threeaddresscode.ThreeAddressCode;
 import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.exception.parsing.ParsingException;
@@ -20,9 +21,11 @@ public class Compiler {
 
     public static void compile(LinkedList<TokenLine> tokens, LabelTable labelTable) throws ParsingException, UnrecognizedTypeException, UndeclaredVariableException {
 
-
-
         SyntaxTree syntaxTree = Parser.parse(tokens, labelTable);
+
+        ThreeAddressCode threeAddressCode = new ThreeAddressCode(syntaxTree);
+
+        System.out.println(threeAddressCode);
 
     }
 

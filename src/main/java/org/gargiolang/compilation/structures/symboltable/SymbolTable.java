@@ -1,5 +1,6 @@
 package org.gargiolang.compilation.structures.symboltable;
 
+import org.gargiolang.compilation.threeaddresscode.Address;
 import org.gargiolang.exception.parsing.SymbolRedeclarationException;
 import org.gargiolang.exception.parsing.UndeclaredSymbolException;
 
@@ -12,6 +13,9 @@ public class SymbolTable {
 
     public SymbolTable() {
         this.table = new HashMap<>();
+
+        // declare some global compiler variables
+        table.put(Address.result.address, null);
     }
 
     public Symbol getSymbol(String name) throws UndeclaredSymbolException {
@@ -25,6 +29,18 @@ public class SymbolTable {
         if (table.containsKey(name))
             throw new SymbolRedeclarationException("Symbol " + name + " is already declared in scope");
         table.put(name, symbol);
+    }
+
+    public boolean isDefined(String name) throws UndeclaredSymbolException {
+        return getSymbol(name).isDefined;
+    }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        table.forEach((name, symbol) -> stringBuilder.append(name).append(": ").append(symbol).append("\n"));
+
+        return stringBuilder.toString();
     }
 
 }

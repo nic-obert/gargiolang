@@ -4,8 +4,6 @@ import org.gargiolang.compilation.parser.Expression;
 import org.gargiolang.compilation.structures.trees.printer.TreePrinter;
 import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
-import org.gargiolang.exception.parsing.BadExpressionException;
-import org.gargiolang.exception.parsing.ExpectedExpressionException;
 import org.gargiolang.exception.parsing.ParsingException;
 import org.gargiolang.exception.parsing.TokenConversionException;
 import org.gargiolang.tokenizer.tokens.TokenLine;
@@ -18,6 +16,33 @@ public class SyntaxTree {
 
     public SyntaxTree() {
 
+    }
+
+
+    /**
+     * Joins the roots of the trees
+     * If the this tree's root node is null, it will be set to the other's root node
+     * If the other tree's root node is null, do nothing
+     *
+     * @param other SyntaxTree to join
+     */
+    public void join(SyntaxTree other) {
+        if (root == null) {
+            root = other.getRoot();
+            return;
+        }
+        if (other.getRoot() == null)
+            return;
+
+        // get to the last root of the tree (this is not a traditional tree with just one root)
+        SyntaxNode last = root;
+        while (last.getRight() != null) {
+            last = last.getRight();
+        }
+
+        // append other to the end of linked list
+        last.setRight(other.getRoot());
+        other.getRoot().setLeft(last);
     }
 
 

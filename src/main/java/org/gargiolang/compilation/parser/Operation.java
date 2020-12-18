@@ -4,6 +4,7 @@ public enum Operation {
 
     // just a literal value, not actually an operation
     LITERAL,
+    VALUE,
 
     // arithmetic operations
     SUM,
@@ -40,5 +41,9 @@ public enum Operation {
     DECLARATION_BOOL,
     DECLARATION_FLOAT,
     ;
+
+    public boolean isValue() {
+        return this == LITERAL || this == VALUE;
+    }
 
 }

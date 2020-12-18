@@ -25,7 +25,7 @@ public enum Expression {
     INTEGER(new Expression[]{NUMERIC}),
     FLOAT(new Expression[]{EVALUABLE}),
 
-    BOOLEAN(new Expression[]{EVALUABLE}),
+    BOOLEAN(new Expression[]{NUMERIC}), // booleans are 1-bit numeric values (0 --> false, anything else is true)
 
     ;
 
@@ -64,7 +64,7 @@ public enum Expression {
         return tree;
     }
 
-    private static SyntaxNode toSyntaxNode(Token token) throws TokenConversionException, UnrecognizedTypeException, UndeclaredVariableException {
+    private static SyntaxNode toSyntaxNode(Token token) throws TokenConversionException, UnrecognizedTypeException {
         SyntaxNode syntaxNode = null;
 
         switch (token.getType())

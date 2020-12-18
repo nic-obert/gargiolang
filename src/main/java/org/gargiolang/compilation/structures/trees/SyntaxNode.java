@@ -43,8 +43,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: if both operands are literal values --> execute the operation right away
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                    && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // differentiate operation based on data types (FLOAT or INTEGER)
@@ -68,6 +68,7 @@ public class SyntaxNode {
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -83,8 +84,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: if both operands are literal values --> execute the operation right away
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // differentiate operation based on data types (FLOAT or INTEGER)
@@ -108,6 +109,7 @@ public class SyntaxNode {
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -123,8 +125,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: if both operands are literal values --> execute the operation right away
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // differentiate operation based on data types (FLOAT or INTEGER)
@@ -148,6 +150,7 @@ public class SyntaxNode {
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -163,8 +166,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: if both operands are literal values --> execute the operation right away
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // check for division by zero
@@ -191,6 +194,7 @@ public class SyntaxNode {
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -206,8 +210,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: if both operands are literal values --> execute the operation right away
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // differentiate operation based on data types (FLOAT or INTEGER)
@@ -231,6 +235,7 @@ public class SyntaxNode {
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -246,8 +251,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: if both operands are literal values --> execute the operation right away
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // differentiate operation based on data types (FLOAT or INTEGER)
@@ -271,6 +276,7 @@ public class SyntaxNode {
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -283,14 +289,16 @@ public class SyntaxNode {
             }
 
             case EQUALS_TO -> {
-                binaryCheck(Expression.BOOLEAN, Expression.BOOLEAN);
+                binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
-                if (left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL
-                    && right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
-                    value = (boolean) right.getValue() == (boolean) left.getValue();
                     operation = Operation.LITERAL;
+                    if (right.getValue() == left.getValue()) value = 1;
+                    else value = 0;
                 } else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                 }
 
@@ -298,14 +306,16 @@ public class SyntaxNode {
             }
 
             case NOT_EQUALS_TO -> {
-                binaryCheck(Expression.BOOLEAN, Expression.BOOLEAN);
+                binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
-                if (left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL
-                        && right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
-                    value = (boolean) right.getValue() != (boolean) left.getValue();
                     operation = Operation.LITERAL;
+                    if (right.getValue() != left.getValue()) value = 1;
+                    else value = 0;
                 } else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                 }
 
@@ -315,12 +325,14 @@ public class SyntaxNode {
             case OR -> {
                 binaryCheck(Expression.BOOLEAN, Expression.BOOLEAN);
 
-                if (left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL
-                        && right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
-                    value = (boolean) right.getValue() || (boolean) left.getValue();
                     operation = Operation.LITERAL;
+                    if ((int) right.getValue() != 0 || (int) left.getValue() != 0) value = 1;
+                    else value = 0;
                 } else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                 }
 
@@ -330,12 +342,14 @@ public class SyntaxNode {
             case AND -> {
                 binaryCheck(Expression.BOOLEAN, Expression.BOOLEAN);
 
-                if (left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL
-                        && right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
-                    value = (boolean) right.getValue() && (boolean) left.getValue();
                     operation = Operation.LITERAL;
+                    if ((int) right.getValue() != 0 && (int) left.getValue() != 0) value = 1;
+                    else value = 0;
                 } else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                 }
 
@@ -346,8 +360,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: evaluate right away literal expressions
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // differentiate operation based on data types (FLOAT or INTEGER)
@@ -365,9 +379,14 @@ public class SyntaxNode {
                     } else {
                         value = (int) right.getValue() > (int) left.getValue();
                     }
+
+                    // convert boolean value to integer
+                    if (!((boolean) value)) value = 0;
+                    else value = 1;
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -383,8 +402,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: evaluate right away literal expressions
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // differentiate operation based on data types (FLOAT or INTEGER)
@@ -402,9 +421,15 @@ public class SyntaxNode {
                     } else {
                         value = (int) right.getValue() < (int) left.getValue();
                     }
+
+                    // convert boolean value to integer
+                    if (!((boolean) value)) value = 0;
+                    else value = 1;
+
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -420,8 +445,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: evaluate right away literal expressions
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // differentiate operation based on data types (FLOAT or INTEGER)
@@ -439,9 +464,15 @@ public class SyntaxNode {
                     } else {
                         value = (int) right.getValue() >= (int) left.getValue();
                     }
+
+                    // convert boolean value to integer
+                    if (!((boolean) value)) value = 0;
+                    else value = 1;
+
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -457,8 +488,8 @@ public class SyntaxNode {
                 binaryCheck(Expression.NUMERIC, Expression.NUMERIC);
 
                 // OPTIMIZATION: evaluate right away literal expressions
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL
-                        && left.getType() != Expression.IDENTIFIER && left.getOperation() == Operation.LITERAL)
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()
+                        && left.getType() != Expression.IDENTIFIER && left.getOperation().isValue())
                 {
                     operation = Operation.LITERAL;
                     // differentiate operation based on data types (FLOAT or INTEGER)
@@ -476,9 +507,15 @@ public class SyntaxNode {
                     } else {
                         value = (int) right.getValue() <= (int) left.getValue();
                     }
+
+                    // convert boolean value to integer
+                    if (!((boolean) value)) value = 0;
+                    else value = 1;
+
                 }
                 // if optimization is not applicable --> proceed as normal
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{left, right};
                     // update expression type based on type of operands
                     if (right.getSymbolType() == Expression.FLOAT || left.getSymbolType() == Expression.FLOAT)
@@ -494,7 +531,7 @@ public class SyntaxNode {
                 unaryCheck(right, Expression.NUMERIC);
 
                 // OPTIMIZATION: if operand is literal --> execute operation right away
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL) {
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()) {
                     operation = Operation.LITERAL;
                     type = right.getType();
                     switch (type)
@@ -505,6 +542,7 @@ public class SyntaxNode {
                 }
                 // if optimization is not applicable
                 else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{right};
                 }
 
@@ -514,10 +552,13 @@ public class SyntaxNode {
             case NOT -> {
                 unaryCheck(right, Expression.BOOLEAN);
 
-                if (right.getType() != Expression.IDENTIFIER && right.getOperation() == Operation.LITERAL) {
+                if (right.getType() != Expression.IDENTIFIER && right.getOperation().isValue()) {
                     operation = Operation.LITERAL;
-                    value = !((boolean) right.getValue());
+                    // invert value
+                    if ((boolean) right.getValue()) value = 0;
+                    else value = 1;
                 } else {
+                    operation = Operation.VALUE;
                     value = new SyntaxNode[]{right};
                 }
 
@@ -575,7 +616,7 @@ public class SyntaxNode {
         Compiler.symbolTable().declare((String) right.getValue(), new Symbol(symbolType));
 
         // transform into an identifier
-        operation = Operation.LITERAL;
+        operation = Operation.VALUE;
         value = right.getValue(); // value becomes the reference to the declared variable
 
         // remove SyntaxNode from linked list
@@ -586,19 +627,19 @@ public class SyntaxNode {
 
 
     private void unaryCheck(SyntaxNode node, Expression required) throws ExpectedExpressionException, BadExpressionException, UndeclaredSymbolException {
-        if (node == null)
+        if (node == null) {
             if (right == null)
                 throw new ExpectedExpressionException(operation + " operation requires an expression on the right, but none was found");
             else
                 throw new ExpectedExpressionException(operation + " operation requires an expression on the left, but none was found");
+        }
 
-
-        if (!node.getSymbolType().is(required))
+        if (!node.getType().is(required) && (node.getType() == Expression.IDENTIFIER && !node.getSymbolType().is(required))) {
             if (node == left)
                 throw new BadExpressionException(operation + " operation requires a " + required + " expression on the left, but " + left.getType() + " was found");
             else
                 throw new BadExpressionException(operation + " operation requires a " + required + " expression on the right, but " + right.getType() + " was found");
-
+        }
 
     }
 
@@ -608,9 +649,9 @@ public class SyntaxNode {
         if (left == null)
             throw new ExpectedExpressionException(operation + " operation requires an expression on the left, but none was found");
 
-        if (!right.getSymbolType().is(requiredRight))
+        if (!right.getType().is(requiredRight) && (right.getType() == Expression.IDENTIFIER && !right.getSymbolType().is(requiredRight)))
             throw new BadExpressionException(operation + " operation requires a " + requiredRight + " expression on the right, but " + right.getType() + " was found");
-        if (!left.getSymbolType().is(requiredLeft))
+        if (!left.getType().is(requiredLeft) && (left.getType() == Expression.IDENTIFIER && !left.getSymbolType().is(requiredLeft)))
             throw new BadExpressionException(operation + " operation requires a " + requiredLeft + " expression on the left, but " + left.getType() + " was found");
 
     }
@@ -702,7 +743,7 @@ public class SyntaxNode {
         treePrinter.enqueue(depth, this);
         depth ++;
 
-        if (operation != Operation.LITERAL && value != null) {
+        if (!operation.isValue() && value != null) {
             for (SyntaxNode node : (SyntaxNode[]) value) {
                 node.toPrinter(depth, treePrinter);
             }
@@ -712,7 +753,7 @@ public class SyntaxNode {
 
     @Override
     public String toString() {
-        if (operation == Operation.LITERAL)
+        if (operation.isValue())
             return value.toString();
 
         return "<" + type + ": " + operation + ">";
