@@ -7,10 +7,10 @@ import org.gargiolang.exception.evaluation.UndeclaredVariableException;
 import org.gargiolang.exception.evaluation.UnrecognizedTypeException;
 import org.gargiolang.exception.parsing.TokenConversionException;
 import org.gargiolang.runtime.variable.Variable;
-import org.gargiolang.tokenizer.tokens.Token;
-import org.gargiolang.tokenizer.tokens.TokenLine;
+import org.gargiolang.tokenizer.tokens.*;
 import org.gargiolang.tokenizer.tokens.operators.ArithmeticOperator;
 import org.gargiolang.tokenizer.tokens.operators.LogicalOperator;
+import org.gargiolang.tokenizer.tokens.operators.Parenthesis;
 
 public enum Expression {
 
@@ -54,8 +54,25 @@ public enum Expression {
         SyntaxNode node = toSyntaxNode(line.getFirst());
         tree.setRoot(node);
 
+        int parenCount = 0;
+
         for (Token token = line.getFirst().getNext(); token != null; token = token.getNext()) {
-            // TODO: 08/12/20 here do parenthesis evaluation and modify priorities
+            if (token.getType() == TokenType.PAREN) {
+                if (token.getValue() == Parenthesis.OPEN) {
+                    parenCount ++;
+                } else {
+                    parenCount --;
+                }
+                continue;
+            }
+
+            // if token is between parenthesis --> increase priority
+            if (parenCount != 0) {
+                for (int i = parenCount; i != 0; i--)
+                    token.incrementPriority();
+            }
+
+            // append to the linked list
             node.setRight(toSyntaxNode(token));
             node.getRight().setLeft(node);
             node = node.getRight();
@@ -120,6 +137,19 @@ public enum Expression {
 
             // value of an identifier is a pointer
             case TXT -> syntaxNode = new SyntaxNode(null, 0, IDENTIFIER, token.getValue(), Operation.LITERAL);
+
+            case KEYWORD -> {
+                switch ((Keyword) token.getValue()) {
+                    case IF -> syntaxNode = new SyntaxNode(null, 2, NULL, null, Operation.IF);
+                }
+            }
+
+            case SCOPE -> {
+                switch ((Scope) token.getValue()) {
+                    case OPEN -> syntaxNode = new SyntaxNode(null, 1, NULL, new SyntaxNode[0], Operation.PUSH_SCOPE);
+                    case CLOSE -> syntaxNode = new SyntaxNode(null, 1, NULL, new SyntaxNode[0], Operation.POP_SCOPE);
+                }
+            }
         }
 
         if (syntaxNode == null)

@@ -24,9 +24,6 @@ public class Parser {
 
         System.out.println(syntaxTree);
 
-
-
-
         return syntaxTree;
 
     }

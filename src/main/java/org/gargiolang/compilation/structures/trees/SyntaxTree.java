@@ -51,7 +51,7 @@ public class SyntaxTree {
     }
 
 
-    public void parse() throws ParsingException {
+    public static void parse(SyntaxNode root) throws ParsingException {
         while (true) {
 
             // return to the beginning of the line
@@ -69,6 +69,11 @@ public class SyntaxTree {
         // traverse back the tree
         while (root.getParent() != null)
             root = root.getParent();
+    }
+
+
+    public void parse() throws ParsingException {
+        SyntaxTree.parse(root);
     }
 
 

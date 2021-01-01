@@ -36,6 +36,16 @@ public enum Operation {
     // assignment operations (maybe add += and -=)
     ASSIGNMENT,
 
+    // statements
+    IF,
+    FOR,
+    WHILE,
+
+    // functions
+    FUNCTION_CALL,
+    PUSH_SCOPE,
+    POP_SCOPE,
+
     // declarations
     DECLARATION_INT,
     DECLARATION_BOOL,

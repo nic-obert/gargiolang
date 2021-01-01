@@ -16,8 +16,11 @@ public class ThreeAddressCode {
     Instruction lastInstruction;
 
     public ThreeAddressCode(SyntaxTree syntaxTree) throws UndeclaredSymbolException {
-        instructions = new Label();
+        instructions = new Label(); // like the _start function in C
         lastInstruction = instructions;
+
+        // standard setup
+        instructions.add(new Goto(Label.main)); // like calling the main function in a C program
 
         for (SyntaxNode root = syntaxTree.getRoot(); root != null; root = root.getRight()) {
             // generate three address code for every root
@@ -713,7 +716,7 @@ public class ThreeAddressCode {
                     a == false
 
                     three address code for NOT
-                    r = op1 == op2
+                    r = op1 == 0
                  */
 
                 addInstruction(new EqualsTo(result, op1, Literal.zero));

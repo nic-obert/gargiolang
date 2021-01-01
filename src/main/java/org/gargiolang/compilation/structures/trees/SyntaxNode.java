@@ -605,6 +605,50 @@ public class SyntaxNode {
 
                 binaryParse();
             }
+            case IF -> {
+                // check if condition is present and if it actually evaluates to a boolean expression
+                if (right == null)
+                    throw new ExpectedExpressionException(operation + " operation requires an expression on the right, but none was found");
+                if (!right.getType().is(Expression.BOOLEAN) && (right.getType() == Expression.IDENTIFIER && !right.getSymbolType().is(Expression.BOOLEAN)))
+                    throw new BadExpressionException(operation + " operation requires a " + Expression.BOOLEAN + " expression on the right, but " + right.getType() + " was found");
+
+                // initialize children array and add condition
+                value = new SyntaxNode[2];
+                ((SyntaxNode[]) value)[0] = right;
+
+                // set condition's parent and remove it from linked list
+                right.setParent(this);
+                right = right.getRight();
+                if (right != null)
+                    right.setLeft(this);
+
+                // check code block
+                if (right == null)
+                    throw new ExpectedExpressionException(operation + " operation requires an expression after condition, but none was found");
+
+                // set code block as an operator
+                ((SyntaxNode[]) value)[1] = right;
+                right.setParent(this);
+
+                // recursively parse code block
+                int depth = 0;
+                for (SyntaxNode node = right; true; node = node.getRight()) {
+                    if (node.getOperation() == Operation.PUSH_SCOPE) {
+                        depth ++;
+                    } else if (node.getOperation() == Operation.POP_SCOPE) {
+                        depth--;
+                        if (depth == 0) {
+                            right = node.getRight();
+                            if (right != null)
+                                right.setLeft(this);
+                            break;
+                        }
+                    }
+                }
+
+                SyntaxTree.parse(((SyntaxNode[]) value)[1]);
+
+            }
         }
     }
 
